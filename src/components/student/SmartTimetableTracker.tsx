@@ -50,7 +50,10 @@ export const SmartTimetableTracker: React.FC = () => {
       {/* Header bar */}
       <div className="p-4 sm:p-5 pb-3 border-b border-slate-100 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-700 flex items-center justify-center shadow-xs">
+          <div
+            className="w-9 h-9 rounded-2xl flex items-center justify-center border shadow-xs"
+            style={{ backgroundColor: '#eef2f8', borderColor: '#d6dff0', color: '#0a1628' }}
+          >
             <Clock className="w-5 h-5" />
           </div>
           <div>
@@ -81,7 +84,10 @@ export const SmartTimetableTracker: React.FC = () => {
       <div className="p-4 sm:p-5">
         {currentClass ? (
           /* Case 1: Class is running right now */
-          <div className="bg-gradient-to-br from-indigo-900 via-blue-900 to-indigo-950 text-white rounded-2xl p-4 sm:p-5 shadow-md relative overflow-hidden">
+          <div
+            className="text-white rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden"
+            style={{ backgroundColor: '#0a1628', border: '1px solid #1e3a5f' }}
+          >
             <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-400/10 rounded-full blur-xl pointer-events-none" />
 
             <div className="flex items-center justify-between mb-2">
@@ -137,12 +143,18 @@ export const SmartTimetableTracker: React.FC = () => {
           </div>
         ) : nextClass ? (
           /* Case 2: Class upcoming next */
-          <div className="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-800">
+          <div
+            className="text-white rounded-2xl p-4 sm:p-5 shadow-sm"
+            style={{ backgroundColor: '#0a1628', border: '1px solid #1e3a5f' }}
+          >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-400 text-slate-950">
+              <span
+                className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                style={{ backgroundColor: '#f59e0b', color: '#0a1628' }}
+              >
                 Up Next Today
               </span>
-              <span className="text-xs font-mono font-bold text-amber-300">
+              <span className="text-xs font-mono font-bold" style={{ color: '#f59e0b' }}>
                 Starts in {remainingMinutes} mins ({nextClass.startTime})
               </span>
             </div>
@@ -153,14 +165,14 @@ export const SmartTimetableTracker: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-4 mt-2.5 text-xs text-slate-300">
               <div className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                <MapPin className="w-3.5 h-3.5" style={{ color: '#f59e0b' }} />
                 <span>{nextClass.room}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-indigo-400" />
+                <User className="w-3.5 h-3.5 text-slate-400" />
                 <span>{nextClass.facultyName}</span>
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-300 border border-indigo-700/50">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-200 border border-white/20">
                 {nextClass.type}
               </span>
             </div>
@@ -194,13 +206,17 @@ export const SmartTimetableTracker: React.FC = () => {
                     onClick={() => setSelectedDay(d)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
                       isSelected
-                        ? 'bg-indigo-900 text-white shadow-xs'
+                        ? 'text-white shadow-xs'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     }`}
+                    style={isSelected ? { backgroundColor: '#0a1628' } : {}}
                   >
                     <span>{d.slice(0, 3)}</span>
                     {isToday && (
-                      <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-amber-400' : 'bg-indigo-600'}`} />
+                      <span
+                        className="w-1.5 h-1.5 rounded-full"
+                        style={{ backgroundColor: isSelected ? '#f59e0b' : '#0a1628' }}
+                      />
                     )}
                   </button>
                 );

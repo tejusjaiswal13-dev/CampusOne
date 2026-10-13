@@ -45,13 +45,13 @@ export const StudentTimetableView: React.FC = () => {
   return (
     <div className="space-y-6 pb-16">
       {/* Header */}
-      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-indigo-600 font-semibold text-xs uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 font-semibold text-xs uppercase tracking-wider mb-1" style={{ color: '#0a1628' }}>
             <Calendar className="w-4 h-4" />
             <span>Academic Routine • {currentUser?.departmentCode || 'CCET'}</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
             {currentUser?.course || 'BCA'} Semester {currentUser?.semester || 5} Timetable
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -74,33 +74,32 @@ export const StudentTimetableView: React.FC = () => {
           {roomChangesOrCancellations.map((alert) => (
             <div
               key={alert.id}
-              className={`p-4 rounded-2xl border flex items-start gap-3.5 shadow-sm ${
-                alert.noticeType === 'CLASS_CANCELLED'
-                  ? 'bg-rose-50/80 border-rose-200 text-rose-950'
-                  : 'bg-amber-50/80 border-amber-200 text-amber-950'
-              }`}
+              className="p-4 rounded-2xl border flex items-start gap-3.5 shadow-xs"
+              style={{
+                backgroundColor: alert.noticeType === 'CLASS_CANCELLED' ? '#fff2f0' : '#fffbeb',
+                borderColor: alert.noticeType === 'CLASS_CANCELLED' ? '#ffc2b9' : '#fde68a',
+                color: alert.noticeType === 'CLASS_CANCELLED' ? '#c43030' : '#92400e'
+              }}
             >
               <div
-                className={`p-2 rounded-xl mt-0.5 ${
-                  alert.noticeType === 'CLASS_CANCELLED'
-                    ? 'bg-rose-100 text-rose-700'
-                    : 'bg-amber-100 text-amber-800'
-                }`}
+                className="p-2 rounded-xl mt-0.5 text-white"
+                style={{
+                  backgroundColor: alert.noticeType === 'CLASS_CANCELLED' ? '#ff6b6b' : '#f59e0b'
+                }}
               >
                 <BellRing className="w-4 h-4 animate-bounce" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span
-                    className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                      alert.noticeType === 'CLASS_CANCELLED'
-                        ? 'bg-rose-200 text-rose-800'
-                        : 'bg-amber-200 text-amber-900'
-                    }`}
+                    className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded text-white"
+                    style={{
+                      backgroundColor: alert.noticeType === 'CLASS_CANCELLED' ? '#ff6b6b' : '#f59e0b'
+                    }}
                   >
                     Direct Faculty Update • {alert.noticeType.replace('_', ' ')}
                   </span>
-                  <span className="text-xs text-slate-500 font-medium">
+                  <span className="text-xs text-slate-600 font-medium">
                     From {alert.facultyName}
                   </span>
                 </div>
@@ -115,18 +114,23 @@ export const StudentTimetableView: React.FC = () => {
       {/* Live Class Status Card */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Current Class */}
-        <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm transition-all ${
-          currentClass 
-            ? 'bg-gradient-to-br from-indigo-50/70 to-blue-50/40 border-indigo-200' 
-            : 'bg-white border-slate-200/80'
-        }`}>
+        <div
+          className="p-4 sm:p-5 rounded-2xl border shadow-xs transition-all"
+          style={{
+            backgroundColor: currentClass ? '#eef2f8' : '#ffffff',
+            borderColor: currentClass ? '#adbde0' : '#e2e8f0'
+          }}
+        >
           <div className="flex items-center justify-between mb-3">
-            <span className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 uppercase tracking-wider">
+            <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: '#0a1628' }}>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               Live Right Now
             </span>
             {remainingMinutes !== null && remainingMinutes > 0 && (
-              <span className="text-xs font-semibold text-indigo-600 bg-indigo-100/70 px-2 py-0.5 rounded-full">
+              <span
+                className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                style={{ backgroundColor: '#d6dff0', color: '#0a1628' }}
+              >
                 {remainingMinutes} min left
               </span>
             )}
@@ -222,13 +226,17 @@ export const StudentTimetableView: React.FC = () => {
                 onClick={() => setSelectedDay(day)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
                   isSelected
-                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-200'
-                    : 'bg-slate-100/70 text-slate-600 hover:bg-slate-200/70'
+                    ? 'text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
+                style={isSelected ? { backgroundColor: '#0a1628' } : {}}
               >
                 <span>{day}</span>
                 {isToday && (
-                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-amber-300' : 'bg-indigo-600'}`} />
+                  <span
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ backgroundColor: isSelected ? '#f59e0b' : '#0a1628' }}
+                  />
                 )}
               </button>
             );
@@ -237,7 +245,7 @@ export const StudentTimetableView: React.FC = () => {
       </div>
 
       {/* Day's Lecture Schedule Timeline */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 sm:p-5">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-4 sm:p-5">
         <div className="flex items-center justify-between pb-4 border-b border-slate-100">
           <h2 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
             <span>{selectedDay}&apos;s Lectures</span>
@@ -245,7 +253,7 @@ export const StudentTimetableView: React.FC = () => {
               ({dayClasses.length} {dayClasses.length === 1 ? 'Period' : 'Periods'})
             </span>
           </h2>
-          <span className="text-xs text-indigo-600 font-semibold">
+          <span className="text-xs font-semibold" style={{ color: '#0a1628' }}>
             {currentUser?.departmentCode} • Sem {currentUser?.semester || 5}
           </span>
         </div>

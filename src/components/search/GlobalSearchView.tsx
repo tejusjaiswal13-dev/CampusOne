@@ -183,9 +183,10 @@ export const GlobalSearchView: React.FC = () => {
               onClick={() => setActiveCategory('ALL')}
               className={`px-3 py-1 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                 activeCategory === 'ALL'
-                  ? 'bg-blue-900 text-white shadow-xs'
+                  ? 'text-white shadow-xs'
                   : 'bg-white border border-slate-200 text-slate-600'
               }`}
+              style={activeCategory === 'ALL' ? { backgroundColor: '#0a1628' } : {}}
             >
               All ({totalResults})
             </button>
@@ -195,9 +196,10 @@ export const GlobalSearchView: React.FC = () => {
                 onClick={() => setActiveCategory('NOTICES')}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                   activeCategory === 'NOTICES'
-                    ? 'bg-blue-900 text-white shadow-xs'
+                    ? 'text-white shadow-xs'
                     : 'bg-white border border-slate-200 text-slate-600'
                 }`}
+                style={activeCategory === 'NOTICES' ? { backgroundColor: '#0a1628' } : {}}
               >
                 Notices ({matchingNotices.length})
               </button>
@@ -208,9 +210,10 @@ export const GlobalSearchView: React.FC = () => {
                 onClick={() => setActiveCategory('EVENTS')}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                   activeCategory === 'EVENTS'
-                    ? 'bg-blue-900 text-white shadow-xs'
+                    ? 'text-white shadow-xs'
                     : 'bg-white border border-slate-200 text-slate-600'
                 }`}
+                style={activeCategory === 'EVENTS' ? { backgroundColor: '#0a1628' } : {}}
               >
                 Events ({matchingEvents.length})
               </button>
@@ -221,9 +224,10 @@ export const GlobalSearchView: React.FC = () => {
                 onClick={() => setActiveCategory('FACULTY')}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                   activeCategory === 'FACULTY'
-                    ? 'bg-blue-900 text-white shadow-xs'
+                    ? 'text-white shadow-xs'
                     : 'bg-white border border-slate-200 text-slate-600'
                 }`}
+                style={activeCategory === 'FACULTY' ? { backgroundColor: '#0a1628' } : {}}
               >
                 Faculty ({matchingFaculty.length})
               </button>
@@ -234,9 +238,10 @@ export const GlobalSearchView: React.FC = () => {
                 onClick={() => setActiveCategory('CAREER')}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                   activeCategory === 'CAREER'
-                    ? 'bg-blue-900 text-white shadow-xs'
+                    ? 'text-white shadow-xs'
                     : 'bg-white border border-slate-200 text-slate-600'
                 }`}
+                style={activeCategory === 'CAREER' ? { backgroundColor: '#0a1628' } : {}}
               >
                 Careers ({matchingCareer.length})
               </button>

@@ -70,14 +70,20 @@ export const FacultyDashboard: React.FC = () => {
   return (
     <div className="space-y-6 pb-16 md:pb-8 text-left">
       {/* Faculty Hero Banner */}
-      <div className="bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-7 border border-slate-800 shadow-lg">
+      <div
+        className="text-white rounded-2xl p-5 sm:p-6"
+        style={{ backgroundColor: '#0a1628', border: '1px solid #1e3a5f' }}
+      >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="p-2 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-300">
+              <span
+                className="p-2 rounded-xl border"
+                style={{ backgroundColor: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.3)', color: '#f59e0b' }}
+              >
                 <Briefcase className="w-5 h-5" />
               </span>
-              <span className="text-xs font-bold uppercase tracking-widest text-purple-300">
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#94a3b8' }}>
                 Faculty Academic Portal
               </span>
             </div>

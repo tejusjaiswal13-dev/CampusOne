@@ -70,7 +70,10 @@ export const DeptAdminDashboard: React.FC = () => {
   return (
     <div className="space-y-6 pb-16 md:pb-8 text-left">
       {/* HOD Hero Banner */}
-      <div className="bg-gradient-to-r from-amber-900 via-slate-900 to-amber-950 text-white rounded-3xl p-6 sm:p-7 border border-amber-500/30 shadow-lg">
+      <div
+        className="text-white rounded-2xl p-5 sm:p-6 shadow-sm"
+        style={{ backgroundColor: '#0a1628', border: '1px solid #1e3a5f' }}
+      >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">

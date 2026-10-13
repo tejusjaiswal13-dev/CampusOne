@@ -1,5 +1,5 @@
 import React from 'react';
-import { LucideIcon, Inbox, Sparkles } from 'lucide-react';
+import { LucideIcon, Inbox } from 'lucide-react';
 
 interface EmptyStateProps {
   icon?: LucideIcon;
@@ -19,18 +19,18 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   secondaryTip
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center py-12 px-6 text-center rounded-3xl border-2 border-dashed border-slate-200/80 bg-gradient-to-b from-white to-slate-50/60 shadow-2xs my-4">
-      {/* Icon with layered soft rings */}
-      <div className="relative mb-4">
-        <div className="w-16 h-16 rounded-3xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-xs">
-          <Icon className="w-8 h-8 stroke-[1.75]" />
-        </div>
-        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center text-[10px] font-black shadow-xs">
-          ✦
+    <div className="flex flex-col items-center justify-center py-12 px-6 text-center rounded-2xl border border-dashed border-slate-200 bg-white/70 shadow-xs my-4">
+      {/* Icon with soft academic navy ring */}
+      <div className="relative mb-3.5">
+        <div
+          className="w-14 h-14 rounded-2xl flex items-center justify-center border"
+          style={{ backgroundColor: '#eef2f8', borderColor: '#d6dff0', color: '#0a1628' }}
+        >
+          <Icon className="w-7 h-7 stroke-[1.75]" />
         </div>
       </div>
 
-      <h3 className="text-base font-extrabold text-slate-900 tracking-tight mb-1.5">
+      <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight mb-1">
         {title}
       </h3>
 
@@ -39,7 +39,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       </p>
 
       {secondaryTip && (
-        <div className="mb-4 px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-medium max-w-xs">
+        <div className="mb-4 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-[11px] font-medium max-w-xs">
           💡 {secondaryTip}
         </div>
       )}
@@ -47,10 +47,11 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {actionText && onAction && (
         <button
           onClick={onAction}
-          className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-indigo-900 hover:bg-indigo-800 rounded-2xl transition-all shadow-sm active:scale-95 cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all shadow-xs active:scale-95 cursor-pointer"
+          style={{ backgroundColor: '#0a1628' }}
         >
           <span>{actionText}</span>
-          <span className="text-amber-400 font-black">→</span>
+          <span style={{ color: '#f59e0b' }} className="font-black">→</span>
         </button>
       )}
     </div>

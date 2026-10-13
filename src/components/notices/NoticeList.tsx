@@ -29,13 +29,13 @@ export const NoticeList: React.FC = () => {
 
   const categories: Array<{ id: string; label: string }> = [
     { id: 'ALL', label: 'All Notices' },
-    { id: 'Urgent', label: '🚨 Urgent' },
-    { id: 'Examination', label: '📝 Examination' },
-    { id: 'Academic', label: '📚 Academic' },
-    { id: 'Department', label: '🏛️ Department' },
-    { id: 'Placement', label: '💼 Placement' },
-    { id: 'Scholarship', label: '🎓 Scholarship' },
-    { id: 'Seminar', label: '🎤 Seminar / Workshop' }
+    { id: 'Urgent', label: 'Urgent' },
+    { id: 'Examination', label: 'Examination' },
+    { id: 'Academic', label: 'Academic' },
+    { id: 'Department', label: 'Department' },
+    { id: 'Placement', label: 'Placement' },
+    { id: 'Scholarship', label: 'Scholarship' },
+    { id: 'Seminar', label: 'Seminars & Talks' }
   ];
 
   // Filter and sort notices
@@ -99,7 +99,7 @@ export const NoticeList: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="p-2 rounded-xl bg-blue-50 text-blue-900">
+              <span className="p-2 rounded-xl" style={{ backgroundColor: '#eef2f8', color: '#0a1628' }}>
                 <BellRing className="w-5 h-5" />
               </span>
               <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
@@ -114,7 +114,8 @@ export const NoticeList: React.FC = () => {
           {(role === 'COLLEGE_ADMIN' || role === 'DEPARTMENT_ADMIN' || role === 'FACULTY') && (
             <button
               onClick={() => setIsCreateNoticeOpen(true)}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-900 hover:bg-blue-800 text-white rounded-xl text-xs font-bold shadow-sm transition-all active:scale-95 cursor-pointer shrink-0"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-white rounded-xl text-xs font-bold shadow-sm transition-all active:scale-95 cursor-pointer shrink-0"
+              style={{ backgroundColor: '#0a1628' }}
             >
               <PlusCircle className="w-4 h-4" />
               <span>
@@ -133,7 +134,7 @@ export const NoticeList: React.FC = () => {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search by title, subject, department, or deadline..."
-              className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:bg-white text-slate-900 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-400 focus:bg-white text-slate-900 transition-all"
             />
             {searchQuery && (
               <button
@@ -150,7 +151,7 @@ export const NoticeList: React.FC = () => {
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value as any)}
-              className="w-full py-2.5 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-900/20 cursor-pointer"
+              className="w-full py-2.5 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
             >
               <option value="LATEST">Sort: Latest Published</option>
               <option value="URGENT">Sort: Urgent First</option>
@@ -165,9 +166,10 @@ export const NoticeList: React.FC = () => {
             onClick={() => setScopeFilter('PERSONAL')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
               scopeFilter === 'PERSONAL'
-                ? 'bg-blue-900 text-white shadow-xs'
+                ? 'text-white shadow-xs'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
+            style={scopeFilter === 'PERSONAL' ? { backgroundColor: '#0a1628' } : {}}
           >
             Personalized Feed ({currentUser?.departmentCode ? `College + ${currentUser.departmentCode}` : 'All'})
           </button>
@@ -176,9 +178,10 @@ export const NoticeList: React.FC = () => {
             onClick={() => setScopeFilter('ALL')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 cursor-pointer ${
               scopeFilter === 'ALL'
-                ? 'bg-blue-900 text-white shadow-xs'
+                ? 'text-white shadow-xs font-bold'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
+            style={scopeFilter === 'ALL' ? { backgroundColor: '#0a1628' } : {}}
           >
             All College Notices
           </button>
@@ -189,9 +192,10 @@ export const NoticeList: React.FC = () => {
               onClick={() => setScopeFilter(dept.code)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 cursor-pointer ${
                 scopeFilter === dept.code
-                  ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
+                  ? 'font-bold shadow-xs'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
+              style={scopeFilter === dept.code ? { backgroundColor: '#f59e0b', color: '#0a1628' } : {}}
             >
               {dept.code} Dept
             </button>
@@ -206,9 +210,10 @@ export const NoticeList: React.FC = () => {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all shrink-0 cursor-pointer ${
                 selectedCategory === cat.id
-                  ? 'bg-slate-900 text-white font-bold'
+                  ? 'text-white font-bold'
                   : 'text-slate-600 bg-slate-50 border border-slate-200 hover:bg-slate-100'
               }`}
+              style={selectedCategory === cat.id ? { backgroundColor: '#0a1628' } : {}}
             >
               {cat.label}
             </button>
