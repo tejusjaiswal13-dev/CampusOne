@@ -1,3 +1,4 @@
+import { NoticeDraft } from '../ai/NoticeDraft';
 import { AlertCircle, Paperclip, PlusCircle, X } from "lucide-react";
 import React, { useState } from "react";
 import { useApp } from "../../context/AppState";
@@ -82,6 +83,7 @@ export const CreateNoticeModal: React.FC = () => {
           onSubmit={handleSubmit}
           className="p-5 overflow-y-auto space-y-4 flex-1 text-xs"
         >
+          <NoticeDraft apply={(title,description)=>{setTitle(title);setDescription(description);}} />
           <div>
             <label className="font-bold text-slate-700 block mb-1">
               Notice Title *

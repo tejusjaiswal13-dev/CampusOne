@@ -1,3 +1,4 @@
+import { NoticeSummary } from '../ai/NoticeSummary';
 import {
   AlertCircle,
   Bookmark,
@@ -184,6 +185,7 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({
             </span>
           </div>
 
+          <NoticeSummary key={notice.id} noticeId={notice.id} />
           {/* Notice Title */}
           <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">
             {notice.title}
