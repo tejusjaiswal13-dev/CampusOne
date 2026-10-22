@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { DepartmentDetailView } from './DepartmentDetailView';
-import {
-  Building2,
-  Users,
-  GraduationCap,
-  MapPin,
-  ArrowRight
-} from 'lucide-react';
-import { Department } from '../../types';
+import { ArrowRight, Building2, MapPin } from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { Department } from "../../types";
+import { DepartmentDetailView } from "./DepartmentDetailView";
 
 export const DepartmentDirectoryView: React.FC = () => {
   const { departments, selectedDepartment, setSelectedDepartment } = useApp();
-  const [internalSelected, setInternalSelected] = useState<Department | null>(selectedDepartment);
+  const [internalSelected, setInternalSelected] = useState<Department | null>(
+    selectedDepartment,
+  );
 
   if (internalSelected) {
     return (
@@ -39,7 +35,8 @@ export const DepartmentDirectoryView: React.FC = () => {
               IPS Centers & Departments
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
-              Five specialized academic centers under the Institute of Professional Studies, University of Allahabad.
+              Five specialized academic centers under the Institute of
+              Professional Studies, University of Allahabad.
             </p>
           </div>
         </div>
@@ -47,7 +44,7 @@ export const DepartmentDirectoryView: React.FC = () => {
 
       {/* Grid of 5 Centers */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {departments.map(dept => (
+        {departments.map((dept) => (
           <div
             key={dept.id}
             onClick={() => {
@@ -91,18 +88,26 @@ export const DepartmentDirectoryView: React.FC = () => {
               {/* HOD & metrics */}
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold block">HOD</span>
-                  <span className="font-bold text-slate-800">{dept.hodName}</span>
+                  <span className="text-[11px] text-slate-400 uppercase font-semibold block">
+                    HOD
+                  </span>
+                  <span className="font-bold text-slate-800">
+                    {dept.hodName}
+                  </span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold block">Students</span>
-                  <span className="font-bold text-blue-900">{dept.studentCount}+ enrolled</span>
+                  <span className="text-[11px] text-slate-400 uppercase font-semibold block">
+                    Students
+                  </span>
+                  <span className="font-bold text-blue-900">
+                    {dept.studentCount}+ enrolled
+                  </span>
                 </div>
               </div>
 
               {/* Courses pills */}
               <div className="pt-2 flex items-center gap-1.5 flex-wrap">
-                {dept.courses.map(c => (
+                {dept.courses.map((c) => (
                   <span
                     key={c.id}
                     className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-mono font-bold"

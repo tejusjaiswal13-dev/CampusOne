@@ -1,5 +1,5 @@
-import React from 'react';
-import { LucideIcon, Inbox } from 'lucide-react';
+import { Inbox, LucideIcon } from "lucide-react";
+import React from "react";
 
 interface EmptyStateProps {
   icon?: LucideIcon;
@@ -16,7 +16,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   description,
   actionText,
   onAction,
-  secondaryTip
+  secondaryTip,
 }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-6 text-center rounded-2xl border border-dashed border-slate-200 bg-white/70 shadow-xs my-4">
@@ -24,7 +24,11 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <div className="relative mb-3.5">
         <div
           className="w-14 h-14 rounded-2xl flex items-center justify-center border"
-          style={{ backgroundColor: '#eef2f8', borderColor: '#d6dff0', color: '#0a1628' }}
+          style={{
+            backgroundColor: "#eef2f8",
+            borderColor: "#d6dff0",
+            color: "#0a1628",
+          }}
         >
           <Icon className="w-7 h-7 stroke-[1.75]" />
         </div>
@@ -48,10 +52,12 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <button
           onClick={onAction}
           className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white rounded-xl transition-all shadow-xs active:scale-95 cursor-pointer"
-          style={{ backgroundColor: '#0a1628' }}
+          style={{ backgroundColor: "#0a1628" }}
         >
           <span>{actionText}</span>
-          <span style={{ color: '#f59e0b' }} className="font-semibold">→</span>
+          <span style={{ color: "#f59e0b" }} className="font-semibold">
+            →
+          </span>
         </button>
       )}
     </div>

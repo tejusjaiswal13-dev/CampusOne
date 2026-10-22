@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { useAuth } from '../../context/AuthContext';
 import {
-  Briefcase,
-  Search,
-  MapPin,
-  Calendar,
-  DollarSign,
   Bookmark,
-  ExternalLink,
+  Briefcase,
+  Calendar,
   CheckCircle2,
-  Building,
-  GraduationCap
-} from 'lucide-react';
-import { CareerOpportunity } from '../../types';
+  DollarSign,
+  ExternalLink,
+  GraduationCap,
+  MapPin,
+  Search,
+} from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import { CareerOpportunity } from "../../types";
 
 export const CareerPortalView: React.FC = () => {
-  const { career, handleToggleBookmark, isItemBookmarked, showToast } = useApp();
+  const { career, handleToggleBookmark, isItemBookmarked, showToast } =
+    useApp();
   const { currentUser } = useAuth();
 
-  const [typeFilter, setTypeFilter] = useState<string>('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [typeFilter, setTypeFilter] = useState<string>("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
   const [appliedIds, setAppliedIds] = useState<string[]>([]);
-  const [activeApplyModal, setActiveApplyModal] = useState<CareerOpportunity | null>(null);
+  const [activeApplyModal, setActiveApplyModal] =
+    useState<CareerOpportunity | null>(null);
 
-  const filteredItems = career.filter(item => {
-    if (typeFilter !== 'ALL' && item.type !== typeFilter) return false;
+  const filteredItems = career.filter((item) => {
+    if (typeFilter !== "ALL" && item.type !== typeFilter) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       return (
         item.company.toLowerCase().includes(q) ||
         item.role.toLowerCase().includes(q) ||
-        item.skills.some(s => s.toLowerCase().includes(q)) ||
+        item.skills.some((s) => s.toLowerCase().includes(q)) ||
         item.location.toLowerCase().includes(q)
       );
     }
@@ -44,8 +45,11 @@ export const CareerPortalView: React.FC = () => {
 
   const handleConfirmApplication = () => {
     if (activeApplyModal) {
-      setAppliedIds(prev => [...prev, activeApplyModal.id]);
-      showToast(`Application submitted to ${activeApplyModal.company} for ${activeApplyModal.role}!`, 'success');
+      setAppliedIds((prev) => [...prev, activeApplyModal.id]);
+      showToast(
+        `Application submitted to ${activeApplyModal.company} for ${activeApplyModal.role}!`,
+        "success",
+      );
       setActiveApplyModal(null);
     }
   };
@@ -65,14 +69,17 @@ export const CareerPortalView: React.FC = () => {
               </h1>
             </div>
             <p className="text-xs sm:text-sm text-slate-500">
-              Training & Placement Cell, IPS University of Allahabad • Internships & Campus Recruitments
+              Training & Placement Cell, IPS University of Allahabad •
+              Internships & Campus Recruitments
             </p>
           </div>
 
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
             <span>Student:</span>
             <span className="text-blue-900 font-bold">{currentUser?.name}</span>
-            <span className="text-slate-400">({currentUser?.departmentCode})</span>
+            <span className="text-slate-400">
+              ({currentUser?.departmentCode})
+            </span>
           </div>
         </div>
 
@@ -83,24 +90,24 @@ export const CareerPortalView: React.FC = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by company, job role, required skills (Python, SQL, React)..."
               className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-600/20 focus:bg-white text-slate-900 transition-all"
             />
           </div>
 
           <div className="sm:col-span-4 flex gap-1.5 overflow-x-auto hide-scrollbar">
-            {['ALL', 'Placement', 'Internship', 'Training'].map(type => (
+            {["ALL", "Placement", "Internship", "Training"].map((type) => (
               <button
                 key={type}
                 onClick={() => setTypeFilter(type)}
                 className={`px-3 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap cursor-pointer ${
                   typeFilter === type
-                    ? 'bg-emerald-800 text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? "bg-emerald-800 text-white shadow-xs"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
-                {type === 'ALL' ? 'All Roles' : type}
+                {type === "ALL" ? "All Roles" : type}
               </button>
             ))}
           </div>
@@ -109,7 +116,7 @@ export const CareerPortalView: React.FC = () => {
 
       {/* Opportunities List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredItems.map(item => {
+        {filteredItems.map((item) => {
           const isApplied = appliedIds.includes(item.id);
           const isBookmarked = isItemBookmarked(item.id);
 
@@ -124,7 +131,7 @@ export const CareerPortalView: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 rounded-xl bg-slate-900 overflow-hidden shrink-0 border border-slate-200">
                       <img
-                        src={item.companyLogo || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=200&q=80'}
+                        src={item.companyLogo || "/campus-placeholder.svg"}
                         alt={item.company}
                         className="w-full h-full object-cover"
                       />
@@ -142,21 +149,23 @@ export const CareerPortalView: React.FC = () => {
                   <button
                     onClick={() =>
                       handleToggleBookmark({
-                        itemType: 'CAREER',
+                        itemType: "CAREER",
                         itemId: item.id,
                         title: `${item.company} - ${item.role}`,
                         subtitle: `${item.location} • ${item.stipendOrSalary}`,
                         category: item.type,
-                        date: item.applicationDeadline
+                        date: item.applicationDeadline,
                       })
                     }
                     className={`p-1.5 rounded-lg transition-colors ${
                       isBookmarked
-                        ? 'text-amber-500 bg-amber-50'
-                        : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+                        ? "text-amber-500 bg-amber-50"
+                        : "text-slate-400 hover:text-slate-600 hover:bg-slate-100"
                     }`}
                   >
-                    <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
+                    <Bookmark
+                      className={`w-4 h-4 ${isBookmarked ? "fill-current" : ""}`}
+                    />
                   </button>
                 </div>
 
@@ -185,16 +194,18 @@ export const CareerPortalView: React.FC = () => {
                 <div className="text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex items-start gap-1.5 mb-3">
                   <GraduationCap className="w-3.5 h-3.5 text-blue-900 shrink-0 mt-0.5" />
                   <span className="line-clamp-1">
-                    <span className="font-semibold text-slate-700">Eligibility: </span>
+                    <span className="font-semibold text-slate-700">
+                      Eligibility:{" "}
+                    </span>
                     {item.eligibility}
                   </span>
                 </div>
 
                 {/* Skills tags */}
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  {item.skills.map((skill, idx) => (
+                  {item.skills.map((skill) => (
                     <span
-                      key={idx}
+                      key={skill}
                       className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-mono font-medium"
                     >
                       {skill}
@@ -239,15 +250,37 @@ export const CareerPortalView: React.FC = () => {
             </h3>
 
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-1.5">
-              <p><span className="text-slate-500">Role:</span> <strong className="text-slate-900">{activeApplyModal.role}</strong></p>
-              <p><span className="text-slate-500">Applicant:</span> <strong className="text-slate-900">{currentUser?.name}</strong></p>
-              <p><span className="text-slate-500">Student ID:</span> <strong className="font-mono text-blue-900">{currentUser?.studentOrEmpId}</strong></p>
-              <p><span className="text-slate-500">Department:</span> <strong className="text-slate-900">{currentUser?.departmentCode}</strong></p>
-              <p><span className="text-slate-500">Email:</span> <strong className="text-slate-900">{currentUser?.email}</strong></p>
+              <p>
+                <span className="text-slate-500">Role:</span>{" "}
+                <strong className="text-slate-900">
+                  {activeApplyModal.role}
+                </strong>
+              </p>
+              <p>
+                <span className="text-slate-500">Applicant:</span>{" "}
+                <strong className="text-slate-900">{currentUser?.name}</strong>
+              </p>
+              <p>
+                <span className="text-slate-500">Student ID:</span>{" "}
+                <strong className="font-mono text-blue-900">
+                  {currentUser?.studentOrEmpId}
+                </strong>
+              </p>
+              <p>
+                <span className="text-slate-500">Department:</span>{" "}
+                <strong className="text-slate-900">
+                  {currentUser?.departmentCode}
+                </strong>
+              </p>
+              <p>
+                <span className="text-slate-500">Email:</span>{" "}
+                <strong className="text-slate-900">{currentUser?.email}</strong>
+              </p>
             </div>
 
             <p className="text-xs text-slate-500">
-              Your verified academic record and resume on file with IPS Placement Cell will be transmitted to {activeApplyModal.company}.
+              Your verified academic record and resume on file with IPS
+              Placement Cell will be transmitted to {activeApplyModal.company}.
             </p>
 
             <div className="flex items-center justify-end gap-2 pt-2">

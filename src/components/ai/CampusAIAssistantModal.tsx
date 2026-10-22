@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { X, Send, ArrowUpRight, Compass } from "lucide-react";
-import { useApp } from "../../context/AppContext";
-import { useAuth } from "../../context/AuthContext";
+import { ArrowUpRight, Compass, Send, X } from "lucide-react";
+import { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 import { answerCampusQuery } from "../../services/campusGuide";
 interface Message {
+  id: string;
   text: string;
   sender: "user" | "guide";
   tab?: string;
@@ -22,10 +23,7 @@ export const CampusAIAssistantModal = () => {
   const { currentUser } = useAuth();
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
-  useEffect(() => {
-    setMessages([]);
-    setQuery("");
-  }, [currentUser?.id]);
+
   if (!isAIAssistantOpen) return null;
   function send(text: string) {
     if (!text.trim()) return;
@@ -39,8 +37,13 @@ export const CampusAIAssistantModal = () => {
     });
     setMessages((previous) => [
       ...previous,
-      { text: text.trim(), sender: "user" },
-      { text: answer.text, tab: answer.tab, sender: "guide" },
+      { id: crypto.randomUUID(), text: text.trim(), sender: "user" },
+      {
+        id: crypto.randomUUID(),
+        text: answer.text,
+        tab: answer.tab,
+        sender: "guide",
+      },
     ]);
     setQuery("");
   }
@@ -79,8 +82,8 @@ export const CampusAIAssistantModal = () => {
               ),
             )}
           </div>
-          {messages.map((m, i) => (
-            <div key={i} className={`co-guide-message ${m.sender}`}>
+          {messages.map((m) => (
+            <div key={m.id} className={`co-guide-message ${m.sender}`}>
               <p>{m.text}</p>
               {m.tab && (
                 <button

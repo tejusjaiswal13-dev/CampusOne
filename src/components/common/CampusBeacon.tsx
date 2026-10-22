@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Sparkles, Radio, Activity, CheckCircle, Shield, X } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { Radio, X } from "lucide-react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthState";
 
 export const CampusBeacon: React.FC = () => {
   const { currentUser } = useAuth();
@@ -36,7 +36,9 @@ export const CampusBeacon: React.FC = () => {
               <span className="p-1 rounded-md bg-emerald-500/20 text-emerald-400">
                 <Radio className="w-3.5 h-3.5" />
               </span>
-              <span className="text-xs font-bold text-white">CampusOne Signal Beacon</span>
+              <span className="text-xs font-bold text-white">
+                CampusOne Signal Beacon
+              </span>
             </div>
             <button
               onClick={() => setIsOpen(false)}
@@ -68,7 +70,8 @@ export const CampusBeacon: React.FC = () => {
             </div>
 
             <div className="p-2 rounded-xl bg-indigo-950/60 border border-indigo-500/20 text-[11px] text-indigo-200">
-              University of Allahabad • Institute of Professional Studies Central Management Node
+              University of Allahabad • Institute of Professional Studies
+              Central Management Node
             </div>
           </div>
         </div>

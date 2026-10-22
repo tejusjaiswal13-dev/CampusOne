@@ -1,30 +1,23 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useApp } from '../../context/AppContext';
-import { RoleBadge } from '../common/RoleBadge';
 import {
-  User,
-  Mail,
-  GraduationCap,
-  Building2,
-  Phone,
-  Bookmark,
   Bell,
+  Bookmark,
+  Building2,
+  ChevronRight,
+  Clock,
+  Edit3,
+  GraduationCap,
   HelpCircle,
   Info,
   LogOut,
-  Edit3,
-  CheckCircle2,
-  ExternalLink,
-  ShieldCheck,
-  UserCheck,
-  Calendar,
+  Mail,
+  Phone,
   Ticket,
-  Clock,
-  QrCode,
-  Sparkles,
-  ChevronRight
-} from 'lucide-react';
+  UserCheck,
+} from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import { RoleBadge } from "../common/RoleBadge";
 
 export const UserProfileView: React.FC = () => {
   const { currentUser, role, logout, updateProfile } = useAuth();
@@ -35,12 +28,12 @@ export const UserProfileView: React.FC = () => {
     showToast,
     bookmarks,
     registrations,
-    exams
+    exams,
   } = useApp();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editName, setEditName] = useState(currentUser?.name || '');
-  const [editPhone, setEditPhone] = useState(currentUser?.phone || '');
+  const [editName, setEditName] = useState(currentUser?.name || "");
+  const [editPhone, setEditPhone] = useState(currentUser?.phone || "");
   const [editSemester, setEditSemester] = useState(currentUser?.semester || 5);
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
@@ -49,14 +42,14 @@ export const UserProfileView: React.FC = () => {
     updateProfile({
       name: editName,
       phone: editPhone,
-      semester: Number(editSemester)
+      semester: Number(editSemester),
     });
     setIsEditModalOpen(false);
-    showToast('Student credentials updated successfully! ✨', 'success');
+    showToast("Student credentials updated successfully! ✨", "success");
   };
 
   const studentExams = exams.filter(
-    e => e.departmentCode === (currentUser?.departmentCode || 'CCET')
+    (e) => e.departmentCode === (currentUser?.departmentCode || "CCET"),
   );
 
   return (
@@ -71,9 +64,15 @@ export const UserProfileView: React.FC = () => {
         <div className="flex items-center justify-between pb-4 border-b border-white/10 relative z-10">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-blue-700/60 border border-amber-400/40 flex items-center justify-center p-1 shadow-inner">
-              <svg viewBox="0 0 24 24" className="w-full h-full text-amber-400 fill-current">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-full h-full text-amber-400 fill-current"
+              >
                 <path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2z" />
-                <path d="M4 10.77V16c0 2.76 3.58 5 8 5s8-2.24 8-5v-5.23l-8 3.64-8-3.64z" className="text-white fill-current opacity-90" />
+                <path
+                  d="M4 10.77V16c0 2.76 3.58 5 8 5s8-2.24 8-5v-5.23l-8 3.64-8-3.64z"
+                  className="text-white fill-current opacity-90"
+                />
               </svg>
             </div>
             <div>
@@ -95,8 +94,8 @@ export const UserProfileView: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 pt-5 relative z-10">
           <div className="relative shrink-0">
             <img
-              src={currentUser?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'}
-              alt={currentUser?.name || 'User'}
+              src={currentUser?.avatar || "/campus-placeholder.svg"}
+              alt={currentUser?.name || "User"}
               className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-amber-400/60 shadow-sm"
             />
             <button
@@ -117,11 +116,14 @@ export const UserProfileView: React.FC = () => {
             </div>
 
             <p className="text-xs font-semibold text-amber-300">
-              {currentUser?.course || currentUser?.designation || 'Academic Scholar'}
+              {currentUser?.course ||
+                currentUser?.designation ||
+                "Academic Scholar"}
             </p>
 
             <p className="text-xs text-slate-300">
-              Center of {currentUser?.departmentName} ({currentUser?.departmentCode})
+              Center of {currentUser?.departmentName} (
+              {currentUser?.departmentCode})
             </p>
 
             <div className="flex items-center justify-center sm:justify-start gap-2 pt-1 flex-wrap">
@@ -129,7 +131,9 @@ export const UserProfileView: React.FC = () => {
                 Roll: {currentUser?.studentOrEmpId}
               </span>
               <span className="text-[11px] font-bold bg-indigo-900/60 text-indigo-200 px-2 py-0.5 rounded border border-indigo-700/50">
-                {currentUser?.semester ? `Semester ${currentUser.semester}` : 'Active Faculty'}
+                {currentUser?.semester
+                  ? `Semester ${currentUser.semester}`
+                  : "Active Faculty"}
               </span>
             </div>
           </div>
@@ -138,7 +142,9 @@ export const UserProfileView: React.FC = () => {
         {/* Card Footer: Decorative Barcode / Verification strip */}
         <div className="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 font-mono relative z-10">
           <span>CAMPUSONE-IPS-UOA-2026</span>
-          <span className="text-amber-400 font-bold">SAMPLE PROFILE · NOT AN ID</span>
+          <span className="text-amber-400 font-bold">
+            SAMPLE PROFILE · NOT AN ID
+          </span>
         </div>
       </div>
 
@@ -146,7 +152,7 @@ export const UserProfileView: React.FC = () => {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {/* Bookmarks */}
         <button
-          onClick={() => setCurrentTab('bookmarks')}
+          onClick={() => setCurrentTab("bookmarks")}
           className="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all text-left flex flex-col justify-between cursor-pointer group active:scale-95"
         >
           <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200 group-hover:scale-105 transition-transform mb-2">
@@ -156,13 +162,15 @@ export const UserProfileView: React.FC = () => {
             <span className="text-lg font-semibold text-slate-900 block leading-tight">
               {bookmarks.length}
             </span>
-            <span className="text-[11px] font-medium text-slate-500">Saved Circulars</span>
+            <span className="text-[11px] font-medium text-slate-500">
+              Saved Circulars
+            </span>
           </div>
         </button>
 
         {/* Registered Passes */}
         <button
-          onClick={() => setCurrentTab('events')}
+          onClick={() => setCurrentTab("events")}
           className="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all text-left flex flex-col justify-between cursor-pointer group active:scale-95"
         >
           <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-200 group-hover:scale-105 transition-transform mb-2">
@@ -172,13 +180,15 @@ export const UserProfileView: React.FC = () => {
             <span className="text-lg font-semibold text-slate-900 block leading-tight">
               {registrations.length}
             </span>
-            <span className="text-[11px] font-medium text-slate-500">Event Passes</span>
+            <span className="text-[11px] font-medium text-slate-500">
+              Event Passes
+            </span>
           </div>
         </button>
 
         {/* Timetable shortcut */}
         <button
-          onClick={() => setCurrentTab('home')}
+          onClick={() => setCurrentTab("home")}
           className="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all text-left flex flex-col justify-between cursor-pointer group active:scale-95"
         >
           <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center border border-indigo-200 group-hover:scale-105 transition-transform mb-2">
@@ -188,13 +198,15 @@ export const UserProfileView: React.FC = () => {
             <span className="text-sm font-bold text-slate-900 block leading-tight">
               Today's Slots
             </span>
-            <span className="text-[11px] font-medium text-slate-500">Class Tracker →</span>
+            <span className="text-[11px] font-medium text-slate-500">
+              Class Tracker →
+            </span>
           </div>
         </button>
 
         {/* Exam Datesheet */}
         <button
-          onClick={() => setCurrentTab('exams')}
+          onClick={() => setCurrentTab("exams")}
           className="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all text-left flex flex-col justify-between cursor-pointer group active:scale-95"
         >
           <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center border border-rose-200 group-hover:scale-105 transition-transform mb-2">
@@ -204,7 +216,9 @@ export const UserProfileView: React.FC = () => {
             <span className="text-lg font-semibold text-slate-900 block leading-tight">
               {studentExams.length}
             </span>
-            <span className="text-[11px] font-medium text-slate-500">Scheduled Exams</span>
+            <span className="text-[11px] font-medium text-slate-500">
+              Scheduled Exams
+            </span>
           </div>
         </button>
       </div>
@@ -221,7 +235,9 @@ export const UserProfileView: React.FC = () => {
               <Mail className="w-4 h-4 text-indigo-600" />
               <span>Profile email</span>
             </div>
-            <span className="font-semibold text-slate-900">{currentUser?.email}</span>
+            <span className="font-semibold text-slate-900">
+              {currentUser?.email}
+            </span>
           </div>
 
           <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
@@ -229,7 +245,9 @@ export const UserProfileView: React.FC = () => {
               <Phone className="w-4 h-4 text-indigo-600" />
               <span>Phone Number</span>
             </div>
-            <span className="font-semibold text-slate-900">{currentUser?.phone || '+91 98765 43210'}</span>
+            <span className="font-semibold text-slate-900">
+              {currentUser?.phone || "+91 98765 43210"}
+            </span>
           </div>
 
           <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
@@ -237,7 +255,9 @@ export const UserProfileView: React.FC = () => {
               <Building2 className="w-4 h-4 text-indigo-600" />
               <span>Parent Academic Body</span>
             </div>
-            <span className="font-semibold text-slate-900">Institute of Professional Studies, UoA</span>
+            <span className="font-semibold text-slate-900">
+              Institute of Professional Studies, UoA
+            </span>
           </div>
         </div>
       </div>
@@ -304,7 +324,7 @@ export const UserProfileView: React.FC = () => {
         <button
           onClick={() => {
             logout();
-            setCurrentTab('auth');
+            setCurrentTab("auth");
           }}
           className="w-full flex items-center justify-between p-3.5 hover:bg-rose-50 text-rose-600 rounded-2xl transition-colors cursor-pointer"
         >
@@ -320,34 +340,42 @@ export const UserProfileView: React.FC = () => {
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in">
           <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4 text-left">
-            <h3 className="text-base font-bold text-slate-900">Update Profile Details</h3>
+            <h3 className="text-base font-bold text-slate-900">
+              Update Profile Details
+            </h3>
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Full Name</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   value={editName}
-                  onChange={e => setEditName(e.target.value)}
+                  onChange={(e) => setEditName(e.target.value)}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Phone Number</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Phone Number
+                </label>
                 <input
                   type="text"
                   value={editPhone}
-                  onChange={e => setEditPhone(e.target.value)}
+                  onChange={(e) => setEditPhone(e.target.value)}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900"
                 />
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Current Semester</label>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  Current Semester
+                </label>
                 <select
                   value={editSemester}
-                  onChange={e => setEditSemester(Number(e.target.value))}
+                  onChange={(e) => setEditSemester(Number(e.target.value))}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 cursor-pointer"
                 >
                   <option value={1}>Semester I</option>
@@ -360,7 +388,8 @@ export const UserProfileView: React.FC = () => {
               </div>
 
               <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-800 text-[11px]">
-                Note: Department and Role changes require official verification by College Administration.
+                Note: Department and Role changes require official verification
+                by College Administration.
               </div>
             </div>
 
@@ -386,9 +415,13 @@ export const UserProfileView: React.FC = () => {
       {showAboutModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in">
           <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4 text-left">
-            <h3 className="text-base font-bold text-slate-900">About CampusOne</h3>
+            <h3 className="text-base font-bold text-slate-900">
+              About CampusOne
+            </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              <strong>CampusOne</strong> is the centralized, mobile-first campus information and management mobile application built for the Institute of Professional Studies (IPS), University of Allahabad.
+              <strong>CampusOne</strong> is the centralized, mobile-first campus
+              information and management mobile application built for the
+              Institute of Professional Studies (IPS), University of Allahabad.
             </p>
             <p className="text-xs text-slate-600 leading-relaxed">
               Tagline: <em>"One Campus. One Platform. All Information."</em>
@@ -412,12 +445,24 @@ export const UserProfileView: React.FC = () => {
       {showHelpModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in">
           <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4 text-left">
-            <h3 className="text-base font-bold text-slate-900">Student Welfare & Helpdesk</h3>
+            <h3 className="text-base font-bold text-slate-900">
+              Student Welfare & Helpdesk
+            </h3>
             <div className="space-y-2 text-xs text-slate-600">
-              <p><strong>IPS Single Window Desk:</strong> Room 104, Directorate Building</p>
-              <p><strong>Helpdesk Email:</strong> helpdesk.ips@allduniv.ac.in</p>
-              <p><strong>Student Grievance Cell:</strong> grievance.ips@allduniv.ac.in</p>
-              <p><strong>Office Hours:</strong> 10:00 AM - 04:30 PM (Mon-Fri)</p>
+              <p>
+                <strong>IPS Single Window Desk:</strong> Room 104, Directorate
+                Building
+              </p>
+              <p>
+                <strong>Helpdesk Email:</strong> helpdesk.ips@allduniv.ac.in
+              </p>
+              <p>
+                <strong>Student Grievance Cell:</strong>{" "}
+                grievance.ips@allduniv.ac.in
+              </p>
+              <p>
+                <strong>Office Hours:</strong> 10:00 AM - 04:30 PM (Mon-Fri)
+              </p>
             </div>
             <div className="flex justify-end">
               <button

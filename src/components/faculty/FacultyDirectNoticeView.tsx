@@ -1,81 +1,74 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useApp } from '../../context/AppContext';
-import {
-  Send,
-  CheckCircle2,
-  Clock,
-  AlertTriangle,
-  BookOpen,
-  MapPin,
-  FileText,
-  Users,
-  Sparkles,
-  ArrowRight
-} from 'lucide-react';
-import { ClassNoticeType, FacultyClassAssignment } from '../../types';
+import { CheckCircle2, Send } from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import { ClassNoticeType, FacultyClassAssignment } from "../../types";
 
 export const FacultyDirectNoticeView: React.FC = () => {
   const { currentUser } = useAuth();
-  const { handleSendClassNotice, getFacultySentClassNotices, setCurrentTab } = useApp();
+  const { handleSendClassNotice, getFacultySentClassNotices } = useApp();
 
-  const assignedClasses: FacultyClassAssignment[] = currentUser?.assignedClasses || [
-    {
-      id: 'cls-assign-1',
-      course: 'BCA',
-      semester: 5,
-      subjectCode: 'BCA-502',
-      subjectName: 'Database Management Systems & SQL',
-      room: 'Room B-204 (2nd Floor)',
-      studentCount: 64
-    },
-    {
-      id: 'cls-assign-2',
-      course: 'MCA',
-      semester: 3,
-      subjectCode: 'MCA-301',
-      subjectName: 'Advanced Database Systems & Distributed NoSQL',
-      room: 'Software Lab 2',
-      studentCount: 48
-    }
-  ];
+  const assignedClasses: FacultyClassAssignment[] =
+    currentUser?.assignedClasses || [
+      {
+        id: "cls-assign-1",
+        course: "BCA",
+        semester: 5,
+        subjectCode: "BCA-502",
+        subjectName: "Database Management Systems & SQL",
+        room: "Room B-204 (2nd Floor)",
+        studentCount: 64,
+      },
+      {
+        id: "cls-assign-2",
+        course: "MCA",
+        semester: 3,
+        subjectCode: "MCA-301",
+        subjectName: "Advanced Database Systems & Distributed NoSQL",
+        room: "Software Lab 2",
+        studentCount: 48,
+      },
+    ];
 
-  const [selectedClassId, setSelectedClassId] = useState(assignedClasses[0]?.id || '');
-  const [noticeType, setNoticeType] = useState<ClassNoticeType>('ROOM_CHANGED');
-  const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
+  const [selectedClassId, setSelectedClassId] = useState(
+    assignedClasses[0]?.id || "",
+  );
+  const [noticeType, setNoticeType] = useState<ClassNoticeType>("ROOM_CHANGED");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
 
-  const selectedClass = assignedClasses.find(c => c.id === selectedClassId) || assignedClasses[0];
+  const selectedClass =
+    assignedClasses.find((c) => c.id === selectedClassId) || assignedClasses[0];
   const sentNotices = getFacultySentClassNotices();
 
   const presets = [
     {
-      type: 'ROOM_CHANGED' as ClassNoticeType,
-      label: 'Room Relocation',
+      type: "ROOM_CHANGED" as ClassNoticeType,
+      label: "Room Relocation",
       defaultTitle: "Class Room Relocation Notice",
-      defaultMsg: `Today's ${selectedClass?.subjectName} class will be conducted in Computer Lab 3 instead of ${selectedClass?.room}. Please arrive on time.`
+      defaultMsg: `Today's ${selectedClass?.subjectName} class will be conducted in Computer Lab 3 instead of ${selectedClass?.room}. Please arrive on time.`,
     },
     {
-      type: 'CLASS_CANCELLED' as ClassNoticeType,
-      label: 'Class Cancelled',
+      type: "CLASS_CANCELLED" as ClassNoticeType,
+      label: "Class Cancelled",
       defaultTitle: "Class Postponed / Not Conducted Today",
-      defaultMsg: `Today's ${selectedClass?.subjectName} lecture cannot be conducted due to an unavoidable departmental meeting. Next lecture resumes as scheduled.`
+      defaultMsg: `Today's ${selectedClass?.subjectName} lecture cannot be conducted due to an unavoidable departmental meeting. Next lecture resumes as scheduled.`,
     },
     {
-      type: 'ASSIGNMENT_REMINDER' as ClassNoticeType,
-      label: 'Assignment Reminder',
+      type: "ASSIGNMENT_REMINDER" as ClassNoticeType,
+      label: "Assignment Reminder",
       defaultTitle: "Assignment Hardcopy Submission Due",
-      defaultMsg: `Please submit your assignment problem sets before 04:00 PM at Faculty Cabin #3.`
+      defaultMsg: `Please submit your assignment problem sets before 04:00 PM at Faculty Cabin #3.`,
     },
     {
-      type: 'LAB_UPDATE' as ClassNoticeType,
-      label: 'Lab Preparation',
+      type: "LAB_UPDATE" as ClassNoticeType,
+      label: "Lab Preparation",
       defaultTitle: "Lab Equipment & Software Setup Required",
-      defaultMsg: `Please bring your lab observation notebooks and ensure your local MySQL/PostgreSQL workspace is configured before attending today's practical session.`
-    }
+      defaultMsg: `Please bring your lab observation notebooks and ensure your local MySQL/PostgreSQL workspace is configured before attending today's practical session.`,
+    },
   ];
 
-  const handleApplyPreset = (preset: typeof presets[0]) => {
+  const handleApplyPreset = (preset: (typeof presets)[0]) => {
     setNoticeType(preset.type);
     setTitle(preset.defaultTitle);
     setMessage(preset.defaultMsg);
@@ -86,21 +79,21 @@ export const FacultyDirectNoticeView: React.FC = () => {
     if (!title.trim() || !message.trim()) return;
 
     handleSendClassNotice({
-      facultyId: currentUser?.id || 'user-faculty-1',
-      facultyName: currentUser?.name || 'Faculty Member',
-      facultyDesignation: currentUser?.designation || 'Assistant Professor',
-      departmentCode: currentUser?.departmentCode || 'CCET',
+      facultyId: currentUser?.id || "user-faculty-1",
+      facultyName: currentUser?.name || "Faculty Member",
+      facultyDesignation: currentUser?.designation || "Assistant Professor",
+      departmentCode: currentUser?.departmentCode || "CCET",
       course: selectedClass.course,
       semester: selectedClass.semester,
       subjectCode: selectedClass.subjectCode,
       subjectName: selectedClass.subjectName,
       title: title.trim(),
       message: message.trim(),
-      noticeType
+      noticeType,
     });
 
-    setTitle('');
-    setMessage('');
+    setTitle("");
+    setMessage("");
   };
 
   return (
@@ -119,12 +112,17 @@ export const FacultyDirectNoticeView: React.FC = () => {
           Direct Class Communication
         </h1>
         <p className="text-xs text-slate-300 mt-1 max-w-xl">
-          Instantly notify students enrolled in your assigned classes about cancellations, room changes, and assignment updates without requiring HOD approval.
+          Instantly notify students enrolled in your assigned classes about
+          cancellations, room changes, and assignment updates without requiring
+          HOD approval.
         </p>
       </div>
 
       {/* Composer Card */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4"
+      >
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <Send className="w-4 h-4 text-indigo-700" />
@@ -143,7 +141,7 @@ export const FacultyDirectNoticeView: React.FC = () => {
             Select Your Assigned Class:
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {assignedClasses.map(cls => {
+            {assignedClasses.map((cls) => {
               const isSelected = selectedClassId === cls.id;
               return (
                 <div
@@ -151,8 +149,8 @@ export const FacultyDirectNoticeView: React.FC = () => {
                   onClick={() => setSelectedClassId(cls.id)}
                   className={`p-3 rounded-2xl border transition-all cursor-pointer ${
                     isSelected
-                      ? 'border-indigo-600 bg-indigo-50/50 ring-2 ring-indigo-500/10'
-                      : 'border-slate-200 hover:border-slate-300 bg-slate-50/50'
+                      ? "border-indigo-600 bg-indigo-50/50 ring-2 ring-indigo-500/10"
+                      : "border-slate-200 hover:border-slate-300 bg-slate-50/50"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -181,9 +179,9 @@ export const FacultyDirectNoticeView: React.FC = () => {
             Quick Templates:
           </label>
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-            {presets.map((preset, idx) => (
+            {presets.map((preset) => (
               <button
-                key={idx}
+                key={preset.type}
                 type="button"
                 onClick={() => handleApplyPreset(preset)}
                 className="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-900 text-slate-700 text-[11px] font-semibold transition-all border border-slate-200 shrink-0 cursor-pointer active:scale-95"
@@ -204,7 +202,7 @@ export const FacultyDirectNoticeView: React.FC = () => {
             required
             placeholder="e.g. Today's Class Moved to Lab 3"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-indigo-600 focus:bg-white transition-all font-medium"
           />
         </div>
@@ -219,14 +217,18 @@ export const FacultyDirectNoticeView: React.FC = () => {
             rows={3}
             placeholder="Enter class-specific instructions..."
             value={message}
-            onChange={e => setMessage(e.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
             className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-indigo-600 focus:bg-white transition-all font-medium"
           />
         </div>
 
         <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <p className="text-[11px] text-slate-500">
-            Target Audience: <strong>{selectedClass.course} Sem {selectedClass.semester} ({selectedClass.studentCount} students)</strong>
+            Target Audience:{" "}
+            <strong>
+              {selectedClass.course} Sem {selectedClass.semester} (
+              {selectedClass.studentCount} students)
+            </strong>
           </p>
 
           <button
@@ -250,11 +252,12 @@ export const FacultyDirectNoticeView: React.FC = () => {
 
         {sentNotices.length === 0 ? (
           <p className="text-xs text-slate-500 py-6 text-center">
-            No direct class notices sent yet. Use the composer above to communicate directly with your classes.
+            No direct class notices sent yet. Use the composer above to
+            communicate directly with your classes.
           </p>
         ) : (
           <div className="space-y-3">
-            {sentNotices.map(cn => (
+            {sentNotices.map((cn) => (
               <div
                 key={cn.id}
                 className="p-4 rounded-2xl border border-slate-200 bg-slate-50/60 space-y-2 text-left"
@@ -269,7 +272,15 @@ export const FacultyDirectNoticeView: React.FC = () => {
                     </span>
                   </div>
                   <span className="text-[11px] text-slate-400 font-mono">
-                    {new Date(cn.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(cn.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                    {new Date(cn.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}{" "}
+                    •{" "}
+                    {new Date(cn.createdAt).toLocaleDateString([], {
+                      month: "short",
+                      day: "numeric",
+                    })}
                   </span>
                 </div>
 

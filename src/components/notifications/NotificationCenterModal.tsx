@@ -1,63 +1,75 @@
-import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { useAuth } from '../../context/AuthContext';
-import { X, CheckCheck, BellRing, CalendarDays, GraduationCap, Briefcase, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import {
+  AlertTriangle,
+  BellRing,
+  Briefcase,
+  CalendarDays,
+  CheckCheck,
+  CheckCircle2,
+  GraduationCap,
+  X,
+} from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import { configureReminders } from "../../services/nativeService";
 
 export const NotificationCenterModal: React.FC = () => {
   const {
     isNotificationCenterOpen,
     setIsNotificationCenterOpen,
     notifications,
+    showToast,
     markNotificationAsRead,
     markAllNotificationsAsRead,
     setCurrentTab,
     setSelectedNotice,
     setSelectedEvent,
     notices,
-    events
+    events,
   } = useApp();
   const { currentUser } = useAuth();
-  const [filter, setFilter] = useState<'ALL' | 'UNREAD'>('ALL');
+  const [filter, setFilter] = useState<"ALL" | "UNREAD">("ALL");
 
   if (!isNotificationCenterOpen) return null;
 
   const userNotifications = notifications.filter(
-    n => n.userId === currentUser?.id || n.userId === 'ALL'
+    (n) => n.userId === currentUser?.id || n.userId === "ALL",
   );
 
-  const displayed = filter === 'UNREAD'
-    ? userNotifications.filter(n => !n.isRead)
-    : userNotifications;
+  const displayed =
+    filter === "UNREAD"
+      ? userNotifications.filter((n) => !n.isRead)
+      : userNotifications;
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'URGENT':
+      case "URGENT":
         return <AlertTriangle className="w-4 h-4 text-rose-600" />;
-      case 'EVENT':
+      case "EVENT":
         return <CalendarDays className="w-4 h-4 text-blue-600" />;
-      case 'EXAM':
+      case "EXAM":
         return <GraduationCap className="w-4 h-4 text-amber-600" />;
-      case 'CAREER':
+      case "CAREER":
         return <Briefcase className="w-4 h-4 text-emerald-600" />;
-      case 'APPROVAL':
+      case "APPROVAL":
         return <CheckCircle2 className="w-4 h-4 text-purple-600" />;
       default:
         return <BellRing className="w-4 h-4 text-slate-600" />;
     }
   };
 
-  const handleNotificationClick = (notif: typeof notifications[0]) => {
+  const handleNotificationClick = (notif: (typeof notifications)[0]) => {
     markNotificationAsRead(notif.id);
     setIsNotificationCenterOpen(false);
 
     if (notif.linkTarget) {
       setCurrentTab(notif.linkTarget.tab);
       if (notif.linkTarget.itemId) {
-        if (notif.linkTarget.tab === 'notices') {
-          const match = notices.find(n => n.id === notif.linkTarget?.itemId);
+        if (notif.linkTarget.tab === "notices") {
+          const match = notices.find((n) => n.id === notif.linkTarget?.itemId);
           if (match) setSelectedNotice(match);
-        } else if (notif.linkTarget.tab === 'events') {
-          const match = events.find(e => e.id === notif.linkTarget?.itemId);
+        } else if (notif.linkTarget.tab === "events") {
+          const match = events.find((e) => e.id === notif.linkTarget?.itemId);
           if (match) setSelectedEvent(match);
         }
       }
@@ -85,24 +97,24 @@ export const NotificationCenterModal: React.FC = () => {
         <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs">
           <div className="flex gap-1.5">
             <button
-              onClick={() => setFilter('ALL')}
+              onClick={() => setFilter("ALL")}
               className={`px-3 py-1 rounded-lg font-semibold transition-all ${
-                filter === 'ALL'
-                  ? 'bg-blue-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:bg-slate-200'
+                filter === "ALL"
+                  ? "bg-blue-900 text-white shadow-xs"
+                  : "text-slate-600 hover:bg-slate-200"
               }`}
             >
               All ({userNotifications.length})
             </button>
             <button
-              onClick={() => setFilter('UNREAD')}
+              onClick={() => setFilter("UNREAD")}
               className={`px-3 py-1 rounded-lg font-semibold transition-all ${
-                filter === 'UNREAD'
-                  ? 'bg-blue-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:bg-slate-200'
+                filter === "UNREAD"
+                  ? "bg-blue-900 text-white shadow-xs"
+                  : "text-slate-600 hover:bg-slate-200"
               }`}
             >
-              Unread ({userNotifications.filter(n => !n.isRead).length})
+              Unread ({userNotifications.filter((n) => !n.isRead).length})
             </button>
           </div>
 
@@ -115,6 +127,41 @@ export const NotificationCenterModal: React.FC = () => {
           </button>
         </div>
 
+        <button
+          className="p-3 text-xs text-blue-900"
+          onClick={async () => {
+            if (!currentUser) return;
+            const enabled =
+              localStorage.getItem(`campus-reminders:${currentUser.id}`) !==
+              "true";
+            try {
+              await configureReminders(
+                currentUser.id,
+                enabled,
+                notices.filter(
+                  (n) =>
+                    n.scope === "COLLEGE" ||
+                    n.departmentCode === currentUser.departmentCode,
+                ),
+                userNotifications,
+              );
+              showToast(
+                enabled
+                  ? "Device approval and deadline reminders scheduled."
+                  : "Device reminders disabled.",
+              );
+            } catch (error) {
+              showToast(
+                error instanceof Error
+                  ? error.message
+                  : "Could not configure reminders.",
+                "error",
+              );
+            }
+          }}
+        >
+          Toggle device approval / deadline reminders
+        </button>
         {/* Notification items */}
         <div className="p-3 overflow-y-auto space-y-2 flex-1 divide-y divide-slate-100">
           {displayed.length === 0 ? (
@@ -124,12 +171,12 @@ export const NotificationCenterModal: React.FC = () => {
               <p>No notifications to display right now.</p>
             </div>
           ) : (
-            displayed.map(n => (
+            displayed.map((n) => (
               <div
                 key={n.id}
                 onClick={() => handleNotificationClick(n)}
                 className={`pt-2.5 pb-2 px-3 rounded-xl transition-colors cursor-pointer text-left ${
-                  !n.isRead ? 'bg-blue-50/60 font-medium' : 'hover:bg-slate-50'
+                  !n.isRead ? "bg-blue-50/60 font-medium" : "hover:bg-slate-50"
                 }`}
               >
                 <div className="flex items-start gap-2.5">
@@ -138,7 +185,9 @@ export const NotificationCenterModal: React.FC = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-1 mb-0.5">
-                      <h4 className="text-xs font-bold text-slate-900 truncate">{n.title}</h4>
+                      <h4 className="text-xs font-bold text-slate-900 truncate">
+                        {n.title}
+                      </h4>
                       {!n.isRead && (
                         <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
                       )}
@@ -148,10 +197,10 @@ export const NotificationCenterModal: React.FC = () => {
                     </p>
                     <span className="text-[11px] text-slate-400 mt-1 block">
                       {new Date(n.createdAt).toLocaleDateString(undefined, {
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </span>
                   </div>

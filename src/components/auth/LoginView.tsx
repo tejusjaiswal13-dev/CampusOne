@@ -1,14 +1,14 @@
-import { useState, type FormEvent } from "react";
 import {
   ArrowRight,
-  GraduationCap,
-  Users,
   BookOpen,
-  ShieldCheck,
   Building2,
+  GraduationCap,
+  ShieldCheck,
+  Users,
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import { useApp } from "../../context/AppContext";
+import { useState, type FormEvent } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 import type { UserRole } from "../../types";
 const profiles: {
   role: UserRole;

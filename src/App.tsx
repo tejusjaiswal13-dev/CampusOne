@@ -1,123 +1,191 @@
-import React, { Suspense, lazy } from 'react';
-import { ExploreView } from './components/explore/ExploreView';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { AppProvider, useApp } from './context/AppContext';
-import { Header } from './components/common/Header';
-import { BottomNav } from './components/common/BottomNav';
-import { DesktopSidebar } from './components/common/DesktopSidebar';
-import { Toast } from './components/common/Toast';
+import React, { Suspense, lazy } from "react";
+import { BottomNav } from "./components/common/BottomNav";
+import { DesktopSidebar } from "./components/common/DesktopSidebar";
+import { Header } from "./components/common/Header";
+import { Toast } from "./components/common/Toast";
+import { ExploreView } from "./components/explore/ExploreView";
+import { AppProvider } from "./context/AppContext";
+import { useApp } from "./context/AppState";
+import { AuthProvider } from "./context/AuthContext";
+import { useAuth } from "./context/AuthState";
 
-import { StudentHome } from './components/student/StudentHome';
-import { NoticeList } from './components/notices/NoticeList';
-import { EventList } from './components/events/EventList';
-const AcademicCalendarView = lazy(() => import('./components/calendar/AcademicCalendarView').then(module => ({ default: module.AcademicCalendarView })));
-const ExamScheduleView = lazy(() => import('./components/exams/ExamScheduleView').then(module => ({ default: module.ExamScheduleView })));
-const CareerPortalView = lazy(() => import('./components/career/CareerPortalView').then(module => ({ default: module.CareerPortalView })));
-const FacultyDirectoryView = lazy(() => import('./components/faculty/FacultyDirectoryView').then(module => ({ default: module.FacultyDirectoryView })));
-const FacultyClassesView = lazy(() => import('./components/faculty/FacultyClassesView').then(module => ({ default: module.FacultyClassesView })));
-const FacultyDirectNoticeView = lazy(() => import('./components/faculty/FacultyDirectNoticeView').then(module => ({ default: module.FacultyDirectNoticeView })));
-const FacultyStudentRosterView = lazy(() => import('./components/faculty/FacultyStudentRosterView').then(module => ({ default: module.FacultyStudentRosterView })));
-const StudentTimetableView = lazy(() => import('./components/student/StudentTimetableView').then(module => ({ default: module.StudentTimetableView })));
-const DepartmentDirectoryView = lazy(() => import('./components/departments/DepartmentDirectoryView').then(module => ({ default: module.DepartmentDirectoryView })));
-const CampusGuideView = lazy(() => import('./components/campus/CampusGuideView').then(module => ({ default: module.CampusGuideView })));
-const BookmarksView = lazy(() => import('./components/profile/BookmarksView').then(module => ({ default: module.BookmarksView })));
-const GlobalSearchView = lazy(() => import('./components/search/GlobalSearchView').then(module => ({ default: module.GlobalSearchView })));
-const UserProfileView = lazy(() => import('./components/profile/UserProfileView').then(module => ({ default: module.UserProfileView })));
-const FacultyDashboard = lazy(() => import('./components/faculty/FacultyDashboard').then(module => ({ default: module.FacultyDashboard })));
-const DeptAdminDashboard = lazy(() => import('./components/admin/DeptAdminDashboard').then(module => ({ default: module.DeptAdminDashboard })));
-const CollegeAdminDashboard = lazy(() => import('./components/admin/CollegeAdminDashboard').then(module => ({ default: module.CollegeAdminDashboard })));
+import { EventList } from "./components/events/EventList";
+import { NoticeList } from "./components/notices/NoticeList";
+import { StudentHome } from "./components/student/StudentHome";
+const AcademicCalendarView = lazy(() =>
+  import("./components/calendar/AcademicCalendarView").then((module) => ({
+    default: module.AcademicCalendarView,
+  })),
+);
+const ExamScheduleView = lazy(() =>
+  import("./components/exams/ExamScheduleView").then((module) => ({
+    default: module.ExamScheduleView,
+  })),
+);
+const CareerPortalView = lazy(() =>
+  import("./components/career/CareerPortalView").then((module) => ({
+    default: module.CareerPortalView,
+  })),
+);
+const FacultyDirectoryView = lazy(() =>
+  import("./components/faculty/FacultyDirectoryView").then((module) => ({
+    default: module.FacultyDirectoryView,
+  })),
+);
+const FacultyClassesView = lazy(() =>
+  import("./components/faculty/FacultyClassesView").then((module) => ({
+    default: module.FacultyClassesView,
+  })),
+);
+const FacultyDirectNoticeView = lazy(() =>
+  import("./components/faculty/FacultyDirectNoticeView").then((module) => ({
+    default: module.FacultyDirectNoticeView,
+  })),
+);
+const FacultyStudentRosterView = lazy(() =>
+  import("./components/faculty/FacultyStudentRosterView").then((module) => ({
+    default: module.FacultyStudentRosterView,
+  })),
+);
+const StudentTimetableView = lazy(() =>
+  import("./components/student/StudentTimetableView").then((module) => ({
+    default: module.StudentTimetableView,
+  })),
+);
+const DepartmentDirectoryView = lazy(() =>
+  import("./components/departments/DepartmentDirectoryView").then((module) => ({
+    default: module.DepartmentDirectoryView,
+  })),
+);
+const CampusGuideView = lazy(() =>
+  import("./components/campus/CampusGuideView").then((module) => ({
+    default: module.CampusGuideView,
+  })),
+);
+const BookmarksView = lazy(() =>
+  import("./components/profile/BookmarksView").then((module) => ({
+    default: module.BookmarksView,
+  })),
+);
+const GlobalSearchView = lazy(() =>
+  import("./components/search/GlobalSearchView").then((module) => ({
+    default: module.GlobalSearchView,
+  })),
+);
+const UserProfileView = lazy(() =>
+  import("./components/profile/UserProfileView").then((module) => ({
+    default: module.UserProfileView,
+  })),
+);
+const FacultyDashboard = lazy(() =>
+  import("./components/faculty/FacultyDashboard").then((module) => ({
+    default: module.FacultyDashboard,
+  })),
+);
+const DeptAdminDashboard = lazy(() =>
+  import("./components/admin/DeptAdminDashboard").then((module) => ({
+    default: module.DeptAdminDashboard,
+  })),
+);
+const CollegeAdminDashboard = lazy(() =>
+  import("./components/admin/CollegeAdminDashboard").then((module) => ({
+    default: module.CollegeAdminDashboard,
+  })),
+);
 
-import { LoginView } from './components/auth/LoginView';
-import { RegisterView } from './components/auth/RegisterView';
-import { ForgotPasswordView } from './components/auth/ForgotPasswordView';
-import { RoleSwitcherDrawer } from './components/auth/RoleSwitcherDrawer';
-import { NotificationCenterModal } from './components/notifications/NotificationCenterModal';
-import { CampusAIAssistantModal } from './components/ai/CampusAIAssistantModal';
-import { CreateNoticeModal } from './components/notices/CreateNoticeModal';
-import { CreateEventModal } from './components/events/CreateEventModal';
+import { CampusAIAssistantModal } from "./components/ai/CampusAIAssistantModal";
+import { ForgotPasswordView } from "./components/auth/ForgotPasswordView";
+import { LoginView } from "./components/auth/LoginView";
+import { RegisterView } from "./components/auth/RegisterView";
+import { RoleSwitcherDrawer } from "./components/auth/RoleSwitcherDrawer";
+import { CreateEventModal } from "./components/events/CreateEventModal";
+import { CreateNoticeModal } from "./components/notices/CreateNoticeModal";
+import { NotificationCenterModal } from "./components/notifications/NotificationCenterModal";
 
 const AppContent: React.FC = () => {
   const { currentTab, deviceMode, setDeviceMode } = useApp();
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated, role, currentUser } = useAuth();
 
   const renderActiveView = () => {
     if (!isAuthenticated) {
-      if (currentTab === 'register') return <RegisterView />;
-      if (currentTab === 'forgot-password') return <ForgotPasswordView />;
+      if (currentTab === "register") return <RegisterView />;
+      if (currentTab === "forgot-password") return <ForgotPasswordView />;
       return <LoginView />;
     }
     switch (currentTab) {
-      case 'explore':
+      case "explore":
         return <ExploreView />;
-      case 'home':
-        if (role === 'FACULTY') return <FacultyDashboard />;
-        if (role === 'DEPARTMENT_ADMIN') return <DeptAdminDashboard />;
-        if (role === 'COLLEGE_ADMIN') return <CollegeAdminDashboard />;
+      case "home":
+        if (role === "FACULTY") return <FacultyDashboard />;
+        if (role === "DEPARTMENT_ADMIN") return <DeptAdminDashboard />;
+        if (role === "COLLEGE_ADMIN") return <CollegeAdminDashboard />;
         return <StudentHome />;
-      case 'timetable':
+      case "timetable":
         return <StudentTimetableView />;
-      case 'classes':
+      case "classes":
         return <FacultyClassesView />;
-      case 'class-notices':
+      case "class-notices":
         return <FacultyDirectNoticeView />;
-      case 'students':
+      case "students":
         return <FacultyStudentRosterView />;
-      case 'approvals':
+      case "approvals":
         return <DeptAdminDashboard />;
-      case 'users':
+      case "users":
         return <CollegeAdminDashboard />;
-      case 'notices':
+      case "notices":
         return <NoticeList />;
-      case 'events':
+      case "events":
         return <EventList />;
-      case 'calendar':
+      case "calendar":
         return <AcademicCalendarView />;
-      case 'exams':
+      case "exams":
         return <ExamScheduleView />;
-      case 'career':
+      case "career":
         return <CareerPortalView />;
-      case 'faculty':
+      case "faculty":
         return <FacultyDirectoryView />;
-      case 'departments':
+      case "departments":
         return <DepartmentDirectoryView />;
-      case 'campus':
+      case "campus":
         return <CampusGuideView />;
-      case 'bookmarks':
+      case "bookmarks":
         return <BookmarksView />;
-      case 'search':
+      case "search":
         return <GlobalSearchView />;
-      case 'profile':
+      case "profile":
         return <UserProfileView />;
-      case 'faculty-dash':
+      case "faculty-dash":
         return <FacultyDashboard />;
-      case 'dept-admin':
+      case "dept-admin":
         return <DeptAdminDashboard />;
-      case 'college-admin':
+      case "college-admin":
         return <CollegeAdminDashboard />;
-      case 'auth':
-      case 'login':
+      case "auth":
+      case "login":
         return <LoginView />;
-      case 'register':
+      case "register":
         return <RegisterView />;
-      case 'forgot-password':
+      case "forgot-password":
         return <ForgotPasswordView />;
       default:
-        if (role === 'FACULTY') return <FacultyDashboard />;
-        if (role === 'DEPARTMENT_ADMIN') return <DeptAdminDashboard />;
-        if (role === 'COLLEGE_ADMIN') return <CollegeAdminDashboard />;
+        if (role === "FACULTY") return <FacultyDashboard />;
+        if (role === "DEPARTMENT_ADMIN") return <DeptAdminDashboard />;
+        if (role === "COLLEGE_ADMIN") return <CollegeAdminDashboard />;
         return <StudentHome />;
     }
   };
 
   // If mobile frame preview is toggled on desktop
-  if (deviceMode === 'mobile-frame') {
+  if (deviceMode === "mobile-frame") {
     return (
       <div className="min-h-screen bg-slate-900 py-6 px-4 flex flex-col items-center justify-center font-sans">
         {/* Device toggle banner */}
         <div className="mb-4 flex items-center justify-between w-full max-w-sm text-xs text-slate-400 bg-slate-800/80 px-4 py-2 rounded-2xl border border-slate-700">
-          <span className="font-semibold text-white">📱 Mobile Preview Frame</span>
+          <span className="font-semibold text-white">
+            📱 Mobile Preview Frame
+          </span>
           <button
-            onClick={() => setDeviceMode('fluid')}
+            onClick={() => setDeviceMode("fluid")}
             className="text-blue-400 hover:text-blue-300 font-bold underline cursor-pointer"
           >
             Switch to Full Width
@@ -136,7 +204,15 @@ const AppContent: React.FC = () => {
           <div className="co-phone-frame flex-1 bg-slate-50 rounded-[44px] overflow-hidden flex flex-col relative border border-slate-800">
             <Header />
             <main className="flex-1 overflow-y-auto p-4 pb-20">
-              <Suspense fallback={<div className="co-empty" role="status">Opening your campus…</div>}>{renderActiveView()}</Suspense>
+              <Suspense
+                fallback={
+                  <div className="co-empty" role="status">
+                    Opening your campus…
+                  </div>
+                }
+              >
+                {renderActiveView()}
+              </Suspense>
             </main>
             {isAuthenticated && <BottomNav />}
           </div>
@@ -145,7 +221,7 @@ const AppContent: React.FC = () => {
         {/* Global Modals */}
         <RoleSwitcherDrawer />
         <NotificationCenterModal />
-        <CampusAIAssistantModal />
+        <CampusAIAssistantModal key={currentUser?.id} />
         <CreateNoticeModal />
         <CreateEventModal />
         <Toast />
@@ -164,7 +240,15 @@ const AppContent: React.FC = () => {
 
         {/* Main Content Pane */}
         <main className="campus-main flex-1 min-w-0 w-full">
-          <Suspense fallback={<div className="co-empty" role="status">Opening your campus…</div>}>{renderActiveView()}</Suspense>
+          <Suspense
+            fallback={
+              <div className="co-empty" role="status">
+                Opening your campus…
+              </div>
+            }
+          >
+            {renderActiveView()}
+          </Suspense>
         </main>
       </div>
 
@@ -174,7 +258,7 @@ const AppContent: React.FC = () => {
       {/* Global Interactive Modals */}
       <RoleSwitcherDrawer />
       <NotificationCenterModal />
-      <CampusAIAssistantModal />
+      <CampusAIAssistantModal key={currentUser?.id} />
       <CreateNoticeModal />
       <CreateEventModal />
       <Toast />

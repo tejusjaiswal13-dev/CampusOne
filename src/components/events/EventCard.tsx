@@ -1,8 +1,8 @@
-import { Bookmark, MapPin, ArrowUpRight, CalendarDays } from "lucide-react";
+import { ArrowUpRight, Bookmark, CalendarDays, MapPin } from "lucide-react";
 import type { MouseEvent } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 import type { CampusEvent } from "../../types";
-import { useApp } from "../../context/AppContext";
-import { useAuth } from "../../context/AuthContext";
 interface EventCardProps {
   event: CampusEvent;
   onClick: () => void;

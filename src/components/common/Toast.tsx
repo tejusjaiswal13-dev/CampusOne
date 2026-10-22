@@ -1,6 +1,6 @@
-import React from 'react';
-import { useApp } from '../../context/AppContext';
-import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Info, X } from "lucide-react";
+import React from "react";
+import { useApp } from "../../context/AppState";
 
 export const Toast: React.FC = () => {
   const { toastMessage, toastType, clearToast } = useApp();
@@ -9,20 +9,20 @@ export const Toast: React.FC = () => {
 
   const typeConfig = {
     success: {
-      bg: 'bg-emerald-900/95 text-white border-emerald-700',
-      icon: <CheckCircle2 className="w-5 h-5 text-emerald-300 shrink-0" />
+      bg: "bg-emerald-900/95 text-white border-emerald-700",
+      icon: <CheckCircle2 className="w-5 h-5 text-emerald-300 shrink-0" />,
     },
     error: {
-      bg: 'bg-rose-900/95 text-white border-rose-700',
-      icon: <AlertCircle className="w-5 h-5 text-rose-300 shrink-0" />
+      bg: "bg-rose-900/95 text-white border-rose-700",
+      icon: <AlertCircle className="w-5 h-5 text-rose-300 shrink-0" />,
     },
     info: {
-      bg: 'bg-slate-900/95 text-white border-slate-700',
-      icon: <Info className="w-5 h-5 text-blue-300 shrink-0" />
-    }
+      bg: "bg-slate-900/95 text-white border-slate-700",
+      icon: <Info className="w-5 h-5 text-blue-300 shrink-0" />,
+    },
   };
 
-  const config = typeConfig[toastType || 'info'];
+  const config = typeConfig[toastType || "info"];
 
   return (
     <div className="fixed bottom-20 md:bottom-8 right-4 md:right-8 z-50 max-w-sm w-full animate-bounce-short">

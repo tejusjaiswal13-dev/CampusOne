@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { useAuth } from '../../context/AuthContext';
-import { FacultyClassAssignment } from '../../types';
-import { 
-  Users, Search, Filter, Mail, CheckCircle2, AlertTriangle, 
-  Download, ArrowUpRight, GraduationCap, BookOpen, Clock, 
-  Send, ShieldCheck
-} from 'lucide-react';
+import {
+  BookOpen,
+  CheckCircle2,
+  Download,
+  Filter,
+  GraduationCap,
+  Mail,
+  Search,
+  Send,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import { FacultyClassAssignment } from "../../types";
 
 interface RosterStudent {
   id: string;
@@ -21,66 +28,194 @@ interface RosterStudent {
 }
 
 const MOCK_BCA_STUDENTS: RosterStudent[] = [
-  { id: 'st-01', rollNo: 'IPS2023-BCA-042', name: 'Aarav Sharma', email: 'aarav.sharma@ips.allduniv.ac.in', phone: '+91 98765 43210', attendancePercent: 91, assignmentsSubmitted: 2, totalAssignments: 2, category: 'Regular' },
-  { id: 'st-02', rollNo: 'IPS2023-BCA-015', name: 'Ananya Gupta', email: 'ananya.gupta@ips.allduniv.ac.in', phone: '+91 98112 33445', attendancePercent: 88, assignmentsSubmitted: 2, totalAssignments: 2, category: 'Regular' },
-  { id: 'st-03', rollNo: 'IPS2023-BCA-029', name: 'Divyansh Mishra', email: 'divyansh.m@ips.allduniv.ac.in', phone: '+91 97234 55667', attendancePercent: 72, assignmentsSubmitted: 1, totalAssignments: 2, category: 'Short Attendance' },
-  { id: 'st-04', rollNo: 'IPS2023-BCA-008', name: 'Isha Patel', email: 'isha.patel@ips.allduniv.ac.in', phone: '+91 94567 11223', attendancePercent: 95, assignmentsSubmitted: 2, totalAssignments: 2, category: 'Regular' },
-  { id: 'st-05', rollNo: 'IPS2023-BCA-053', name: 'Kunal Srivastava', email: 'kunal.s@ips.allduniv.ac.in', phone: '+91 93355 44889', attendancePercent: 68, assignmentsSubmitted: 1, totalAssignments: 2, category: 'Defaulter' },
-  { id: 'st-06', rollNo: 'IPS2023-BCA-037', name: 'Pooja Tiwari', email: 'pooja.t@ips.allduniv.ac.in', phone: '+91 91234 88990', attendancePercent: 84, assignmentsSubmitted: 2, totalAssignments: 2, category: 'Regular' },
-  { id: 'st-07', rollNo: 'IPS2023-BCA-061', name: 'Rohan Verma', email: 'rohan.v@ips.allduniv.ac.in', phone: '+91 99112 77881', attendancePercent: 79, assignmentsSubmitted: 2, totalAssignments: 2, category: 'Regular' },
-  { id: 'st-08', rollNo: 'IPS2023-BCA-019', name: 'Sneha Pandey', email: 'sneha.p@ips.allduniv.ac.in', phone: '+91 98390 12345', attendancePercent: 92, assignmentsSubmitted: 2, totalAssignments: 2, category: 'Regular' }
+  {
+    id: "st-01",
+    rollNo: "IPS2023-BCA-042",
+    name: "Aarav Sharma",
+    email: "aarav.sharma@ips.allduniv.ac.in",
+    phone: "+91 98765 43210",
+    attendancePercent: 91,
+    assignmentsSubmitted: 2,
+    totalAssignments: 2,
+    category: "Regular",
+  },
+  {
+    id: "st-02",
+    rollNo: "IPS2023-BCA-015",
+    name: "Ananya Gupta",
+    email: "ananya.gupta@ips.allduniv.ac.in",
+    phone: "+91 98112 33445",
+    attendancePercent: 88,
+    assignmentsSubmitted: 2,
+    totalAssignments: 2,
+    category: "Regular",
+  },
+  {
+    id: "st-03",
+    rollNo: "IPS2023-BCA-029",
+    name: "Divyansh Mishra",
+    email: "divyansh.m@ips.allduniv.ac.in",
+    phone: "+91 97234 55667",
+    attendancePercent: 72,
+    assignmentsSubmitted: 1,
+    totalAssignments: 2,
+    category: "Short Attendance",
+  },
+  {
+    id: "st-04",
+    rollNo: "IPS2023-BCA-008",
+    name: "Isha Patel",
+    email: "isha.patel@ips.allduniv.ac.in",
+    phone: "+91 94567 11223",
+    attendancePercent: 95,
+    assignmentsSubmitted: 2,
+    totalAssignments: 2,
+    category: "Regular",
+  },
+  {
+    id: "st-05",
+    rollNo: "IPS2023-BCA-053",
+    name: "Kunal Srivastava",
+    email: "kunal.s@ips.allduniv.ac.in",
+    phone: "+91 93355 44889",
+    attendancePercent: 68,
+    assignmentsSubmitted: 1,
+    totalAssignments: 2,
+    category: "Defaulter",
+  },
+  {
+    id: "st-06",
+    rollNo: "IPS2023-BCA-037",
+    name: "Pooja Tiwari",
+    email: "pooja.t@ips.allduniv.ac.in",
+    phone: "+91 91234 88990",
+    attendancePercent: 84,
+    assignmentsSubmitted: 2,
+    totalAssignments: 2,
+    category: "Regular",
+  },
+  {
+    id: "st-07",
+    rollNo: "IPS2023-BCA-061",
+    name: "Rohan Verma",
+    email: "rohan.v@ips.allduniv.ac.in",
+    phone: "+91 99112 77881",
+    attendancePercent: 79,
+    assignmentsSubmitted: 2,
+    totalAssignments: 2,
+    category: "Regular",
+  },
+  {
+    id: "st-08",
+    rollNo: "IPS2023-BCA-019",
+    name: "Sneha Pandey",
+    email: "sneha.p@ips.allduniv.ac.in",
+    phone: "+91 98390 12345",
+    attendancePercent: 92,
+    assignmentsSubmitted: 2,
+    totalAssignments: 2,
+    category: "Regular",
+  },
 ];
 
 const MOCK_MCA_STUDENTS: RosterStudent[] = [
-  { id: 'mc-01', rollNo: 'IPS2024-MCA-005', name: 'Aditya Raj', email: 'aditya.mca@ips.allduniv.ac.in', phone: '+91 98881 22334', attendancePercent: 94, assignmentsSubmitted: 3, totalAssignments: 3, category: 'Regular' },
-  { id: 'mc-02', rollNo: 'IPS2024-MCA-012', name: 'Bhavna Sen', email: 'bhavna.mca@ips.allduniv.ac.in', phone: '+91 97772 33445', attendancePercent: 71, assignmentsSubmitted: 2, totalAssignments: 3, category: 'Short Attendance' },
-  { id: 'mc-03', rollNo: 'IPS2024-MCA-024', name: 'Gaurav Dubey', email: 'gaurav.mca@ips.allduniv.ac.in', phone: '+91 96663 44556', attendancePercent: 89, assignmentsSubmitted: 3, totalAssignments: 3, category: 'Regular' },
-  { id: 'mc-04', rollNo: 'IPS2024-MCA-031', name: 'Tanvi Jaiswal', email: 'tanvi.mca@ips.allduniv.ac.in', phone: '+91 95554 55667', attendancePercent: 96, assignmentsSubmitted: 3, totalAssignments: 3, category: 'Regular' }
+  {
+    id: "mc-01",
+    rollNo: "IPS2024-MCA-005",
+    name: "Aditya Raj",
+    email: "aditya.mca@ips.allduniv.ac.in",
+    phone: "+91 98881 22334",
+    attendancePercent: 94,
+    assignmentsSubmitted: 3,
+    totalAssignments: 3,
+    category: "Regular",
+  },
+  {
+    id: "mc-02",
+    rollNo: "IPS2024-MCA-012",
+    name: "Bhavna Sen",
+    email: "bhavna.mca@ips.allduniv.ac.in",
+    phone: "+91 97772 33445",
+    attendancePercent: 71,
+    assignmentsSubmitted: 2,
+    totalAssignments: 3,
+    category: "Short Attendance",
+  },
+  {
+    id: "mc-03",
+    rollNo: "IPS2024-MCA-024",
+    name: "Gaurav Dubey",
+    email: "gaurav.mca@ips.allduniv.ac.in",
+    phone: "+91 96663 44556",
+    attendancePercent: 89,
+    assignmentsSubmitted: 3,
+    totalAssignments: 3,
+    category: "Regular",
+  },
+  {
+    id: "mc-04",
+    rollNo: "IPS2024-MCA-031",
+    name: "Tanvi Jaiswal",
+    email: "tanvi.mca@ips.allduniv.ac.in",
+    phone: "+91 95554 55667",
+    attendancePercent: 96,
+    assignmentsSubmitted: 3,
+    totalAssignments: 3,
+    category: "Regular",
+  },
 ];
 
 export const FacultyStudentRosterView: React.FC = () => {
   const { currentUser } = useAuth();
   const { setCurrentTab, showToast } = useApp();
-  const assignedClasses: FacultyClassAssignment[] = currentUser?.assignedClasses || [];
+  const assignedClasses: FacultyClassAssignment[] =
+    currentUser?.assignedClasses || [];
 
   const [selectedClassId, setSelectedClassId] = useState<string>(
-    assignedClasses[0]?.id || 'cls-assign-1'
+    assignedClasses[0]?.id || "cls-assign-1",
   );
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterType, setFilterType] = useState<'ALL' | 'DEFAULTER' | 'REGULAR'>('ALL');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterType, setFilterType] = useState<"ALL" | "DEFAULTER" | "REGULAR">(
+    "ALL",
+  );
 
-  const activeClass = assignedClasses.find(c => c.id === selectedClassId) || assignedClasses[0] || {
-    id: 'cls-assign-1',
-    course: 'BCA',
-    semester: 5,
-    subjectCode: 'BCA-502',
-    subjectName: 'Database Management Systems & SQL',
-    room: 'Room B-204 (2nd Floor)',
-    studentCount: 64
-  };
+  const activeClass = assignedClasses.find((c) => c.id === selectedClassId) ||
+    assignedClasses[0] || {
+      id: "cls-assign-1",
+      course: "BCA",
+      semester: 5,
+      subjectCode: "BCA-502",
+      subjectName: "Database Management Systems & SQL",
+      room: "Room B-204 (2nd Floor)",
+      studentCount: 64,
+    };
 
-  const rawStudents = activeClass.course === 'MCA' ? MOCK_MCA_STUDENTS : MOCK_BCA_STUDENTS;
+  const rawStudents =
+    activeClass.course === "MCA" ? MOCK_MCA_STUDENTS : MOCK_BCA_STUDENTS;
 
-  const filteredStudents = rawStudents.filter(student => {
-    const matchesSearch = 
+  const filteredStudents = rawStudents.filter((student) => {
+    const matchesSearch =
       student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       student.rollNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
       student.email.toLowerCase().includes(searchQuery.toLowerCase());
 
     if (!matchesSearch) return false;
 
-    if (filterType === 'DEFAULTER') {
+    if (filterType === "DEFAULTER") {
       return student.attendancePercent < 75;
     }
-    if (filterType === 'REGULAR') {
+    if (filterType === "REGULAR") {
       return student.attendancePercent >= 75;
     }
     return true;
   });
 
-  const defaultersCount = rawStudents.filter(s => s.attendancePercent < 75).length;
+  const defaultersCount = rawStudents.filter(
+    (s) => s.attendancePercent < 75,
+  ).length;
   const avgAttendance = Math.round(
-    rawStudents.reduce((acc, curr) => acc + curr.attendancePercent, 0) / rawStudents.length
+    rawStudents.reduce((acc, curr) => acc + curr.attendancePercent, 0) /
+      rawStudents.length,
   );
 
   return (
@@ -92,22 +227,30 @@ export const FacultyStudentRosterView: React.FC = () => {
             <GraduationCap className="w-4 h-4" />
             <span>Academic Registry • CCET</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Enrolled Student Roster</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
+            Enrolled Student Roster
+          </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Monitor attendance, assignment submissions, and contact students in your enrolled batches.
+            Monitor attendance, assignment submissions, and contact students in
+            your enrolled batches.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => showToast('Class attendance roster exported as CSV report', 'success')}
+            onClick={() =>
+              showToast(
+                "Class attendance roster exported as CSV report",
+                "success",
+              )
+            }
             className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Export CSV</span>
           </button>
           <button
-            onClick={() => setCurrentTab('class-notices')}
+            onClick={() => setCurrentTab("class-notices")}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-sm shadow-indigo-200"
           >
             <Send className="w-3.5 h-3.5" />
@@ -131,9 +274,9 @@ export const FacultyStudentRosterView: React.FC = () => {
                   key={cls.id}
                   onClick={() => setSelectedClassId(cls.id)}
                   className={`p-3.5 rounded-xl border text-left transition-all ${
-                    isSelected 
-                      ? 'border-indigo-600 bg-indigo-50/50 shadow-sm ring-2 ring-indigo-500/20' 
-                      : 'border-slate-200 hover:border-slate-300 bg-slate-50/50'
+                    isSelected
+                      ? "border-indigo-600 bg-indigo-50/50 shadow-sm ring-2 ring-indigo-500/20"
+                      : "border-slate-200 hover:border-slate-300 bg-slate-50/50"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -169,19 +312,28 @@ export const FacultyStudentRosterView: React.FC = () => {
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
             </div>
             <div className="mt-3">
-              <div className="text-3xl font-semibold tracking-tight">{activeClass.studentCount}</div>
-              <div className="text-xs text-slate-300">Total Enrolled in {activeClass.course} Sem {activeClass.semester}</div>
+              <div className="text-3xl font-semibold tracking-tight">
+                {activeClass.studentCount}
+              </div>
+              <div className="text-xs text-slate-300">
+                Total Enrolled in {activeClass.course} Sem{" "}
+                {activeClass.semester}
+              </div>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-700/60 mt-4">
             <div>
               <div className="text-xs text-slate-400">Avg Attendance</div>
-              <div className="text-base font-bold text-emerald-400">{avgAttendance}%</div>
+              <div className="text-base font-bold text-emerald-400">
+                {avgAttendance}%
+              </div>
             </div>
             <div>
               <div className="text-xs text-slate-400">Short Attendance</div>
-              <div className={`text-base font-bold ${defaultersCount > 0 ? 'text-amber-400' : 'text-slate-300'}`}>
+              <div
+                className={`text-base font-bold ${defaultersCount > 0 ? "text-amber-400" : "text-slate-300"}`}
+              >
                 {defaultersCount} Students
               </div>
             </div>
@@ -209,31 +361,31 @@ export const FacultyStudentRosterView: React.FC = () => {
               <Filter className="w-3 h-3" /> Filter:
             </span>
             <button
-              onClick={() => setFilterType('ALL')}
+              onClick={() => setFilterType("ALL")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                filterType === 'ALL'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                filterType === "ALL"
+                  ? "bg-slate-900 text-white"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
               All ({rawStudents.length})
             </button>
             <button
-              onClick={() => setFilterType('REGULAR')}
+              onClick={() => setFilterType("REGULAR")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                filterType === 'REGULAR'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                filterType === "REGULAR"
+                  ? "bg-emerald-600 text-white"
+                  : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
               }`}
             >
               &gt;75% Attendance
             </button>
             <button
-              onClick={() => setFilterType('DEFAULTER')}
+              onClick={() => setFilterType("DEFAULTER")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                filterType === 'DEFAULTER'
-                  ? 'bg-amber-600 text-white'
-                  : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                filterType === "DEFAULTER"
+                  ? "bg-amber-600 text-white"
+                  : "bg-amber-50 text-amber-700 hover:bg-amber-100"
               }`}
             >
               Defaulters (&lt;75%)
@@ -265,15 +417,22 @@ export const FacultyStudentRosterView: React.FC = () => {
                 filteredStudents.map((st) => {
                   const isLow = st.attendancePercent < 75;
                   return (
-                    <tr key={st.id} className="hover:bg-slate-50/70 transition-colors">
+                    <tr
+                      key={st.id}
+                      className="hover:bg-slate-50/70 transition-colors"
+                    >
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">
                             {st.name.charAt(0)}
                           </div>
                           <div>
-                            <div className="font-semibold text-slate-900">{st.name}</div>
-                            <div className="text-xs text-slate-400">{st.email}</div>
+                            <div className="font-semibold text-slate-900">
+                              {st.name}
+                            </div>
+                            <div className="text-xs text-slate-400">
+                              {st.email}
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -283,12 +442,14 @@ export const FacultyStudentRosterView: React.FC = () => {
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
                           <div className="w-16 bg-slate-100 rounded-full h-2 overflow-hidden">
-                            <div 
-                              className={`h-full rounded-full ${isLow ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                            <div
+                              className={`h-full rounded-full ${isLow ? "bg-amber-500" : "bg-emerald-500"}`}
                               style={{ width: `${st.attendancePercent}%` }}
                             />
                           </div>
-                          <span className={`text-xs font-bold ${isLow ? 'text-amber-600' : 'text-emerald-700'}`}>
+                          <span
+                            className={`text-xs font-bold ${isLow ? "text-amber-600" : "text-emerald-700"}`}
+                          >
                             {st.attendancePercent}%
                           </span>
                           {isLow && (
@@ -301,7 +462,9 @@ export const FacultyStudentRosterView: React.FC = () => {
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-1.5 text-xs text-slate-600">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                          <span>{st.assignmentsSubmitted}/{st.totalAssignments} Done</span>
+                          <span>
+                            {st.assignmentsSubmitted}/{st.totalAssignments} Done
+                          </span>
                         </div>
                       </td>
                       <td className="py-3 px-4 text-right">
@@ -315,7 +478,10 @@ export const FacultyStudentRosterView: React.FC = () => {
                           </a>
                           <button
                             onClick={() => {
-                              showToast(`Copied ${st.name}'s contact info to clipboard`, 'info');
+                              showToast(
+                                `Copied ${st.name}'s contact info to clipboard`,
+                                "info",
+                              );
                             }}
                             className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors text-xs font-semibold"
                           >

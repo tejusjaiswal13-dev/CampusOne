@@ -1,42 +1,19 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, UserRole } from '../types';
-import { StorageService } from '../services/storageService';
-import { AuthService } from '../services/authService';
+import React, { useState } from "react";
+import { AuthService } from "../services/authService";
+import { clearReminders } from "../services/nativeService";
+import { StorageService } from "../services/storageService";
+import { User, UserRole } from "../types";
 
-interface AuthContextType {
-  currentUser: User | null;
-  role: UserRole;
-  isAuthenticated: boolean;
-  login: (email: string) => { success: boolean; error?: string };
-  logout: () => void;
-  switchDemoRole: (role: UserRole, departmentCode?: string) => void;
-  register: (payload: {
-    name: string;
-    email: string;
-    studentOrEmpId: string;
-    role: UserRole;
-    departmentCode: string;
-    course?: string;
-    semester?: number;
-    phone?: string;
-  }) => { success: boolean; error?: string };
-  updateProfile: (updates: Partial<User>) => void;
-}
+import { AuthContext } from "./AuthState";
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-  useEffect(() => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
     StorageService.init();
-    const currentId = StorageService.getCurrentUserId();
-    const user = currentId ? StorageService.getUserById(currentId) : undefined;
-    if (user) {
-      setCurrentUser(user);
-      StorageService.setCurrentUserId(user.id);
-    }
-  }, []);
+    const id = StorageService.getCurrentUserId();
+    return id ? StorageService.getUserById(id) || null : null;
+  });
 
   const login = (email: string) => {
     const res = AuthService.loginWithEmail(email);
@@ -44,10 +21,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setCurrentUser(res.user);
       return { success: true };
     }
-    return { success: false, error: res.error || 'Login failed' };
+    return { success: false, error: res.error || "Login failed" };
   };
 
   const logout = () => {
+    void clearReminders().catch(console.error);
     StorageService.clearCurrentUser();
     setCurrentUser(null);
   };
@@ -74,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setCurrentUser(res.user);
       return { success: true };
     }
-    return { success: false, error: res.error || 'Registration failed' };
+    return { success: false, error: res.error || "Registration failed" };
   };
 
   const updateProfile = (updates: Partial<User>) => {
@@ -84,7 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCurrentUser(updated);
   };
 
-  const role: UserRole = currentUser ? currentUser.role : 'STUDENT';
+  const role: UserRole = currentUser ? currentUser.role : "STUDENT";
 
   return (
     <AuthContext.Provider
@@ -96,18 +74,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         switchDemoRole,
         register,
-        updateProfile
+        updateProfile,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

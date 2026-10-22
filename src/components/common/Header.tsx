@@ -1,6 +1,6 @@
-import { Bell, Search, GraduationCap, ArrowUpRight } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import { useApp } from "../../context/AppContext";
+import { ArrowUpRight, Bell, GraduationCap, Search } from "lucide-react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 
 export const Header = () => {
   const { currentUser } = useAuth();

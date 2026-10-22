@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
 import {
-  calculateCurrentAndNextClass,
-  ClassScheduleItem,
-  DaySchedule
-} from '../../data/timetableData';
-import {
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
   Clock,
   MapPin,
   User,
-  BookOpen,
-  Calendar,
-  CheckCircle,
-  Sparkles,
-  ChevronDown,
-  ChevronUp,
-  Layers,
-  ArrowRight
-} from 'lucide-react';
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthState";
+import {
+  calculateCurrentAndNextClass,
+  DaySchedule,
+} from "../../data/timetableData";
 
 export const SmartTimetableTracker: React.FC = () => {
   const { currentUser } = useAuth();
-  const deptCode = currentUser?.departmentCode || 'CCET';
+  const deptCode = currentUser?.departmentCode || "CCET";
 
-  const [trackerData, setTrackerData] = useState(() => calculateCurrentAndNextClass(deptCode));
-  const [selectedDay, setSelectedDay] = useState<DaySchedule['day']>(trackerData.targetDay as DaySchedule['day']);
+  const [trackerData, setTrackerData] = useState(() =>
+    calculateCurrentAndNextClass(deptCode),
+  );
+  const [selectedDay, setSelectedDay] = useState<DaySchedule["day"]>(
+    trackerData.targetDay as DaySchedule["day"],
+  );
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Update tracker every minute
@@ -38,12 +36,26 @@ export const SmartTimetableTracker: React.FC = () => {
     return () => clearInterval(interval);
   }, [deptCode]);
 
-  const { currentClass, nextClass, remainingMinutes, progressPercent, weekSchedule } = trackerData;
+  const {
+    currentClass,
+    nextClass,
+    remainingMinutes,
+    progressPercent,
+    weekSchedule,
+  } = trackerData;
 
-  const activeDaySchedule = weekSchedule.find(s => s.day === selectedDay) || weekSchedule[0];
+  const activeDaySchedule =
+    weekSchedule.find((s) => s.day === selectedDay) || weekSchedule[0];
   const dayClasses = activeDaySchedule?.classes || [];
 
-  const days: DaySchedule['day'][] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const days: DaySchedule["day"][] = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden text-left transition-all">
@@ -52,7 +64,11 @@ export const SmartTimetableTracker: React.FC = () => {
         <div className="flex items-center gap-2.5">
           <div
             className="w-9 h-9 rounded-2xl flex items-center justify-center border shadow-xs"
-            style={{ backgroundColor: '#eef2f8', borderColor: '#d6dff0', color: '#0a1628' }}
+            style={{
+              backgroundColor: "#eef2f8",
+              borderColor: "#d6dff0",
+              color: "#0a1628",
+            }}
           >
             <Clock className="w-5 h-5" />
           </div>
@@ -75,8 +91,12 @@ export const SmartTimetableTracker: React.FC = () => {
           onClick={() => setIsExpanded(!isExpanded)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all border border-slate-200 cursor-pointer active:scale-95"
         >
-          <span>{isExpanded ? 'Hide Details' : 'Full Timetable'}</span>
-          {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          <span>{isExpanded ? "Hide Details" : "Full Timetable"}</span>
+          {isExpanded ? (
+            <ChevronUp className="w-3.5 h-3.5" />
+          ) : (
+            <ChevronDown className="w-3.5 h-3.5" />
+          )}
         </button>
       </div>
 
@@ -86,7 +106,7 @@ export const SmartTimetableTracker: React.FC = () => {
           /* Case 1: Class is running right now */
           <div
             className="text-white rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden"
-            style={{ backgroundColor: '#0a1628', border: '1px solid #1e3a5f' }}
+            style={{ backgroundColor: "#0a1628", border: "1px solid #1e3a5f" }}
           >
             <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-400/10 rounded-full blur-xl pointer-events-none" />
 
@@ -123,7 +143,12 @@ export const SmartTimetableTracker: React.FC = () => {
             {/* Time progress bar */}
             <div className="mt-3.5 pt-3 border-t border-white/10">
               <div className="flex items-center justify-between text-[11px] text-indigo-200 mb-1">
-                <span>Time remaining: <strong className="text-white">{remainingMinutes} mins</strong></span>
+                <span>
+                  Time remaining:{" "}
+                  <strong className="text-white">
+                    {remainingMinutes} mins
+                  </strong>
+                </span>
                 <span>{progressPercent}% elapsed</span>
               </div>
               <div className="w-full h-1.5 bg-black/30 rounded-full overflow-hidden">
@@ -136,8 +161,15 @@ export const SmartTimetableTracker: React.FC = () => {
 
             {nextClass && (
               <div className="mt-3 pt-2 text-[11px] text-indigo-200 flex items-center justify-between">
-                <span>Up next: <strong className="text-white">{nextClass.subjectName}</strong></span>
-                <span className="text-amber-300 font-bold">{nextClass.startTime}</span>
+                <span>
+                  Up next:{" "}
+                  <strong className="text-white">
+                    {nextClass.subjectName}
+                  </strong>
+                </span>
+                <span className="text-amber-300 font-bold">
+                  {nextClass.startTime}
+                </span>
               </div>
             )}
           </div>
@@ -145,17 +177,25 @@ export const SmartTimetableTracker: React.FC = () => {
           /* Case 2: Class upcoming next */
           <div
             className="text-white rounded-2xl p-4 sm:p-5 shadow-sm"
-            style={{ backgroundColor: '#0a1628', border: '1px solid #1e3a5f' }}
+            style={{ backgroundColor: "#0a1628", border: "1px solid #1e3a5f" }}
           >
             <div className="flex items-center justify-between mb-2">
               <span
                 className="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: '#f59e0b', color: '#0a1628' }}
+                style={{ backgroundColor: "#f59e0b", color: "#0a1628" }}
               >
-                {trackerData.nextClassDayOffset === 0 ? 'Up next today' : 'Next scheduled class'}
+                {trackerData.nextClassDayOffset === 0
+                  ? "Up next today"
+                  : "Next scheduled class"}
               </span>
-              <span className="text-xs font-mono font-bold" style={{ color: '#f59e0b' }}>
-                {trackerData.nextClassDayOffset === 0 ? `Starts in ${remainingMinutes} mins` : nextClass.day} · {nextClass.startTime}
+              <span
+                className="text-xs font-mono font-bold"
+                style={{ color: "#f59e0b" }}
+              >
+                {trackerData.nextClassDayOffset === 0
+                  ? `Starts in ${remainingMinutes} mins`
+                  : nextClass.day}{" "}
+                · {nextClass.startTime}
               </span>
             </div>
 
@@ -165,7 +205,7 @@ export const SmartTimetableTracker: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-4 mt-2.5 text-xs text-slate-300">
               <div className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5" style={{ color: '#f59e0b' }} />
+                <MapPin className="w-3.5 h-3.5" style={{ color: "#f59e0b" }} />
                 <span>{nextClass.room}</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -187,7 +227,8 @@ export const SmartTimetableTracker: React.FC = () => {
               All Lectures Concluded For Today
             </h4>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
-              You are all caught up! Use the day tabs below to preview upcoming schedules or prepare for labs.
+              You are all caught up! Use the day tabs below to preview upcoming
+              schedules or prepare for labs.
             </p>
           </div>
         )}
@@ -197,7 +238,7 @@ export const SmartTimetableTracker: React.FC = () => {
           <div className="mt-4 pt-4 border-t border-slate-200 space-y-3 animate-fade-in">
             {/* Day selector pills */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-              {days.map(d => {
+              {days.map((d) => {
                 const isSelected = selectedDay === d;
                 const isToday = trackerData.targetDay === d;
                 return (
@@ -206,16 +247,18 @@ export const SmartTimetableTracker: React.FC = () => {
                     onClick={() => setSelectedDay(d)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
                       isSelected
-                        ? 'text-white shadow-xs'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        ? "text-white shadow-xs"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                     }`}
-                    style={isSelected ? { backgroundColor: '#0a1628' } : {}}
+                    style={isSelected ? { backgroundColor: "#0a1628" } : {}}
                   >
                     <span>{d.slice(0, 3)}</span>
                     {isToday && (
                       <span
                         className="w-1.5 h-1.5 rounded-full"
-                        style={{ backgroundColor: isSelected ? '#f59e0b' : '#0a1628' }}
+                        style={{
+                          backgroundColor: isSelected ? "#f59e0b" : "#0a1628",
+                        }}
                       />
                     )}
                   </button>
@@ -226,8 +269,12 @@ export const SmartTimetableTracker: React.FC = () => {
             {/* List of classes for the selected day */}
             <div className="space-y-2.5">
               <div className="flex items-center justify-between text-xs px-1 text-slate-500 font-medium">
-                <span>{selectedDay} Schedule ({dayClasses.length} sessions)</span>
-                <span className="text-[11px] font-mono text-slate-400">Classroom Block</span>
+                <span>
+                  {selectedDay} Schedule ({dayClasses.length} sessions)
+                </span>
+                <span className="text-[11px] font-mono text-slate-400">
+                  Classroom Block
+                </span>
               </div>
 
               {dayClasses.length === 0 ? (
@@ -235,7 +282,7 @@ export const SmartTimetableTracker: React.FC = () => {
                   No classes scheduled for {selectedDay}.
                 </p>
               ) : (
-                dayClasses.map((cls, idx) => (
+                dayClasses.map((cls) => (
                   <div
                     key={cls.id}
                     className="p-3.5 rounded-2xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-slate-300 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-2"
@@ -247,11 +294,11 @@ export const SmartTimetableTracker: React.FC = () => {
                         </span>
                         <span
                           className={`text-[11px] font-bold px-2 py-0.5 rounded ${
-                            cls.type === 'Practical Lab'
-                              ? 'bg-amber-100 text-amber-800'
-                              : cls.type === 'Seminar'
-                              ? 'bg-purple-100 text-purple-800'
-                              : 'bg-blue-100 text-blue-800'
+                            cls.type === "Practical Lab"
+                              ? "bg-amber-100 text-amber-800"
+                              : cls.type === "Seminar"
+                                ? "bg-purple-100 text-purple-800"
+                                : "bg-blue-100 text-blue-800"
                           }`}
                         >
                           {cls.type}
@@ -263,7 +310,9 @@ export const SmartTimetableTracker: React.FC = () => {
                       <p className="text-[11px] text-slate-500 flex items-center gap-2">
                         <span>{cls.facultyName}</span>
                         <span>•</span>
-                        <span className="text-slate-600 font-medium">{cls.room}</span>
+                        <span className="text-slate-600 font-medium">
+                          {cls.room}
+                        </span>
                       </p>
                     </div>
 

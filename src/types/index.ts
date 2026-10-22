@@ -1,33 +1,35 @@
-export type UserRole = 'STUDENT' | 'FACULTY' | 'DEPARTMENT_ADMIN' | 'COLLEGE_ADMIN';
+export type UserRole =
+  "STUDENT" | "FACULTY" | "DEPARTMENT_ADMIN" | "COLLEGE_ADMIN";
 
 export type NoticeCategory =
-  | 'General'
-  | 'Academic'
-  | 'Examination'
-  | 'Department'
-  | 'Placement'
-  | 'Internship'
-  | 'Scholarship'
-  | 'Seminar'
-  | 'Workshop'
-  | 'Event'
-  | 'Urgent'
-  | 'Competition'
-  | 'Guest Lecture';
+  | "General"
+  | "Academic"
+  | "Examination"
+  | "Department"
+  | "Placement"
+  | "Internship"
+  | "Scholarship"
+  | "Seminar"
+  | "Workshop"
+  | "Event"
+  | "Urgent"
+  | "Competition"
+  | "Guest Lecture";
 
 export type EventCategory =
-  | 'Seminar'
-  | 'Workshop'
-  | 'Conference'
-  | 'Technical'
-  | 'Cultural'
-  | 'Sports'
-  | 'Guest Lecture'
-  | 'Competition';
+  | "Seminar"
+  | "Workshop"
+  | "Conference"
+  | "Technical"
+  | "Cultural"
+  | "Sports"
+  | "Guest Lecture"
+  | "Competition";
 
-export type ContentScope = 'COLLEGE' | 'DEPARTMENT';
+export type ContentScope = "COLLEGE" | "DEPARTMENT";
 
-export type ApprovalStatus = 'DRAFT' | 'PENDING_APPROVAL' | 'APPROVED' | 'REJECTED';
+export type ApprovalStatus =
+  "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED";
 
 export interface Department {
   id: string;
@@ -54,13 +56,13 @@ export interface CourseInfo {
   code: string;
   durationYears: number;
   totalSemesters: number;
-  type: 'Undergraduate' | 'Postgraduate' | 'Diploma';
+  type: "Undergraduate" | "Postgraduate" | "Diploma";
 }
 
 export interface DepartmentResource {
   id: string;
   title: string;
-  category: 'Syllabus' | 'Lab Manual' | 'Previous Papers' | 'Curriculum';
+  category: "Syllabus" | "Lab Manual" | "Previous Papers" | "Curriculum";
   fileName: string;
   fileSize: string;
   uploadDate: string;
@@ -98,12 +100,12 @@ export interface FacultyClassAssignment {
 }
 
 export type ClassNoticeType =
-  | 'CLASS_CANCELLED'
-  | 'ROOM_CHANGED'
-  | 'TIME_RESCHEDULED'
-  | 'ASSIGNMENT_REMINDER'
-  | 'LAB_UPDATE'
-  | 'GENERAL_CLASS_UPDATE';
+  | "CLASS_CANCELLED"
+  | "ROOM_CHANGED"
+  | "TIME_RESCHEDULED"
+  | "ASSIGNMENT_REMINDER"
+  | "LAB_UPDATE"
+  | "GENERAL_CLASS_UPDATE";
 
 export interface DirectClassNotice {
   id: string;
@@ -192,18 +194,23 @@ export interface ExamScheduleItem {
   course: string;
   semester: number;
   departmentCode: string;
-  examType: 'Internal Sessional' | 'Semester Final' | 'Practical / Viva';
+  examType: "Internal Sessional" | "Semester Final" | "Practical / Viva";
   subjectCode: string;
   subjectName: string;
   date: string;
-  shift: 'Morning (09:00 AM - 12:00 PM)' | 'Afternoon (02:00 PM - 05:00 PM)';
+  shift: "Morning (09:00 AM - 12:00 PM)" | "Afternoon (02:00 PM - 05:00 PM)";
   room: string;
   instructions: string[];
 }
 
 export interface CareerOpportunity {
   id: string;
-  type: 'Placement' | 'Internship' | 'Industrial Visit' | 'Skill Workshop' | 'Training';
+  type:
+    | "Placement"
+    | "Internship"
+    | "Industrial Visit"
+    | "Skill Workshop"
+    | "Training";
   company: string;
   companyLogo?: string;
   role: string;
@@ -215,13 +222,13 @@ export interface CareerOpportunity {
   applicationDeadline: string;
   applyUrl: string;
   departmentCodes: string[]; // Can target CCET, CFT, CMS, or ['ALL']
-  status: 'Open' | 'Closing Soon' | 'Closed';
+  status: "Open" | "Closing Soon" | "Closed";
 }
 
 export interface AcademicCalendarItem {
   id: string;
   title: string;
-  category: 'Semester' | 'Examination' | 'Holiday' | 'Deadline' | 'Workshop';
+  category: "Semester" | "Examination" | "Holiday" | "Deadline" | "Workshop";
   startDate: string;
   endDate?: string;
   description: string;
@@ -249,7 +256,14 @@ export interface FacultyMember {
 export interface CampusFacility {
   id: string;
   name: string;
-  category: 'Academic' | 'Laboratory' | 'Library' | 'Hostel' | 'Sports' | 'Administrative' | 'Amenity';
+  category:
+    | "Academic"
+    | "Laboratory"
+    | "Library"
+    | "Hostel"
+    | "Sports"
+    | "Administrative"
+    | "Amenity";
   location: string;
   timings: string;
   incharge: string;
@@ -265,7 +279,7 @@ export interface InAppNotification {
   targetDepartmentCode?: string; // for department broadcasts
   title: string;
   message: string;
-  type: 'NOTICE' | 'EVENT' | 'EXAM' | 'CAREER' | 'URGENT' | 'APPROVAL';
+  type: "NOTICE" | "EVENT" | "EXAM" | "CAREER" | "URGENT" | "APPROVAL";
   linkTarget?: {
     tab: string;
     itemId?: string;
@@ -277,7 +291,7 @@ export interface InAppNotification {
 export interface BookmarkItem {
   id: string;
   userId: string;
-  itemType: 'NOTICE' | 'EVENT' | 'CAREER' | 'RESOURCE';
+  itemType: "NOTICE" | "EVENT" | "CAREER" | "RESOURCE";
   itemId: string;
   title: string;
   subtitle: string;
