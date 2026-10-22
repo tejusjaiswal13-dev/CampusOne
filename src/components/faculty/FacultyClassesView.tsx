@@ -41,14 +41,14 @@ export const FacultyClassesView: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-8 text-left max-w-3xl mx-auto">
       {/* Header */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-md">
+      <div className="co-surface-banner text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-md">
         <div className="flex items-center gap-2 mb-1.5">
           <BookOpen className="w-4 h-4 text-amber-400" />
           <span className="text-xs font-bold text-amber-300">
             Teaching Workload & Allocations
           </span>
         </div>
-        <h1 className="text-xl sm:text-2xl font-black text-white">
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">
           My Assigned Classes
         </h1>
         <p className="text-xs text-slate-300 mt-1">
@@ -69,7 +69,7 @@ export const FacultyClassesView: React.FC = () => {
               className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs space-y-3"
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-indigo-900 text-white">
+                <span className="text-[11px] font-semibold uppercase px-2.5 py-0.5 rounded-full bg-indigo-900 text-white">
                   {cls.course} • Semester {cls.semester}
                 </span>
                 <span className="text-xs font-mono font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200">
@@ -133,7 +133,7 @@ export const FacultyClassesView: React.FC = () => {
             >
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-indigo-100 text-indigo-900">
+                  <span className="text-[11px] font-semibold uppercase px-2 py-0.5 rounded bg-indigo-100 text-indigo-900">
                     {session.dayOfWeek}
                   </span>
                   <span className="font-mono text-xs font-bold text-slate-800">

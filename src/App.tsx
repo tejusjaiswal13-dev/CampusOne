@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+import { ExploreView } from './components/explore/ExploreView';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/common/Header';
@@ -9,22 +10,22 @@ import { Toast } from './components/common/Toast';
 import { StudentHome } from './components/student/StudentHome';
 import { NoticeList } from './components/notices/NoticeList';
 import { EventList } from './components/events/EventList';
-import { AcademicCalendarView } from './components/calendar/AcademicCalendarView';
-import { ExamScheduleView } from './components/exams/ExamScheduleView';
-import { CareerPortalView } from './components/career/CareerPortalView';
-import { FacultyDirectoryView } from './components/faculty/FacultyDirectoryView';
-import { FacultyClassesView } from './components/faculty/FacultyClassesView';
-import { FacultyDirectNoticeView } from './components/faculty/FacultyDirectNoticeView';
-import { FacultyStudentRosterView } from './components/faculty/FacultyStudentRosterView';
-import { StudentTimetableView } from './components/student/StudentTimetableView';
-import { DepartmentDirectoryView } from './components/departments/DepartmentDirectoryView';
-import { CampusGuideView } from './components/campus/CampusGuideView';
-import { BookmarksView } from './components/profile/BookmarksView';
-import { GlobalSearchView } from './components/search/GlobalSearchView';
-import { UserProfileView } from './components/profile/UserProfileView';
-import { FacultyDashboard } from './components/faculty/FacultyDashboard';
-import { DeptAdminDashboard } from './components/admin/DeptAdminDashboard';
-import { CollegeAdminDashboard } from './components/admin/CollegeAdminDashboard';
+const AcademicCalendarView = lazy(() => import('./components/calendar/AcademicCalendarView').then(module => ({ default: module.AcademicCalendarView })));
+const ExamScheduleView = lazy(() => import('./components/exams/ExamScheduleView').then(module => ({ default: module.ExamScheduleView })));
+const CareerPortalView = lazy(() => import('./components/career/CareerPortalView').then(module => ({ default: module.CareerPortalView })));
+const FacultyDirectoryView = lazy(() => import('./components/faculty/FacultyDirectoryView').then(module => ({ default: module.FacultyDirectoryView })));
+const FacultyClassesView = lazy(() => import('./components/faculty/FacultyClassesView').then(module => ({ default: module.FacultyClassesView })));
+const FacultyDirectNoticeView = lazy(() => import('./components/faculty/FacultyDirectNoticeView').then(module => ({ default: module.FacultyDirectNoticeView })));
+const FacultyStudentRosterView = lazy(() => import('./components/faculty/FacultyStudentRosterView').then(module => ({ default: module.FacultyStudentRosterView })));
+const StudentTimetableView = lazy(() => import('./components/student/StudentTimetableView').then(module => ({ default: module.StudentTimetableView })));
+const DepartmentDirectoryView = lazy(() => import('./components/departments/DepartmentDirectoryView').then(module => ({ default: module.DepartmentDirectoryView })));
+const CampusGuideView = lazy(() => import('./components/campus/CampusGuideView').then(module => ({ default: module.CampusGuideView })));
+const BookmarksView = lazy(() => import('./components/profile/BookmarksView').then(module => ({ default: module.BookmarksView })));
+const GlobalSearchView = lazy(() => import('./components/search/GlobalSearchView').then(module => ({ default: module.GlobalSearchView })));
+const UserProfileView = lazy(() => import('./components/profile/UserProfileView').then(module => ({ default: module.UserProfileView })));
+const FacultyDashboard = lazy(() => import('./components/faculty/FacultyDashboard').then(module => ({ default: module.FacultyDashboard })));
+const DeptAdminDashboard = lazy(() => import('./components/admin/DeptAdminDashboard').then(module => ({ default: module.DeptAdminDashboard })));
+const CollegeAdminDashboard = lazy(() => import('./components/admin/CollegeAdminDashboard').then(module => ({ default: module.CollegeAdminDashboard })));
 
 import { LoginView } from './components/auth/LoginView';
 import { RegisterView } from './components/auth/RegisterView';
@@ -40,7 +41,14 @@ const AppContent: React.FC = () => {
   const { isAuthenticated, role } = useAuth();
 
   const renderActiveView = () => {
+    if (!isAuthenticated) {
+      if (currentTab === 'register') return <RegisterView />;
+      if (currentTab === 'forgot-password') return <ForgotPasswordView />;
+      return <LoginView />;
+    }
     switch (currentTab) {
+      case 'explore':
+        return <ExploreView />;
       case 'home':
         if (role === 'FACULTY') return <FacultyDashboard />;
         if (role === 'DEPARTMENT_ADMIN') return <DeptAdminDashboard />;
@@ -125,12 +133,12 @@ const AppContent: React.FC = () => {
           </div>
 
           {/* Screen area */}
-          <div className="flex-1 bg-slate-50 rounded-[44px] overflow-hidden flex flex-col relative border border-slate-800">
+          <div className="co-phone-frame flex-1 bg-slate-50 rounded-[44px] overflow-hidden flex flex-col relative border border-slate-800">
             <Header />
             <main className="flex-1 overflow-y-auto p-4 pb-20">
-              {renderActiveView()}
+              <Suspense fallback={<div className="co-empty" role="status">Opening your campus…</div>}>{renderActiveView()}</Suspense>
             </main>
-            <BottomNav />
+            {isAuthenticated && <BottomNav />}
           </div>
         </div>
 
@@ -147,21 +155,21 @@ const AppContent: React.FC = () => {
 
   // Standard responsive layout (Mobile bottom-nav, Desktop left sidebar)
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
+    <div className="min-h-screen text-slate-900 flex flex-col font-sans">
       <Header />
 
-      <div className="flex-1 flex max-w-7xl w-full mx-auto">
+      <div className="co-layout flex-1 w-full">
         {/* Left Desktop Sidebar */}
         <DesktopSidebar />
 
         {/* Main Content Pane */}
-        <main className="flex-1 p-3 sm:p-6 lg:p-8 min-w-0 max-w-full">
-          {renderActiveView()}
+        <main className="campus-main flex-1 min-w-0 w-full">
+          <Suspense fallback={<div className="co-empty" role="status">Opening your campus…</div>}>{renderActiveView()}</Suspense>
         </main>
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <BottomNav />
+      {isAuthenticated && <BottomNav />}
 
       {/* Global Interactive Modals */}
       <RoleSwitcherDrawer />

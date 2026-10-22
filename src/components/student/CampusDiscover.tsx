@@ -79,7 +79,7 @@ export const CampusDiscover: React.FC = () => {
       {/* Header bar */}
       <div className="flex items-center justify-between pb-3 border-b border-slate-100">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 flex items-center justify-center shadow-xs font-black">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 flex items-center justify-center shadow-xs font-semibold">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -87,7 +87,7 @@ export const CampusDiscover: React.FC = () => {
               <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
                 Campus Discover
               </h3>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
                 Curated
               </span>
             </div>
@@ -119,7 +119,7 @@ export const CampusDiscover: React.FC = () => {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span
-                    className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${card.tagColor}`}
+                    className={`text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md ${card.tagColor}`}
                   >
                     {card.tag}
                   </span>
@@ -142,7 +142,7 @@ export const CampusDiscover: React.FC = () => {
               <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
                 <div className="space-y-0.5">
                   <span className="font-semibold text-slate-700 block">{card.meta}</span>
-                  <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded">
+                  <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded">
                     {card.stats}
                   </span>
                 </div>

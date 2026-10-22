@@ -147,7 +147,7 @@ export const SmartAcademicTimeline: React.FC = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1.5">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span
-                    className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full shadow-2xs ${getTimeframeBadge(
+                    className={`text-[11px] font-semibold uppercase px-2 py-0.5 rounded-full shadow-2xs ${getTimeframeBadge(
                       item.timeframe
                     )}`}
                   >
@@ -157,7 +157,7 @@ export const SmartAcademicTimeline: React.FC = () => {
                     {item.dateLabel}
                   </span>
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded border ${getCategoryBadge(
+                    className={`text-[11px] font-bold px-2 py-0.5 rounded border ${getCategoryBadge(
                       item.category
                     )}`}
                   >

@@ -38,7 +38,7 @@ export const FacultyDirectoryView: React.FC = () => {
             <Users className="w-5 h-5 text-purple-700" />
           </span>
           <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
               Faculty Directory & Mentors
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
@@ -94,7 +94,7 @@ export const FacultyDirectoryView: React.FC = () => {
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
-                    <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 text-[10px] font-bold border border-purple-200">
+                    <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 text-[11px] font-bold border border-purple-200">
                       {f.departmentCode}
                     </span>
                     <span className="text-[11px] text-slate-400 font-medium">
@@ -124,7 +124,7 @@ export const FacultyDirectoryView: React.FC = () => {
 
               {/* Subjects taught */}
               <div className="mt-3 pt-2.5 border-t border-slate-100">
-                <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block mb-1.5">
+                <span className="text-[11px] uppercase font-bold text-slate-400 tracking-wider block mb-1.5">
                   Subjects Taught
                 </span>
                 <div className="flex items-center gap-1.5 flex-wrap">

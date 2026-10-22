@@ -108,7 +108,7 @@ export const AcademicCalendarView: React.FC = () => {
               <span className="p-2 rounded-xl bg-blue-50 text-blue-900">
                 <CalendarIcon className="w-5 h-5" />
               </span>
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
                 Academic Calendar & Key Dates
               </h1>
             </div>
@@ -254,7 +254,7 @@ export const AcademicCalendarView: React.FC = () => {
                       {events.slice(0, 2).map((ev, idx) => (
                         <div
                           key={idx}
-                          className={`text-[9px] sm:text-[10px] truncate px-1 py-0.2 rounded font-medium ${
+                          className={`text-[11px] sm:text-[11px] truncate px-1 py-0.2 rounded font-medium ${
                             ev.category === 'Examination'
                               ? 'bg-red-100 text-red-800'
                               : ev.category === 'Holiday'
@@ -266,7 +266,7 @@ export const AcademicCalendarView: React.FC = () => {
                         </div>
                       ))}
                       {events.length > 2 && (
-                        <div className="text-[9px] text-slate-400 font-bold">
+                        <div className="text-[11px] text-slate-400 font-bold">
                           +{events.length - 2} more
                         </div>
                       )}
@@ -305,13 +305,13 @@ export const AcademicCalendarView: React.FC = () => {
                   >
                     <div className="flex items-center justify-between">
                       <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-md border uppercase ${getCategoryBadgeClass(
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-md border uppercase ${getCategoryBadgeClass(
                           item.category
                         )}`}
                       >
                         {item.category}
                       </span>
-                      <span className="text-[10px] font-semibold text-slate-400">
+                      <span className="text-[11px] font-semibold text-slate-400">
                         {item.scope === 'COLLEGE' ? 'College' : `${item.departmentCode} Dept`}
                       </span>
                     </div>
@@ -322,7 +322,7 @@ export const AcademicCalendarView: React.FC = () => {
                       {item.description}
                     </p>
                     {item.endDate && (
-                      <p className="text-[10px] text-slate-400 font-mono pt-1">
+                      <p className="text-[11px] text-slate-400 font-mono pt-1">
                         Duration: {item.startDate} to {item.endDate}
                       </p>
                     )}
@@ -366,7 +366,7 @@ export const AcademicCalendarView: React.FC = () => {
                       key={idx}
                       className="p-2 rounded-xl bg-white border border-slate-200 shadow-2xs text-left"
                     >
-                      <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${getCategoryBadgeClass(ev.category)}`}>
+                      <span className={`text-[11px] font-bold px-1.5 py-0.2 rounded ${getCategoryBadgeClass(ev.category)}`}>
                         {ev.category}
                       </span>
                       <p className="text-[11px] font-bold text-slate-800 mt-1 line-clamp-2">
@@ -398,7 +398,7 @@ export const AcademicCalendarView: React.FC = () => {
               <div key={item.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border uppercase ${getCategoryBadgeClass(item.category)}`}>
+                    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md border uppercase ${getCategoryBadgeClass(item.category)}`}>
                       {item.category}
                     </span>
                     <span className="text-[11px] text-slate-400 font-mono">

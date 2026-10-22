@@ -60,7 +60,7 @@ export const CareerPortalView: React.FC = () => {
               <span className="p-2 rounded-xl bg-emerald-50 text-emerald-900">
                 <Briefcase className="w-5 h-5 text-emerald-700" />
               </span>
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
                 Placement & Career Opportunities
               </h1>
             </div>
@@ -195,7 +195,7 @@ export const CareerPortalView: React.FC = () => {
                   {item.skills.map((skill, idx) => (
                     <span
                       key={idx}
-                      className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-medium"
+                      className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-mono font-medium"
                     >
                       {skill}
                     </span>

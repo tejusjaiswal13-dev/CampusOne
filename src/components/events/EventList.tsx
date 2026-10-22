@@ -95,7 +95,7 @@ export const EventList: React.FC = () => {
               <span className="p-2 rounded-xl bg-amber-50 text-amber-900">
                 <CalendarDays className="w-5 h-5 text-amber-600" />
               </span>
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
                 Campus Events & Seminars
               </h1>
             </div>

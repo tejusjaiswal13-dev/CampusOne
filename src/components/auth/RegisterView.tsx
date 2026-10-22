@@ -43,9 +43,9 @@ export const RegisterView: React.FC = () => {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center p-4 text-left">
-      <div className="bg-white w-full max-w-lg rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+      <div className="bg-white w-full max-w-lg rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white p-6 sm:p-7">
+        <div className="co-surface-banner text-white p-6 sm:p-7">
           <button
             onClick={() => setCurrentTab('login')}
             className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white mb-3"
@@ -53,7 +53,7 @@ export const RegisterView: React.FC = () => {
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Login</span>
           </button>
-          <h1 className="text-xl font-black text-white">Student & Scholar Account Setup</h1>
+          <h1 className="text-xl font-semibold text-white">Student & Scholar Account Setup</h1>
           <p className="text-xs text-slate-300 mt-1">
             Institute of Professional Studies, University of Allahabad
           </p>

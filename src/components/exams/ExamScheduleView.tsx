@@ -32,14 +32,14 @@ export const ExamScheduleView: React.FC = () => {
   return (
     <div className="space-y-5 pb-16 md:pb-6 text-left">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-5 sm:p-7 border border-slate-800 shadow-md">
+      <div className="co-surface-banner text-white rounded-3xl p-5 sm:p-7 border border-slate-800 shadow-md">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="p-2 rounded-xl bg-amber-400 text-slate-950">
                 <GraduationCap className="w-5 h-5" />
               </span>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">
                 Examinations & Date Sheets
               </h1>
             </div>

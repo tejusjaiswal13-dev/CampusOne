@@ -65,7 +65,7 @@ export const EventRegisterModal: React.FC<EventRegisterModalProps> = ({ event, o
         <div className="p-5 sm:p-6 overflow-y-auto space-y-4 flex-1 text-left">
           {/* Event title mini card */}
           <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-4">
-            <span className="px-2 py-0.5 rounded-md bg-blue-900 text-white font-bold text-[10px] uppercase tracking-wider">
+            <span className="px-2 py-0.5 rounded-md bg-blue-900 text-white font-bold text-[11px] uppercase tracking-wider">
               {event.category}
             </span>
             <h3 className="text-sm font-bold text-slate-900 mt-1.5 mb-2 leading-snug">
@@ -100,18 +100,18 @@ export const EventRegisterModal: React.FC<EventRegisterModalProps> = ({ event, o
               </div>
 
               {/* Digital Pass Card with simulated barcode/QR */}
-              <div className="bg-gradient-to-b from-slate-900 to-blue-950 text-white rounded-3xl p-5 border border-amber-400/40 shadow-xl relative overflow-hidden">
+              <div className="bg-gradient-to-b from-slate-900 to-blue-950 text-white rounded-3xl p-5 border border-amber-400/40 shadow-sm relative overflow-hidden">
                 {/* Gold watermarks */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none" />
 
                 <div className="flex items-center justify-between pb-3 border-b border-white/15">
                   <div>
-                    <p className="text-[10px] text-amber-300 uppercase tracking-widest font-bold">
+                    <p className="text-[11px] text-amber-300 uppercase tracking-widest font-bold">
                       IPS UOA EVENT PASS
                     </p>
-                    <p className="text-xs font-black text-white">University of Allahabad</p>
+                    <p className="text-xs font-semibold text-white">University of Allahabad</p>
                   </div>
-                  <div className="w-8 h-8 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-black text-xs">
+                  <div className="w-8 h-8 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-semibold text-xs">
                     IPS
                   </div>
                 </div>
@@ -119,23 +119,23 @@ export const EventRegisterModal: React.FC<EventRegisterModalProps> = ({ event, o
                 <div className="py-3.5 space-y-2 text-xs">
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <span className="text-[10px] text-slate-400 uppercase">Attendee</span>
+                      <span className="text-[11px] text-slate-400 uppercase">Attendee</span>
                       <p className="font-bold text-white truncate">{currentRegistration.studentName}</p>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 uppercase">Student ID</span>
+                      <span className="text-[11px] text-slate-400 uppercase">Student ID</span>
                       <p className="font-mono font-bold text-amber-300">{currentRegistration.studentId}</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
                     <div>
-                      <span className="text-[10px] text-slate-400 uppercase">Department</span>
+                      <span className="text-[11px] text-slate-400 uppercase">Department</span>
                       <p className="font-bold text-white">{currentRegistration.departmentCode}</p>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 uppercase">Ticket Code</span>
-                      <p className="font-mono font-black text-white text-[11px] truncate">
+                      <span className="text-[11px] text-slate-400 uppercase">Ticket Code</span>
+                      <p className="font-mono font-semibold text-white text-[11px] truncate">
                         {currentRegistration.ticketCode}
                       </p>
                     </div>
@@ -146,7 +146,7 @@ export const EventRegisterModal: React.FC<EventRegisterModalProps> = ({ event, o
                 <div className="mt-3 pt-3 border-t border-dashed border-white/20 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <QrCode className="w-10 h-10 text-white/90" />
-                    <div className="text-[10px] text-slate-300">
+                    <div className="text-[11px] text-slate-300">
                       <p className="font-bold">Fast Gate Verification</p>
                       <p className="text-slate-400">Scan at entrance desk</p>
                     </div>

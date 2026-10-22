@@ -11,7 +11,7 @@ async function initCapacitor() {
     if (Capacitor.isNativePlatform()) {
       // Status bar configuration
       const { StatusBar } = await import('@capacitor/status-bar')
-      await StatusBar.setBackgroundColor({ color: '#1e40af' })
+      await StatusBar.setBackgroundColor({ color: '#142d3b' })
       
       // Splash screen auto-hide after app renders
       const { SplashScreen } = await import('@capacitor/splash-screen')

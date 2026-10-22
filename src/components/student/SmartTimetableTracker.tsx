@@ -59,14 +59,14 @@ export const SmartTimetableTracker: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-base font-extrabold text-slate-900 tracking-tight">
-                Smart Class Tracker
+                Your class schedule
               </h2>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+              <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                 {deptCode}
               </span>
             </div>
             <p className="text-xs text-slate-500">
-              Live schedule & room allocations for Semester {currentUser?.semester || 5}
+              Sample weekly timetable · {deptCode}
             </p>
           </div>
         </div>
@@ -96,7 +96,7 @@ export const SmartTimetableTracker: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
                 </span>
-                <span className="text-[11px] font-black uppercase tracking-wider text-emerald-300">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-300">
                   Class In Session Now
                 </span>
               </div>
@@ -105,7 +105,7 @@ export const SmartTimetableTracker: React.FC = () => {
               </span>
             </div>
 
-            <h3 className="text-base sm:text-lg font-black text-white leading-snug">
+            <h3 className="text-base sm:text-lg font-semibold text-white leading-snug">
               {currentClass.subjectName}
             </h3>
 
@@ -149,13 +149,13 @@ export const SmartTimetableTracker: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2">
               <span
-                className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                className="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full"
                 style={{ backgroundColor: '#f59e0b', color: '#0a1628' }}
               >
-                Up Next Today
+                {trackerData.nextClassDayOffset === 0 ? 'Up next today' : 'Next scheduled class'}
               </span>
               <span className="text-xs font-mono font-bold" style={{ color: '#f59e0b' }}>
-                Starts in {remainingMinutes} mins ({nextClass.startTime})
+                {trackerData.nextClassDayOffset === 0 ? `Starts in ${remainingMinutes} mins` : nextClass.day} · {nextClass.startTime}
               </span>
             </div>
 
@@ -172,7 +172,7 @@ export const SmartTimetableTracker: React.FC = () => {
                 <User className="w-3.5 h-3.5 text-slate-400" />
                 <span>{nextClass.facultyName}</span>
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-200 border border-white/20">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-200 border border-white/20">
                 {nextClass.type}
               </span>
             </div>
@@ -242,11 +242,11 @@ export const SmartTimetableTracker: React.FC = () => {
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-white text-indigo-900 border border-slate-200">
+                        <span className="text-[11px] font-mono font-bold px-1.5 py-0.5 rounded bg-white text-indigo-900 border border-slate-200">
                           {cls.subjectCode}
                         </span>
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded ${
                             cls.type === 'Practical Lab'
                               ? 'bg-amber-100 text-amber-800'
                               : cls.type === 'Seminar'
@@ -271,7 +271,7 @@ export const SmartTimetableTracker: React.FC = () => {
                       <span className="text-xs font-mono font-bold text-slate-800">
                         {cls.timeDisplay}
                       </span>
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-[11px] text-slate-400">
                         {cls.building}
                       </span>
                     </div>

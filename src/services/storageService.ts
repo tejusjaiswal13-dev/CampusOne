@@ -65,7 +65,7 @@ function setStored<T>(key: string, data: T): void {
 export const StorageService = {
   // Reset all to seed data
   resetToDefaults: () => {
-    localStorage.clear();
+    Object.values(KEYS).forEach(key => localStorage.removeItem(key));
     setStored(KEYS.DEPARTMENTS, SEED_DEPARTMENTS);
     setStored(KEYS.USERS, SEED_USERS);
     setStored(KEYS.CURRENT_USER_ID, SEED_USERS[0].id);
@@ -134,8 +134,9 @@ export const StorageService = {
   getUserById: (id: string): User | undefined => {
     return StorageService.getUsers().find(u => u.id === id);
   },
-  getCurrentUserId: (): string => getStored<string>(KEYS.CURRENT_USER_ID, SEED_USERS[0].id),
+  getCurrentUserId: (): string | null => getStored<string | null>(KEYS.CURRENT_USER_ID, null),
   setCurrentUserId: (id: string) => setStored(KEYS.CURRENT_USER_ID, id),
+  clearCurrentUser: () => localStorage.removeItem(KEYS.CURRENT_USER_ID),
   saveUser: (user: User) => {
     const users = StorageService.getUsers();
     const index = users.findIndex(u => u.id === user.id);
@@ -263,12 +264,17 @@ export const StorageService = {
   registerForEvent: (event: CampusEvent, user: User): EventRegistration | null => {
     const events = StorageService.getEvents();
     const targetEvent = events.find(e => e.id === event.id);
-    if (!targetEvent || targetEvent.availableSeats <= 0) return null;
+    if (!targetEvent) return null;
 
     if (targetEvent.registeredUserIds.includes(user.id)) {
       const existing = StorageService.getRegistrations().find(r => r.eventId === event.id && r.userId === user.id);
       if (existing) return existing;
     }
+
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    if (targetEvent.status !== 'APPROVED' || targetEvent.availableSeats <= 0 ||
+        targetEvent.date < today || targetEvent.registrationDeadline < today) return null;
 
     targetEvent.availableSeats -= 1;
     targetEvent.registeredUserIds.push(user.id);

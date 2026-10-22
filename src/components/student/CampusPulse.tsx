@@ -29,7 +29,7 @@ export const CampusPulse: React.FC = () => {
   const upcomingExamsCount = exams.filter(e => e.departmentCode === (currentUser?.departmentCode || 'CCET')).length;
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-4 sm:p-6 text-white border border-slate-800 shadow-xl relative overflow-hidden">
+    <div className="co-surface-banner rounded-3xl p-4 sm:p-6 text-white border border-slate-800 shadow-sm relative overflow-hidden">
       {/* Subtle background radar circles */}
       <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-52 h-52 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
@@ -43,10 +43,10 @@ export const CampusPulse: React.FC = () => {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-black uppercase tracking-widest text-emerald-400">
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-emerald-400">
                 Campus Pulse
               </span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-mono border border-emerald-500/30">
+              <span className="text-[11px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-mono border border-emerald-500/30">
                 LIVE
               </span>
             </div>
@@ -74,21 +74,21 @@ export const CampusPulse: React.FC = () => {
               <BellRing className="w-4 h-4" />
             </div>
             {urgentCount > 0 ? (
-              <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-rose-500 text-white animate-pulse">
+              <span className="text-[11px] font-extrabold px-1.5 py-0.5 rounded-full bg-rose-500 text-white animate-pulse">
                 {urgentCount} URGENT
               </span>
             ) : (
-              <span className="text-[9px] font-bold text-blue-300 bg-blue-900/60 px-1.5 py-0.5 rounded">
+              <span className="text-[11px] font-bold text-blue-300 bg-blue-900/60 px-1.5 py-0.5 rounded">
                 NEW
               </span>
             )}
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-black text-white">{recentNoticesCount}</span>
-              <span className="text-[10px] text-slate-400 font-medium">notices today</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">{recentNoticesCount}</span>
+              <span className="text-[11px] text-slate-400 font-medium">notices today</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-blue-300 transition-colors">
+            <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-blue-300 transition-colors">
               <span>View feed</span>
               <ChevronRight className="w-2.5 h-2.5" />
             </p>
@@ -104,16 +104,16 @@ export const CampusPulse: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30 group-hover:scale-105 transition-transform">
               <CalendarDays className="w-4 h-4" />
             </div>
-            <span className="text-[9px] font-bold text-amber-300 bg-amber-900/60 px-1.5 py-0.5 rounded">
+            <span className="text-[11px] font-bold text-amber-300 bg-amber-900/60 px-1.5 py-0.5 rounded">
               OPEN SEATS
             </span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-black text-white">{activeEventsCount}</span>
-              <span className="text-[10px] text-slate-400 font-medium">events this week</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">{activeEventsCount}</span>
+              <span className="text-[11px] text-slate-400 font-medium">events this week</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-amber-300 transition-colors">
+            <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-amber-300 transition-colors">
               <span>Reserve passes</span>
               <ChevronRight className="w-2.5 h-2.5" />
             </p>
@@ -129,17 +129,17 @@ export const CampusPulse: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 group-hover:scale-105 transition-transform">
               <Briefcase className="w-4 h-4" />
             </div>
-            <span className="text-[9px] font-bold text-emerald-300 bg-emerald-900/60 px-1.5 py-0.5 rounded flex items-center gap-0.5">
+            <span className="text-[11px] font-bold text-emerald-300 bg-emerald-900/60 px-1.5 py-0.5 rounded flex items-center gap-0.5">
               <Flame className="w-2.5 h-2.5 text-amber-400" />
               HOT
             </span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-black text-white">{activeJobsCount}</span>
-              <span className="text-[10px] text-slate-400 font-medium">active drives</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">{activeJobsCount}</span>
+              <span className="text-[11px] text-slate-400 font-medium">active drives</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
+            <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
               <span>View openings</span>
               <ChevronRight className="w-2.5 h-2.5" />
             </p>
@@ -155,16 +155,16 @@ export const CampusPulse: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center border border-purple-500/30 group-hover:scale-105 transition-transform">
               <GraduationCap className="w-4 h-4" />
             </div>
-            <span className="text-[9px] font-bold text-purple-300 bg-purple-900/60 px-1.5 py-0.5 rounded">
+            <span className="text-[11px] font-bold text-purple-300 bg-purple-900/60 px-1.5 py-0.5 rounded">
               SEMESTER
             </span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-black text-white">{upcomingExamsCount}</span>
-              <span className="text-[10px] text-slate-400 font-medium">scheduled papers</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">{upcomingExamsCount}</span>
+              <span className="text-[11px] text-slate-400 font-medium">scheduled papers</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-purple-300 transition-colors">
+            <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-purple-300 transition-colors">
               <span>Check datesheet</span>
               <ChevronRight className="w-2.5 h-2.5" />
             </p>

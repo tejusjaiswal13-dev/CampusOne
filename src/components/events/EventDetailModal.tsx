@@ -33,6 +33,8 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
   if (!event) return null;
 
   const isRegistered = currentUser && event.registeredUserIds.includes(currentUser.id);
+  const today = new Date().toLocaleDateString('en-CA');
+  const registrationClosed = event.status !== 'APPROVED' || event.availableSeats <= 0 || event.date < today || event.registrationDeadline < today;
   const isBookmarked = isItemBookmarked(event.id);
 
   const handleShare = () => {
@@ -56,7 +58,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
           {/* Top buttons */}
           <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-            <span className="px-3 py-1 rounded-full bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-md">
+            <span className="px-3 py-1 rounded-full bg-amber-400 text-slate-950 font-semibold text-xs uppercase tracking-wider shadow-md">
               {event.category}
             </span>
 
@@ -97,7 +99,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
           {/* Title on banner */}
           <div className="absolute bottom-4 left-4 right-4 text-left">
-            <h2 className="text-lg sm:text-2xl font-black text-white leading-tight">
+            <h2 className="text-lg sm:text-2xl font-semibold text-white leading-tight">
               {event.title}
             </h2>
           </div>
@@ -112,7 +114,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 <Calendar className="w-4 h-4" />
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Date</span>
+                <span className="text-[11px] text-slate-400 uppercase font-semibold">Date</span>
                 <p className="font-bold text-slate-900">{event.date}</p>
               </div>
             </div>
@@ -122,7 +124,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 <Clock className="w-4 h-4" />
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Time</span>
+                <span className="text-[11px] text-slate-400 uppercase font-semibold">Time</span>
                 <p className="font-bold text-slate-900">{event.time}</p>
               </div>
             </div>
@@ -132,7 +134,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 <MapPin className="w-4 h-4" />
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-semibold">Venue</span>
+                <span className="text-[11px] text-slate-400 uppercase font-semibold">Venue</span>
                 <p className="font-bold text-slate-900 truncate">{event.venue}</p>
               </div>
             </div>
@@ -175,7 +177,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 <UserCheck className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] text-amber-800 uppercase font-bold tracking-wider">Featured Speaker</span>
+                <span className="text-[11px] text-amber-800 uppercase font-bold tracking-wider">Featured Speaker</span>
                 <p className="text-xs sm:text-sm font-bold text-slate-900">{event.speaker}</p>
                 {event.speakerDesignation && (
                   <p className="text-[11px] text-slate-600">{event.speakerDesignation}</p>
@@ -223,10 +225,10 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 onClose();
                 onOpenRegister();
               }}
-              disabled={event.availableSeats <= 0}
+              disabled={registrationClosed}
               className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-900 hover:bg-blue-800 disabled:bg-slate-300 text-white rounded-xl text-xs font-bold shadow-md transition-all active:scale-95 cursor-pointer"
             >
-              <span>Register for Event</span>
+              <span>{registrationClosed ? 'Registration closed' : 'Register for Event'}</span>
               <span className="text-amber-400">→</span>
             </button>
           )}

@@ -169,7 +169,7 @@ export const FacultyStudentRosterView: React.FC = () => {
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
             </div>
             <div className="mt-3">
-              <div className="text-3xl font-black tracking-tight">{activeClass.studentCount}</div>
+              <div className="text-3xl font-semibold tracking-tight">{activeClass.studentCount}</div>
               <div className="text-xs text-slate-300">Total Enrolled in {activeClass.course} Sem {activeClass.semester}</div>
             </div>
           </div>
@@ -292,7 +292,7 @@ export const FacultyStudentRosterView: React.FC = () => {
                             {st.attendancePercent}%
                           </span>
                           {isLow && (
-                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">
+                            <span className="px-1.5 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800">
                               Short
                             </span>
                           )}

@@ -1,4 +1,38 @@
-# IPS UOA — Centralized Campus Management & Information App
+# CampusOne — One Platform, Entire Campus
+
+## Design overhaul
+
+A unified navy, coral and warm-paper design now covers navigation, student home,
+notice and event cards, login, Explore and shared typography across staff screens.
+Mobile navigation includes Home, Explore, Calendar, Saved and Profile. Tab URLs
+support browser history, heavy views load on demand, and the campus guide answers
+from stored records. Registration rejects expired events; weekly timetables no
+longer substitute Monday classes on Sundays.
+
+Run: `npm ci` then `npm run dev -- --host 127.0.0.1`.
+Check: `npm test`, `npm run build` and `npm run lint`.
+Android (requires Android SDK): `npm run build`, `npx cap sync android`,
+then from `android` run `.\gradlew.bat assembleDebug`.
+APK: `android/app/build/outputs/apk/debug/app-debug.apk`.
+
+## Current implementation status
+
+This is a React/Vite application packaged for Android with Capacitor. Its UI runs
+inside a native WebView; it is not React Native. All application data and demo
+profiles currently live in localStorage on the device. Email selects an existing
+demo profile without verifying identity. Role controls are client-side only.
+There is no shared backend, real password recovery, or server authorization yet.
+The campus guide searches the stored dataset using keywords; it does not invent
+exam or event information and is not connected to an AI service. Sample attachments and entry-pass QR graphics
+must not be treated as verified institutional documents or credentials.
+
+The initial maintenance pass fixes persistent logout, scopes demo resets to this
+app's storage keys, corrects the notice date input, and improves bottom navigation
+positioning, touch targets, keyboard focus, and reduced-motion support. Login and
+recovery screens now describe their demo behavior explicitly.
+
+Validation commands: `npm test`, `npm run build`, and `npm run lint`.
+The build produces web assets in `dist`; it does not generate a new APK.
 
 > **Institute of Professional Studies, University of Allahabad**  
 > *"One Campus. One Platform. All Information."*
