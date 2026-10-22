@@ -67,7 +67,7 @@ export const CampusBeacon: React.FC = () => {
               <span className="font-bold text-amber-300">Verified</span>
             </div>
 
-            <div className="p-2 rounded-xl bg-indigo-950/60 border border-indigo-500/20 text-[10px] text-indigo-200">
+            <div className="p-2 rounded-xl bg-indigo-950/60 border border-indigo-500/20 text-[11px] text-indigo-200">
               University of Allahabad • Institute of Professional Studies Central Management Node
             </div>
           </div>

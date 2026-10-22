@@ -146,7 +146,7 @@ export const NotificationCenterModal: React.FC = () => {
                     <p className="text-xs text-slate-600 leading-snug line-clamp-2">
                       {n.message}
                     </p>
-                    <span className="text-[10px] text-slate-400 mt-1 block">
+                    <span className="text-[11px] text-slate-400 mt-1 block">
                       {new Date(n.createdAt).toLocaleDateString(undefined, {
                         month: 'short',
                         day: 'numeric',

@@ -15,6 +15,7 @@ import {
 } from '../types';
 import { StorageService } from '../services/storageService';
 import { useAuth } from './AuthContext';
+import { useCampusNavigation } from '../hooks/useCampusNavigation';
 import confetti from 'canvas-confetti';
 
 interface AppContextType {
@@ -99,7 +100,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, role } = useAuth();
 
-  const [currentTab, setCurrentTab] = useState<string>('home');
+  const { currentTab, setCurrentTab } = useCampusNavigation();
   const [deviceMode, setDeviceMode] = useState<'fluid' | 'mobile-frame'>('fluid');
 
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -238,7 +239,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return { success: false, error: 'User not logged in' };
     }
 
-    if (event.availableSeats <= 0) {
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    if (!event.registeredUserIds.includes(currentUser.id) && (event.date < today || event.registrationDeadline < today || event.status !== 'APPROVED')) {
+      showToast('Registration is closed for this event.', 'info');
+      return { success: false, error: 'Registration is closed for this event.' };
+    }
+    if (event.availableSeats <= 0 && !event.registeredUserIds.includes(currentUser.id)) {
       showToast('Sorry, this event is fully booked.', 'error');
       return { success: false, error: 'No seats available' };
     }

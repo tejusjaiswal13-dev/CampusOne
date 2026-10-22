@@ -62,7 +62,7 @@ export const UserProfileView: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-8 text-left max-w-2xl mx-auto">
       {/* Visual Student Identity Card */}
-      <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 text-white rounded-3xl p-6 sm:p-7 border border-slate-800 shadow-xl relative overflow-hidden">
+      <div className="co-surface-banner text-white rounded-3xl p-6 sm:p-7 border border-slate-800 shadow-sm relative overflow-hidden">
         {/* Subtle decorative security watermark */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
@@ -77,17 +77,17 @@ export const UserProfileView: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h4 className="text-xs font-black tracking-wider text-amber-300 uppercase">
+              <h4 className="text-xs font-semibold tracking-wider text-amber-300 uppercase">
                 University of Allahabad
               </h4>
-              <p className="text-[10px] text-slate-300">
+              <p className="text-[11px] text-slate-300">
                 Institute of Professional Studies (IPS)
               </p>
             </div>
           </div>
 
-          <span className="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-            Official ID
+          <span className="text-[11px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            Demo profile
           </span>
         </div>
 
@@ -97,7 +97,7 @@ export const UserProfileView: React.FC = () => {
             <img
               src={currentUser?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'}
               alt={currentUser?.name || 'User'}
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-amber-400/60 shadow-xl"
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-amber-400/60 shadow-sm"
             />
             <button
               onClick={() => setIsEditModalOpen(true)}
@@ -110,7 +110,7 @@ export const UserProfileView: React.FC = () => {
 
           <div className="space-y-1.5 text-center sm:text-left flex-1 min-w-0">
             <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-              <h2 className="text-lg sm:text-xl font-black text-white leading-tight">
+              <h2 className="text-lg sm:text-xl font-semibold text-white leading-tight">
                 {currentUser?.name}
               </h2>
               <RoleBadge role={role} size="sm" />
@@ -136,9 +136,9 @@ export const UserProfileView: React.FC = () => {
         </div>
 
         {/* Card Footer: Decorative Barcode / Verification strip */}
-        <div className="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between text-[10px] text-slate-400 font-mono relative z-10">
+        <div className="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 font-mono relative z-10">
           <span>CAMPUSONE-IPS-UOA-2026</span>
-          <span className="text-amber-400 font-bold">DIGITAL IDENTITY VERIFIED ✓</span>
+          <span className="text-amber-400 font-bold">SAMPLE PROFILE · NOT AN ID</span>
         </div>
       </div>
 
@@ -153,7 +153,7 @@ export const UserProfileView: React.FC = () => {
             <Bookmark className="w-4 h-4 fill-amber-500" />
           </div>
           <div>
-            <span className="text-lg font-black text-slate-900 block leading-tight">
+            <span className="text-lg font-semibold text-slate-900 block leading-tight">
               {bookmarks.length}
             </span>
             <span className="text-[11px] font-medium text-slate-500">Saved Circulars</span>
@@ -169,7 +169,7 @@ export const UserProfileView: React.FC = () => {
             <Ticket className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-lg font-black text-slate-900 block leading-tight">
+            <span className="text-lg font-semibold text-slate-900 block leading-tight">
               {registrations.length}
             </span>
             <span className="text-[11px] font-medium text-slate-500">Event Passes</span>
@@ -201,7 +201,7 @@ export const UserProfileView: React.FC = () => {
             <GraduationCap className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-lg font-black text-slate-900 block leading-tight">
+            <span className="text-lg font-semibold text-slate-900 block leading-tight">
               {studentExams.length}
             </span>
             <span className="text-[11px] font-medium text-slate-500">Scheduled Exams</span>
@@ -219,7 +219,7 @@ export const UserProfileView: React.FC = () => {
           <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
             <div className="flex items-center gap-2.5">
               <Mail className="w-4 h-4 text-indigo-600" />
-              <span>Official Institutional Email</span>
+              <span>Profile email</span>
             </div>
             <span className="font-semibold text-slate-900">{currentUser?.email}</span>
           </div>

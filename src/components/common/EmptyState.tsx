@@ -51,7 +51,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           style={{ backgroundColor: '#0a1628' }}
         >
           <span>{actionText}</span>
-          <span style={{ color: '#f59e0b' }} className="font-black">→</span>
+          <span style={{ color: '#f59e0b' }} className="font-semibold">→</span>
         </button>
       )}
     </div>

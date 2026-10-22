@@ -46,7 +46,7 @@ export const CampusGuideView: React.FC = () => {
             <MapPin className="w-5 h-5 text-amber-600" />
           </span>
           <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
               Campus Facilities & Infrastructure
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
@@ -142,7 +142,7 @@ export const CampusGuideView: React.FC = () => {
                   {facility.features.map((feat, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-semibold border border-emerald-200/70"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200/70"
                     >
                       <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                       <span>{feat}</span>

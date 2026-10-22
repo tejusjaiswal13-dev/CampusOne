@@ -35,7 +35,7 @@ export const DepartmentDirectoryView: React.FC = () => {
             <Building2 className="w-5 h-5" />
           </span>
           <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
               IPS Centers & Departments
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
@@ -54,7 +54,7 @@ export const DepartmentDirectoryView: React.FC = () => {
               setInternalSelected(dept);
               setSelectedDepartment(dept);
             }}
-            className="group bg-white rounded-3xl border border-slate-200 overflow-hidden hover:border-slate-300 hover:shadow-xl transition-all duration-200 cursor-pointer flex flex-col justify-between"
+            className="group bg-white rounded-3xl border border-slate-200 overflow-hidden hover:border-slate-300 hover:shadow-sm transition-all duration-200 cursor-pointer flex flex-col justify-between"
           >
             {/* Banner preview */}
             <div className="relative h-44 w-full bg-slate-900 overflow-hidden">
@@ -66,13 +66,13 @@ export const DepartmentDirectoryView: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
 
               <div className="absolute top-3 left-3">
-                <span className="px-3 py-1 rounded-md bg-amber-400 text-slate-950 font-black text-xs">
+                <span className="px-3 py-1 rounded-md bg-amber-400 text-slate-950 font-semibold text-xs">
                   {dept.code}
                 </span>
               </div>
 
               <div className="absolute bottom-3 left-3 right-3 text-white">
-                <h3 className="text-lg font-black leading-tight">
+                <h3 className="text-lg font-semibold leading-tight">
                   {dept.fullName}
                 </h3>
                 <p className="text-xs text-slate-300 flex items-center gap-1 mt-0.5">
@@ -91,11 +91,11 @@ export const DepartmentDirectoryView: React.FC = () => {
               {/* HOD & metrics */}
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-[10px] text-slate-400 uppercase font-semibold block">HOD</span>
+                  <span className="text-[11px] text-slate-400 uppercase font-semibold block">HOD</span>
                   <span className="font-bold text-slate-800">{dept.hodName}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-400 uppercase font-semibold block">Students</span>
+                  <span className="text-[11px] text-slate-400 uppercase font-semibold block">Students</span>
                   <span className="font-bold text-blue-900">{dept.studentCount}+ enrolled</span>
                 </div>
               </div>
@@ -105,7 +105,7 @@ export const DepartmentDirectoryView: React.FC = () => {
                 {dept.courses.map(c => (
                   <span
                     key={c.id}
-                    className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold"
+                    className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-mono font-bold"
                   >
                     {c.code}
                   </span>

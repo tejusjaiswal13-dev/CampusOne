@@ -54,12 +54,12 @@ export const DepartmentDetailView: React.FC<DepartmentDetailViewProps> = ({ depa
 
         <div className="absolute bottom-5 left-5 right-5 text-white">
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-3 py-1 rounded-md bg-amber-400 text-slate-950 font-black text-xs">
+            <span className="px-3 py-1 rounded-md bg-amber-400 text-slate-950 font-semibold text-xs">
               {department.code}
             </span>
             <span className="text-xs text-slate-300 font-medium">Center of Excellence</span>
           </div>
-          <h1 className="text-xl sm:text-3xl font-black leading-tight">
+          <h1 className="text-xl sm:text-3xl font-semibold leading-tight">
             {department.fullName}
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 mt-1 flex items-center gap-1.5">
@@ -104,19 +104,19 @@ export const DepartmentDetailView: React.FC<DepartmentDetailViewProps> = ({ depa
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-3">
               <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-center">
-                <span className="text-xl sm:text-2xl font-black text-blue-900 block">
+                <span className="text-xl sm:text-2xl font-semibold text-blue-900 block">
                   {department.studentCount}+
                 </span>
                 <span className="text-[11px] font-semibold text-slate-500">Enrolled Students</span>
               </div>
               <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-center">
-                <span className="text-xl sm:text-2xl font-black text-purple-900 block">
+                <span className="text-xl sm:text-2xl font-semibold text-purple-900 block">
                   {department.facultyCount}
                 </span>
                 <span className="text-[11px] font-semibold text-slate-500">Distinguished Faculty</span>
               </div>
               <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-center col-span-2 sm:col-span-1">
-                <span className="text-xl sm:text-2xl font-black text-emerald-900 block">
+                <span className="text-xl sm:text-2xl font-semibold text-emerald-900 block">
                   {department.courses.length}
                 </span>
                 <span className="text-[11px] font-semibold text-slate-500">Academic Programs</span>
@@ -252,7 +252,7 @@ export const DepartmentDetailView: React.FC<DepartmentDetailViewProps> = ({ depa
                 className="p-4 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors cursor-pointer flex items-center justify-between shadow-2xs"
               >
                 <div>
-                  <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-900 font-bold text-[10px] uppercase">
+                  <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-900 font-bold text-[11px] uppercase">
                     {notice.category}
                   </span>
                   <h4 className="text-sm font-bold text-slate-900 mt-1">{notice.title}</h4>
@@ -278,7 +278,7 @@ export const DepartmentDetailView: React.FC<DepartmentDetailViewProps> = ({ depa
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-blue-900 uppercase tracking-wider">
+                  <span className="text-[11px] font-bold text-blue-900 uppercase tracking-wider">
                     {res.category}
                   </span>
                   <h4 className="text-sm font-bold text-slate-900">{res.title}</h4>

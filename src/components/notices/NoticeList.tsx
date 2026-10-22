@@ -102,7 +102,7 @@ export const NoticeList: React.FC = () => {
               <span className="p-2 rounded-xl" style={{ backgroundColor: '#eef2f8', color: '#0a1628' }}>
                 <BellRing className="w-5 h-5" />
               </span>
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
                 Campus Notices & Circulars
               </h1>
             </div>

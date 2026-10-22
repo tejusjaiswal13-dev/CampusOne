@@ -27,7 +27,7 @@ export const Toast: React.FC = () => {
   return (
     <div className="fixed bottom-20 md:bottom-8 right-4 md:right-8 z-50 max-w-sm w-full animate-bounce-short">
       <div
-        className={`flex items-center justify-between p-3.5 rounded-xl shadow-xl border backdrop-blur-md ${config.bg}`}
+        className={`flex items-center justify-between p-3.5 rounded-xl shadow-sm border backdrop-blur-md ${config.bg}`}
       >
         <div className="flex items-center gap-3">
           {config.icon}

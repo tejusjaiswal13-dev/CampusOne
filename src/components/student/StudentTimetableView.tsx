@@ -51,7 +51,7 @@ export const StudentTimetableView: React.FC = () => {
             <Calendar className="w-4 h-4" />
             <span>Academic Routine • {currentUser?.departmentCode || 'CCET'}</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
             {currentUser?.course || 'BCA'} Semester {currentUser?.semester || 5} Timetable
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -92,7 +92,7 @@ export const StudentTimetableView: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span
-                    className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded text-white"
+                    className="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded text-white"
                     style={{
                       backgroundColor: alert.noticeType === 'CLASS_CANCELLED' ? '#ff6b6b' : '#f59e0b'
                     }}
@@ -278,7 +278,7 @@ export const StudentTimetableView: React.FC = () => {
                       <span className="text-[11px] font-bold text-slate-900 block leading-tight">
                         {item.timeDisplay.split(' - ')[0]}
                       </span>
-                      <span className="text-[10px] text-slate-400 block mt-0.5">
+                      <span className="text-[11px] text-slate-400 block mt-0.5">
                         {item.timeDisplay.split(' - ')[1]}
                       </span>
                     </div>
@@ -289,7 +289,7 @@ export const StudentTimetableView: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-slate-900 text-sm">{item.subjectName}</span>
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                             isLab
                               ? 'bg-purple-100 text-purple-700'
                               : 'bg-indigo-100 text-indigo-700'

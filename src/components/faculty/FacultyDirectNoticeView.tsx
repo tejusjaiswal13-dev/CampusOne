@@ -106,16 +106,16 @@ export const FacultyDirectNoticeView: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-8 text-left max-w-3xl mx-auto">
       {/* Header bar */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-md">
+      <div className="co-surface-banner text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-md">
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="p-1 rounded-md bg-amber-400 text-slate-950 font-black text-xs">
+          <span className="p-1 rounded-md bg-amber-400 text-slate-950 font-semibold text-xs">
             DIRECT
           </span>
           <span className="text-xs font-bold text-amber-300">
             Faculty-to-Class Broadcast
           </span>
         </div>
-        <h1 className="text-xl sm:text-2xl font-black text-white">
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">
           Direct Class Communication
         </h1>
         <p className="text-xs text-slate-300 mt-1 max-w-xl">
@@ -156,17 +156,17 @@ export const FacultyDirectNoticeView: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-black text-xs text-indigo-950">
+                    <span className="font-semibold text-xs text-indigo-950">
                       {cls.course} • Semester {cls.semester}
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                    <span className="text-[11px] font-mono font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
                       {cls.studentCount} Students
                     </span>
                   </div>
                   <h4 className="text-xs font-bold text-slate-800 line-clamp-1 mt-1">
                     {cls.subjectName}
                   </h4>
-                  <p className="text-[10px] text-slate-500 mt-0.5">
+                  <p className="text-[11px] text-slate-500 mt-0.5">
                     {cls.subjectCode} • {cls.room}
                   </p>
                 </div>
@@ -261,14 +261,14 @@ export const FacultyDirectNoticeView: React.FC = () => {
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-indigo-900 text-white">
+                    <span className="text-[11px] font-semibold uppercase px-2 py-0.5 rounded bg-indigo-900 text-white">
                       {cn.course} Sem {cn.semester}
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                    <span className="text-[11px] font-mono font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
                       {cn.subjectCode}
                     </span>
                   </div>
-                  <span className="text-[10px] text-slate-400 font-mono">
+                  <span className="text-[11px] text-slate-400 font-mono">
                     {new Date(cn.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(cn.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                   </span>
                 </div>

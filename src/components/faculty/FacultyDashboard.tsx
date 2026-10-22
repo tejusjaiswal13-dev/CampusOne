@@ -87,7 +87,7 @@ export const FacultyDashboard: React.FC = () => {
                 Faculty Academic Portal
               </span>
             </div>
-            <h1 className="text-xl sm:text-3xl font-black tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-semibold tracking-tight">
               Welcome, {currentUser?.name}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 mt-1">
@@ -116,23 +116,23 @@ export const FacultyDashboard: React.FC = () => {
         {/* Stats strip */}
         <div className="mt-6 pt-5 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Submissions</span>
-            <span className="text-xl font-black text-white">{myNotices.length + myEvents.length}</span>
+            <span className="text-[11px] uppercase font-bold text-slate-400 block">Total Submissions</span>
+            <span className="text-xl font-semibold text-white">{myNotices.length + myEvents.length}</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-amber-300 block">Pending HOD Review</span>
-            <span className="text-xl font-black text-amber-400">{pendingNoticesCount}</span>
+            <span className="text-[11px] uppercase font-bold text-amber-300 block">Pending HOD Review</span>
+            <span className="text-xl font-semibold text-amber-400">{pendingNoticesCount}</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-emerald-300 block">Approved & Published</span>
-            <span className="text-xl font-black text-emerald-400">{approvedNoticesCount}</span>
+            <span className="text-[11px] uppercase font-bold text-emerald-300 block">Approved & Published</span>
+            <span className="text-xl font-semibold text-emerald-400">{approvedNoticesCount}</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-purple-300 block">Event Attendees</span>
-            <span className="text-xl font-black text-purple-300">{myEventRegistrations.length}</span>
+            <span className="text-[11px] uppercase font-bold text-purple-300 block">Event Attendees</span>
+            <span className="text-xl font-semibold text-purple-300">{myEventRegistrations.length}</span>
           </div>
         </div>
       </div>
@@ -186,7 +186,7 @@ export const FacultyDashboard: React.FC = () => {
                   >
                     <div className="space-y-1 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-900">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-blue-900">
                           {notice.category}
                         </span>
                         <span className="text-[11px] text-slate-400">
@@ -231,7 +231,7 @@ export const FacultyDashboard: React.FC = () => {
                   >
                     <div className="space-y-1 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-900">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-900">
                           {event.category}
                         </span>
                         <span className="text-[11px] text-slate-400">
@@ -277,7 +277,7 @@ export const FacultyDashboard: React.FC = () => {
                       Event: {reg.eventTitle}
                     </p>
                   </div>
-                  <span className="font-mono text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                  <span className="font-mono text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
                     {reg.ticketCode}
                   </span>
                 </div>

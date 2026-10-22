@@ -133,7 +133,7 @@ export const RoleSwitcherDrawer: React.FC = () => {
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span className="font-bold text-sm text-slate-900">{p.name}</span>
                       <RoleBadge role={p.role} size="sm" />
-                      <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded-md bg-slate-200 text-slate-700">
+                      <span className="px-2 py-0.5 text-[11px] font-mono font-bold rounded-md bg-slate-200 text-slate-700">
                         {p.deptCode}
                       </span>
                     </div>

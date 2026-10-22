@@ -102,7 +102,7 @@ export const CollegeAdminDashboard: React.FC = () => {
                 Central College Directorate
               </span>
             </div>
-            <h1 className="text-xl sm:text-3xl font-black tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-semibold tracking-tight">
               IPS UOA Administration
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 mt-1">
@@ -131,28 +131,28 @@ export const CollegeAdminDashboard: React.FC = () => {
         {/* Institution-Wide KPIs */}
         <div className="mt-6 pt-5 border-t border-white/10 grid grid-cols-2 sm:grid-cols-5 gap-3 text-left">
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Students</span>
-            <span className="text-xl font-black text-white">{totalStudentsCount}+</span>
+            <span className="text-[11px] uppercase font-bold text-slate-400 block">Total Students</span>
+            <span className="text-xl font-semibold text-white">{totalStudentsCount}+</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Faculty</span>
-            <span className="text-xl font-black text-white">{totalFacultyCount} Members</span>
+            <span className="text-[11px] uppercase font-bold text-slate-400 block">Total Faculty</span>
+            <span className="text-xl font-semibold text-white">{totalFacultyCount} Members</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">IPS Centers</span>
-            <span className="text-xl font-black text-amber-400">{totalDepartmentsCount} Centers</span>
+            <span className="text-[11px] uppercase font-bold text-slate-400 block">IPS Centers</span>
+            <span className="text-xl font-semibold text-amber-400">{totalDepartmentsCount} Centers</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-emerald-300 block">Active Notices</span>
-            <span className="text-xl font-black text-emerald-400">{activeNoticesCount}</span>
+            <span className="text-[11px] uppercase font-bold text-emerald-300 block">Active Notices</span>
+            <span className="text-xl font-semibold text-emerald-400">{activeNoticesCount}</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10 col-span-2 sm:col-span-1">
-            <span className="text-[10px] uppercase font-bold text-blue-300 block">Active Events</span>
-            <span className="text-xl font-black text-blue-300">{activeEventsCount}</span>
+            <span className="text-[11px] uppercase font-bold text-blue-300 block">Active Events</span>
+            <span className="text-xl font-semibold text-blue-300">{activeEventsCount}</span>
           </div>
         </div>
       </div>
@@ -296,7 +296,7 @@ export const CollegeAdminDashboard: React.FC = () => {
             {departments.map(d => (
               <div key={d.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/60 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded-md bg-amber-400 text-slate-950 font-black text-[11px]">
+                  <span className="px-2 py-0.5 rounded-md bg-amber-400 text-slate-950 font-semibold text-[11px]">
                     {d.code}
                   </span>
                   <span className="font-semibold text-slate-500">{d.location.split(',')[0]}</span>
@@ -334,7 +334,7 @@ export const CollegeAdminDashboard: React.FC = () => {
               <div key={n.id} className="py-3 flex items-center justify-between gap-3 text-xs">
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.2 rounded text-[10px] font-bold bg-slate-100">
+                    <span className="px-2 py-0.2 rounded text-[11px] font-bold bg-slate-100">
                       {n.scope === 'COLLEGE' ? 'College' : `${n.departmentCode} Dept`}
                     </span>
                     <span className="text-slate-400 text-[11px]">{n.publishedAt.slice(0, 10)}</span>
@@ -415,7 +415,7 @@ export const CollegeAdminDashboard: React.FC = () => {
                 <div>
                   <span className="font-mono text-slate-400 text-[11px] mr-2">{c.startDate}</span>
                   <span className="font-bold text-slate-900">{c.title}</span>
-                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded ml-2">
+                  <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded ml-2">
                     {c.category}
                   </span>
                 </div>

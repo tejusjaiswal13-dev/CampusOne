@@ -77,14 +77,14 @@ export const DeptAdminDashboard: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="p-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs">
+              <span className="p-2 rounded-xl bg-amber-400 text-slate-950 font-semibold text-xs">
                 {deptCode}
               </span>
               <span className="text-xs font-bold uppercase tracking-widest text-amber-300">
                 Head of Department (HOD) Administrative Desk
               </span>
             </div>
-            <h1 className="text-xl sm:text-3xl font-black tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-semibold tracking-tight">
               {currentUser?.name}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 mt-1">
@@ -113,30 +113,30 @@ export const DeptAdminDashboard: React.FC = () => {
         {/* Overview KPI Cards */}
         <div className="mt-6 pt-5 border-t border-white/10 grid grid-cols-2 sm:grid-cols-5 gap-3 text-left">
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Students</span>
-            <span className="text-xl font-black text-white">420+</span>
+            <span className="text-[11px] uppercase font-bold text-slate-400 block">Total Students</span>
+            <span className="text-xl font-semibold text-white">420+</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Dept Faculty</span>
-            <span className="text-xl font-black text-white">{deptFaculty.length} Active</span>
+            <span className="text-[11px] uppercase font-bold text-slate-400 block">Dept Faculty</span>
+            <span className="text-xl font-semibold text-white">{deptFaculty.length} Active</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-amber-300 block">Pending Approvals</span>
-            <span className="text-xl font-black text-amber-400">
+            <span className="text-[11px] uppercase font-bold text-amber-300 block">Pending Approvals</span>
+            <span className="text-xl font-semibold text-amber-400">
               {pendingNotices.length + pendingEvents.length}
             </span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[10px] uppercase font-bold text-emerald-300 block">Active Notices</span>
-            <span className="text-xl font-black text-emerald-400">{deptNotices.length}</span>
+            <span className="text-[11px] uppercase font-bold text-emerald-300 block">Active Notices</span>
+            <span className="text-xl font-semibold text-emerald-400">{deptNotices.length}</span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10 col-span-2 sm:col-span-1">
-            <span className="text-[10px] uppercase font-bold text-blue-300 block">Event Registrations</span>
-            <span className="text-xl font-black text-blue-300">{totalRegistrations}</span>
+            <span className="text-[11px] uppercase font-bold text-blue-300 block">Event Registrations</span>
+            <span className="text-xl font-semibold text-blue-300">{totalRegistrations}</span>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@ export const DeptAdminDashboard: React.FC = () => {
                   >
                     <div className="space-y-1.5 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-blue-900 text-white text-[10px] font-bold uppercase">
+                        <span className="px-2 py-0.5 rounded bg-blue-900 text-white text-[11px] font-bold uppercase">
                           Notice Proposal
                         </span>
                         <span className="text-xs text-slate-500">
@@ -280,7 +280,7 @@ export const DeptAdminDashboard: React.FC = () => {
                   >
                     <div className="space-y-1.5 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] font-bold uppercase">
+                        <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[11px] font-bold uppercase">
                           Event Proposal
                         </span>
                         <span className="text-xs text-slate-500">
@@ -430,19 +430,19 @@ export const DeptAdminDashboard: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs text-center">
             <Eye className="w-8 h-8 text-blue-900 mx-auto mb-2" />
-            <span className="text-2xl font-black text-slate-900 block">{totalViews}</span>
+            <span className="text-2xl font-semibold text-slate-900 block">{totalViews}</span>
             <span className="text-xs font-semibold text-slate-500">Total Notice Impressions</span>
           </div>
 
           <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs text-center">
             <Users className="w-8 h-8 text-amber-500 mx-auto mb-2" />
-            <span className="text-2xl font-black text-slate-900 block">{totalRegistrations}</span>
+            <span className="text-2xl font-semibold text-slate-900 block">{totalRegistrations}</span>
             <span className="text-xs font-semibold text-slate-500">Event Registrations</span>
           </div>
 
           <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs text-center">
             <ShieldCheck className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-            <span className="text-2xl font-black text-slate-900 block">100%</span>
+            <span className="text-2xl font-semibold text-slate-900 block">100%</span>
             <span className="text-xs font-semibold text-slate-500">Official Endorsement Rate</span>
           </div>
         </div>

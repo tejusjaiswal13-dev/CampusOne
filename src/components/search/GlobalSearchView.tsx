@@ -105,7 +105,7 @@ export const GlobalSearchView: React.FC = () => {
       {/* Search Input Card */}
       <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200 shadow-xs space-y-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">
             Universal Campus Search
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
@@ -267,7 +267,7 @@ export const GlobalSearchView: React.FC = () => {
                       className="p-3 rounded-xl border border-slate-100 hover:border-slate-300 hover:bg-slate-50 transition-all cursor-pointer flex items-center justify-between"
                     >
                       <div>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-900 mr-2">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-blue-900 mr-2">
                           {notice.category}
                         </span>
                         <h4 className="text-xs font-bold text-slate-900 inline">{notice.title}</h4>
@@ -297,7 +297,7 @@ export const GlobalSearchView: React.FC = () => {
                       className="p-3 rounded-xl border border-slate-100 hover:border-slate-300 hover:bg-slate-50 transition-all cursor-pointer flex items-center justify-between"
                     >
                       <div>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-900 mr-2">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-900 mr-2">
                           {event.category}
                         </span>
                         <h4 className="text-xs font-bold text-slate-900 inline">{event.title}</h4>
@@ -332,7 +332,7 @@ export const GlobalSearchView: React.FC = () => {
                       <div className="min-w-0">
                         <h4 className="text-xs font-bold text-slate-900 truncate">{f.name}</h4>
                         <p className="text-[11px] text-blue-900 font-semibold">{f.designation} ({f.departmentCode})</p>
-                        <p className="text-[10px] text-slate-500 truncate">{f.specialization}</p>
+                        <p className="text-[11px] text-slate-500 truncate">{f.specialization}</p>
                       </div>
                     </div>
                   ))}
@@ -388,7 +388,7 @@ export const GlobalSearchView: React.FC = () => {
                       className="p-3 rounded-xl border border-slate-100 hover:border-slate-300 hover:bg-slate-50 transition-all cursor-pointer flex items-center justify-between"
                     >
                       <div>
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 mr-2">
+                        <span className="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-100 mr-2">
                           {ex.subjectCode}
                         </span>
                         <h4 className="text-xs font-bold text-slate-900 inline">{ex.subjectName}</h4>

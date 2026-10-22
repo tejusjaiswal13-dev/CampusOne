@@ -108,7 +108,7 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
               <div className="w-6 h-6 rounded-lg bg-blue-900 flex items-center justify-center p-1">
                 <Globe className="w-full h-full text-amber-400" />
               </div>
-              <span className="text-xs font-black tracking-widest text-blue-950 uppercase">
+              <span className="text-xs font-semibold tracking-widest text-blue-950 uppercase">
                 University of Allahabad
               </span>
             </div>

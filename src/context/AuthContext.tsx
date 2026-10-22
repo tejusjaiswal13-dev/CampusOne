@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     StorageService.init();
     const currentId = StorageService.getCurrentUserId();
-    const user = StorageService.getUserById(currentId) || StorageService.getUsers()[0];
+    const user = currentId ? StorageService.getUserById(currentId) : undefined;
     if (user) {
       setCurrentUser(user);
       StorageService.setCurrentUserId(user.id);
@@ -48,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    StorageService.clearCurrentUser();
     setCurrentUser(null);
   };
 
