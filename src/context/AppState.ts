@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import type { User } from "../types";
 import {
   AcademicCalendarItem,
   BookmarkItem,
@@ -15,6 +16,11 @@ import {
 } from "../types";
 
 interface AppContextType {
+  users: User[];
+  manageUserRole: (id: string, role: User["role"]) => Promise<boolean>;
+  approveAccount: (id: string, approve: boolean) => Promise<boolean>;
+  saveCalendar: (item: AcademicCalendarItem) => Promise<boolean>;
+  deleteNotice: (id: string) => Promise<boolean>;
   // Navigation & View
   currentTab: string;
   setCurrentTab: (tab: string) => void;
@@ -62,12 +68,12 @@ interface AppContextType {
   };
 
   // Actions
-  refreshAllData: () => void;
-  handleRegisterEvent: (event: CampusEvent) => {
+  refreshAllData: () => Promise<void>;
+  handleRegisterEvent: (event: CampusEvent) => Promise<{
     success: boolean;
     registration?: EventRegistration;
     error?: string;
-  };
+  }>;
   handleToggleBookmark: (item: {
     itemType: "NOTICE" | "EVENT" | "CAREER" | "RESOURCE";
     itemId: string;
@@ -75,14 +81,14 @@ interface AppContextType {
     subtitle: string;
     category: string;
     date: string;
-  }) => boolean;
+  }) => Promise<boolean>;
   isItemBookmarked: (itemId: string) => boolean;
   handleApproveNotice: (id: string) => void;
   handleRejectNotice: (id: string, reason: string) => void;
   handleApproveEvent: (id: string) => void;
   handleRejectEvent: (id: string, reason: string) => void;
-  handleCreateNotice: (noticeData: Partial<Notice>) => void;
-  handleCreateEvent: (eventData: Partial<CampusEvent>) => void;
+  handleCreateNotice: (noticeData: Partial<Notice>) => Promise<boolean>;
+  handleCreateEvent: (eventData: Partial<CampusEvent>) => Promise<boolean>;
   handleSendClassNotice: (
     noticeData: Omit<DirectClassNotice, "id" | "createdAt" | "readByUserIds">,
   ) => void;

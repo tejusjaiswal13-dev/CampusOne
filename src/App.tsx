@@ -2,12 +2,14 @@ import React, { Suspense, lazy } from "react";
 import { BottomNav } from "./components/common/BottomNav";
 import { DesktopSidebar } from "./components/common/DesktopSidebar";
 import { Header } from "./components/common/Header";
+import { RoleGuard } from "./components/common/RoleGuard";
 import { Toast } from "./components/common/Toast";
 import { ExploreView } from "./components/explore/ExploreView";
 import { AppProvider } from "./context/AppContext";
 import { useApp } from "./context/AppState";
 import { AuthProvider } from "./context/AuthContext";
 import { useAuth } from "./context/AuthState";
+import { demoEnabled } from "./services/api";
 
 import { EventList } from "./components/events/EventList";
 import { NoticeList } from "./components/notices/NoticeList";
@@ -104,9 +106,10 @@ import { NotificationCenterModal } from "./components/notifications/Notification
 
 const AppContent: React.FC = () => {
   const { currentTab, deviceMode, setDeviceMode } = useApp();
-  const { isAuthenticated, role, currentUser } = useAuth();
+  const { isAuthenticated, role, currentUser, ready, mode } = useAuth();
 
   const renderActiveView = () => {
+    if (!ready) return <div role="status">Connecting to campus…</div>;
     if (!isAuthenticated) {
       if (currentTab === "register") return <RegisterView />;
       if (currentTab === "forgot-password") return <ForgotPasswordView />;
@@ -211,7 +214,12 @@ const AppContent: React.FC = () => {
                   </div>
                 }
               >
-                {renderActiveView()}
+                <RoleGuard
+                  role={role}
+                  tab={isAuthenticated ? currentTab : "auth"}
+                >
+                  {renderActiveView()}
+                </RoleGuard>
               </Suspense>
             </main>
             {isAuthenticated && <BottomNav />}
@@ -219,7 +227,7 @@ const AppContent: React.FC = () => {
         </div>
 
         {/* Global Modals */}
-        <RoleSwitcherDrawer />
+        {demoEnabled && mode === "demo" && <RoleSwitcherDrawer />}
         <NotificationCenterModal />
         <CampusAIAssistantModal key={currentUser?.id} />
         <CreateNoticeModal />
@@ -247,7 +255,9 @@ const AppContent: React.FC = () => {
               </div>
             }
           >
-            {renderActiveView()}
+            <RoleGuard role={role} tab={isAuthenticated ? currentTab : "auth"}>
+              {renderActiveView()}
+            </RoleGuard>
           </Suspense>
         </main>
       </div>
@@ -256,7 +266,7 @@ const AppContent: React.FC = () => {
       {isAuthenticated && <BottomNav />}
 
       {/* Global Interactive Modals */}
-      <RoleSwitcherDrawer />
+      {demoEnabled && mode === "demo" && <RoleSwitcherDrawer />}
       <NotificationCenterModal />
       <CampusAIAssistantModal key={currentUser?.id} />
       <CreateNoticeModal />
@@ -266,12 +276,18 @@ const AppContent: React.FC = () => {
   );
 };
 
+function AuthenticatedApp() {
+  const { currentUser, mode } = useAuth();
+  return (
+    <AppProvider key={`${mode}:${currentUser?.id || "guest"}`}>
+      <AppContent />
+    </AppProvider>
+  );
+}
 export default function App() {
   return (
     <AuthProvider>
-      <AppProvider>
-        <AppContent />
-      </AppProvider>
+      <AuthenticatedApp />
     </AuthProvider>
   );
 }

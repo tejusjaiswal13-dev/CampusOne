@@ -23,11 +23,11 @@ export const CreateNoticeModal: React.FC = () => {
 
   const isFaculty = role === "FACULTY";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) return;
 
-    handleCreateNotice({
+    const saved = await handleCreateNotice({
       title,
       description,
       category,
@@ -37,6 +37,7 @@ export const CreateNoticeModal: React.FC = () => {
       attachmentName,
     });
 
+    if (!saved) return;
     setIsCreateNoticeOpen(false);
     setTitle("");
     setDescription("");

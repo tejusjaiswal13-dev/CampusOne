@@ -2,13 +2,17 @@ import { PlusCircle, ShieldCheck, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { useApp } from "../../context/AppState";
 import { useAuth } from "../../context/AuthState";
-import { StorageService } from "../../services/storageService";
 import { UserRole } from "../../types";
 import { RoleBadge } from "../common/RoleBadge";
 
 export const CollegeAdminDashboard: React.FC = () => {
   const { currentUser } = useAuth();
   const {
+    users: userList,
+    manageUserRole,
+    approveAccount,
+    saveCalendar,
+    deleteNotice,
     departments,
     notices,
     events,
@@ -24,7 +28,6 @@ export const CollegeAdminDashboard: React.FC = () => {
   >("OVERVIEW");
 
   // Users management
-  const [userList, setUserList] = useState(StorageService.getUsers());
 
   // New calendar event state
   const [newCalTitle, setNewCalTitle] = useState("");
@@ -34,8 +37,10 @@ export const CollegeAdminDashboard: React.FC = () => {
   const [newCalDate, setNewCalDate] = useState("2026-11-01");
 
   // Metrics
-  const totalStudentsCount = 1250;
-  const totalFacultyCount = 49;
+  const totalStudentsCount = userList.filter(
+    (u) => u.role === "STUDENT",
+  ).length;
+  const totalFacultyCount = userList.filter((u) => u.role === "FACULTY").length;
   const totalDepartmentsCount = departments.length;
   const activeEventsCount = events.filter(
     (e) => e.status === "APPROVED",
@@ -44,21 +49,15 @@ export const CollegeAdminDashboard: React.FC = () => {
     (n) => n.status === "APPROVED",
   ).length;
 
-  const handleRoleChange = (userId: string, newRole: UserRole) => {
-    const user = userList.find((u) => u.id === userId);
-    if (!user) return;
-    const updated = { ...user, role: newRole };
-    StorageService.saveUser(updated);
-    setUserList(StorageService.getUsers());
-    refreshAllData();
-    showToast(`Role updated for ${user.name} to ${newRole}`, "success");
+  const handleRoleChange = async (userId: string, newRole: UserRole) => {
+    await manageUserRole(userId, newRole);
   };
 
-  const handleAddCalendarEntry = (e: React.FormEvent) => {
+  const handleAddCalendarEntry = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newCalTitle.trim()) return;
 
-    StorageService.saveCalendarItem({
+    const saved = await saveCalendar({
       id: `cal-${Date.now()}`,
       title: newCalTitle,
       category: newCalCategory,
@@ -69,18 +68,28 @@ export const CollegeAdminDashboard: React.FC = () => {
     });
 
     refreshAllData();
+    if (!saved) return;
     setNewCalTitle("");
     showToast("New date added to central Academic Calendar! 📅", "success");
   };
 
-  const handleDeleteNotice = (id: string) => {
-    StorageService.deleteNotice(id);
-    refreshAllData();
-    showToast("Notice removed from campus system.", "info");
-  };
+  const handleDeleteNotice = deleteNotice;
 
   return (
     <div className="space-y-6 pb-16 md:pb-8 text-left">
+      {userList
+        .filter((u) => u.accountStatus === "PENDING")
+        .map((u) => (
+          <div key={u.id} className="p-4 bg-white rounded-xl">
+            Pending faculty: {u.name} · {u.departmentCode}
+            <button onClick={() => approveAccount(u.id, true)} className="p-3">
+              Approve
+            </button>
+            <button onClick={() => approveAccount(u.id, false)} className="p-3">
+              Reject
+            </button>
+          </div>
+        ))}
       {/* Super Admin Banner */}
       <div
         className="text-white rounded-2xl p-5 sm:p-6 shadow-sm"

@@ -20,7 +20,7 @@ import { useAuth } from "../../context/AuthState";
 import { RoleBadge } from "../common/RoleBadge";
 
 export const UserProfileView: React.FC = () => {
-  const { currentUser, role, logout, updateProfile } = useAuth();
+  const { currentUser, role, logout, updateProfile, mode } = useAuth();
   const {
     setCurrentTab,
     setIsNotificationCenterOpen,
@@ -38,12 +38,20 @@ export const UserProfileView: React.FC = () => {
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
 
-  const handleSaveProfile = () => {
-    updateProfile({
-      name: editName,
-      phone: editPhone,
-      semester: Number(editSemester),
-    });
+  const handleSaveProfile = async () => {
+    try {
+      await updateProfile({
+        name: editName,
+        phone: editPhone,
+        semester: Number(editSemester),
+      });
+    } catch (error) {
+      showToast(
+        error instanceof Error ? error.message : "Profile update failed",
+        "error",
+      );
+      return;
+    }
     setIsEditModalOpen(false);
     showToast("Student credentials updated successfully! ✨", "success");
   };
@@ -287,6 +295,7 @@ export const UserProfileView: React.FC = () => {
         </button>
 
         <button
+          hidden={mode !== "demo"}
           onClick={() => setIsRoleSwitcherOpen(true)}
           className="w-full flex items-center justify-between p-3.5 hover:bg-amber-50 rounded-2xl transition-colors cursor-pointer text-amber-900"
         >

@@ -39,8 +39,8 @@ export const EventRegisterModal: React.FC<EventRegisterModalProps> = ({
 
   const currentRegistration = completedReg || existingReg;
 
-  const handleConfirmRegistration = () => {
-    const res = handleRegisterEvent(event);
+  const handleConfirmRegistration = async () => {
+    const res = await handleRegisterEvent(event);
     if (res.success && res.registration) {
       setCompletedReg(res.registration);
     }

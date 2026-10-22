@@ -18,6 +18,8 @@ import { useAuth } from "../../context/AuthState";
 export const DeptAdminDashboard: React.FC = () => {
   const { currentUser } = useAuth();
   const {
+    users,
+    approveAccount,
     notices,
     events,
     faculty,
@@ -74,6 +76,19 @@ export const DeptAdminDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-16 md:pb-8 text-left">
+      {users
+        .filter((u) => u.accountStatus === "PENDING")
+        .map((u) => (
+          <div key={u.id} className="p-4 bg-white rounded-xl">
+            Pending faculty: {u.name}
+            <button onClick={() => approveAccount(u.id, true)} className="p-3">
+              Approve
+            </button>
+            <button onClick={() => approveAccount(u.id, false)} className="p-3">
+              Reject
+            </button>
+          </div>
+        ))}
       {/* HOD Hero Banner */}
       <div
         className="text-white rounded-2xl p-5 sm:p-6 shadow-sm"

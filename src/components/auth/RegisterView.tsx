@@ -8,6 +8,8 @@ export const RegisterView: React.FC = () => {
   const { register } = useAuth();
   const { setCurrentTab, departments, showToast } = useApp();
 
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [studentId, setStudentId] = useState("");
@@ -20,11 +22,13 @@ export const RegisterView: React.FC = () => {
   const [phone, setPhone] = useState("+91 ");
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    const res = register({
+    setBusy(true);
+    const res = await register({
+      password,
       name,
       email,
       studentOrEmpId: studentId,
@@ -35,6 +39,13 @@ export const RegisterView: React.FC = () => {
       phone,
     });
 
+    setBusy(false);
+    if (res.pending) {
+      setError(
+        "Faculty account submitted. Wait for department approval before signing in.",
+      );
+      return;
+    }
     if (res.success) {
       showToast("Account setup complete! Welcome to IPS UOA 🎉", "success");
       setCurrentTab("home");
@@ -68,6 +79,20 @@ export const RegisterView: React.FC = () => {
           onSubmit={handleSubmit}
           className="p-6 sm:p-7 space-y-3.5 text-xs"
         >
+          <label>
+            Password (12–72 characters)
+            <input
+              aria-label="New password"
+              type="password"
+              minLength={12}
+              maxLength={72}
+              required
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 border rounded-xl"
+            />
+          </label>
           {error && (
             <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-semibold">
               {error}
@@ -206,6 +231,7 @@ export const RegisterView: React.FC = () => {
 
           <button
             type="submit"
+            disabled={busy}
             className="w-full py-3 bg-blue-900 hover:bg-blue-800 text-white rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer"
           >
             Complete Registration & Enter Campus

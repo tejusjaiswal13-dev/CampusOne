@@ -166,7 +166,7 @@ const MOCK_MCA_STUDENTS: RosterStudent[] = [
 ];
 
 export const FacultyStudentRosterView: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, mode } = useAuth();
   const { setCurrentTab, showToast } = useApp();
   const assignedClasses: FacultyClassAssignment[] =
     currentUser?.assignedClasses || [];
@@ -191,7 +191,11 @@ export const FacultyStudentRosterView: React.FC = () => {
     };
 
   const rawStudents =
-    activeClass.course === "MCA" ? MOCK_MCA_STUDENTS : MOCK_BCA_STUDENTS;
+    mode === "demo"
+      ? activeClass.course === "MCA"
+        ? MOCK_MCA_STUDENTS
+        : MOCK_BCA_STUDENTS
+      : [];
 
   const filteredStudents = rawStudents.filter((student) => {
     const matchesSearch =
@@ -220,6 +224,11 @@ export const FacultyStudentRosterView: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-12">
+      <p className="text-xs text-slate-500">
+        {mode === "demo"
+          ? "Sample roster and attendance for evaluation only."
+          : "Live attendance records are not collected by CampusOne."}
+      </p>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
         <div>

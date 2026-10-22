@@ -27,11 +27,11 @@ export const CreateEventModal: React.FC = () => {
 
   const isFaculty = role === "FACULTY";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) return;
 
-    handleCreateEvent({
+    const saved = await handleCreateEvent({
       title,
       description,
       category,
@@ -46,6 +46,7 @@ export const CreateEventModal: React.FC = () => {
       organizer: `${currentUser?.departmentCode || "IPS"} Department`,
     });
 
+    if (!saved) return;
     setIsCreateEventOpen(false);
     setTitle("");
     setDescription("");

@@ -1,7 +1,9 @@
 import confetti from "canvas-confetti";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useCampusNavigation } from "../hooks/useCampusNavigation";
+import { api, ApiError } from "../services/api";
 import { StorageService } from "../services/storageService";
+import type { User } from "../types";
 import {
   AcademicCalendarItem,
   BookmarkItem,
@@ -23,7 +25,10 @@ import { AppContext } from "./AppState";
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { currentUser, role } = useAuth();
+  const { currentUser, role, mode, enterDemo } = useAuth();
+  const [users, setUsers] = useState<User[]>(
+    mode === "demo" ? StorageService.getUsers : [],
+  );
 
   const { currentTab, setCurrentTab } = useCampusNavigation();
   const [deviceMode, setDeviceMode] = useState<"fluid" | "mobile-frame">(
@@ -31,36 +36,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const [departments, setDepartments] = useState<Department[]>(
-    StorageService.getDepartments,
+    mode === "demo" ? StorageService.getDepartments : [],
   );
-  const [notices, setNotices] = useState<Notice[]>(StorageService.getNotices);
-  const [events, setEvents] = useState<CampusEvent[]>(StorageService.getEvents);
+  const [notices, setNotices] = useState<Notice[]>(
+    mode === "demo" ? StorageService.getNotices : [],
+  );
+  const [events, setEvents] = useState<CampusEvent[]>(
+    mode === "demo" ? StorageService.getEvents : [],
+  );
   const [exams, setExams] = useState<ExamScheduleItem[]>(
-    StorageService.getExams,
+    mode === "demo" ? StorageService.getExams : [],
   );
   const [career, setCareer] = useState<CareerOpportunity[]>(
-    StorageService.getCareerOpportunities,
+    mode === "demo" ? StorageService.getCareerOpportunities : [],
   );
   const [calendar, setCalendar] = useState<AcademicCalendarItem[]>(
-    StorageService.getCalendar,
+    mode === "demo" ? StorageService.getCalendar : [],
   );
   const [faculty, setFaculty] = useState<FacultyMember[]>(
-    StorageService.getFaculty,
+    mode === "demo" ? StorageService.getFaculty : [],
   );
   const [facilities, setFacilities] = useState<CampusFacility[]>(
-    StorageService.getFacilities,
+    mode === "demo" ? StorageService.getFacilities : [],
   );
   const [notifications, setNotifications] = useState<InAppNotification[]>(
-    StorageService.getNotifications,
+    mode === "demo" ? StorageService.getNotifications : [],
   );
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>(
-    StorageService.getBookmarks,
+    mode === "demo" ? StorageService.getBookmarks : [],
   );
   const [registrations, setRegistrations] = useState<EventRegistration[]>(
-    StorageService.getRegistrations,
+    mode === "demo" ? StorageService.getRegistrations : [],
   );
   const [classNotices, setClassNotices] = useState<DirectClassNotice[]>(
-    StorageService.getClassNotices,
+    mode === "demo" ? StorageService.getClassNotices : [],
   );
 
   // Modals state
@@ -98,7 +107,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     setToastType(null);
   };
 
-  const refreshAllData = useCallback(() => {
+  const loadOnline = useCallback(() => {
+    if(!currentUser) return api<Department[]>('/departments').then(setDepartments).catch(()=>{});
+    return api<{departments:Department[];users:User[];notices:Notice[];events:CampusEvent[];exams:ExamScheduleItem[];career:CareerOpportunity[];calendar:AcademicCalendarItem[];faculty:FacultyMember[];facilities:CampusFacility[];notifications:InAppNotification[];bookmarks:BookmarkItem[];registrations:EventRegistration[];class_notices:DirectClassNotice[]}>('/bootstrap').then(data=>{
+      setDepartments(data.departments);setUsers(data.users);setNotices(data.notices);setEvents(data.events);setExams(data.exams);setCareer(data.career);setCalendar(data.calendar);setFaculty(data.faculty);setFacilities(data.facilities);setNotifications(data.notifications);setBookmarks(data.bookmarks);setRegistrations(data.registrations);setClassNotices(data.class_notices);
+    }).catch(error=>{
+      showToast(error instanceof Error?error.message:'Unable to load campus data','error');
+      if(error instanceof ApiError&&error.status===0)enterDemo();
+    });
+  },[currentUser,enterDemo]);
+  const refreshAllData = useCallback(async () => {
+    if (mode === "online") {
+      await loadOnline();
+      return;
+    }
+    setUsers(StorageService.getUsers());
     setDepartments(StorageService.getDepartments());
     setNotices(StorageService.getNotices());
     setEvents(StorageService.getEvents());
@@ -111,8 +134,49 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     setBookmarks(StorageService.getBookmarks());
     setRegistrations(StorageService.getRegistrations());
     setClassNotices(StorageService.getClassNotices());
-  }, []);
-
+  }, [mode, loadOnline]);
+  useEffect(() => {
+    if (mode === "online") void loadOnline();
+  }, [mode, loadOnline]);
+  async function mutate(path: string, method: string, body: unknown) {
+    try {
+      await api(path, method, body);
+      await refreshAllData();
+      showToast("Changes saved.");
+      return true;
+    } catch (error) {
+      showToast(
+        error instanceof Error ? error.message : "Operation failed",
+        "error",
+      );
+      return false;
+    }
+  }
+  const manageUserRole = async (id: string, role: User["role"]) => {
+    if (mode === "online")
+      return mutate("/users/" + id + "/role", "PATCH", { role });
+    const u = StorageService.getUserById(id);
+    if (u) StorageService.saveUser({ ...u, role });
+    await refreshAllData();
+    return true;
+  };
+  const approveAccount = (id: string, approve: boolean) =>
+    mutate("/users/" + id + "/approval", "POST", { approve });
+  const saveCalendar = async (item: AcademicCalendarItem) => {
+    if (mode === "online") {
+      const { id: _id, ...body } = item;
+      return mutate("/calendar", "POST", body);
+    }
+    StorageService.saveCalendarItem(item);
+    await refreshAllData();
+    return true;
+  };
+  const deleteNotice = async (id: string) => {
+    if (mode === "online") return mutate("/notices/" + id, "DELETE", {});
+    StorageService.deleteNotice(id);
+    await refreshAllData();
+    return true;
+  };
   // Department-Aware notice filtering:
   // A student sees: All APPROVED College Notices + APPROVED notices from THEIR Department
   const getStudentNotices = useCallback(() => {
@@ -191,12 +255,29 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   // Actions
-  const handleRegisterEvent = (event: CampusEvent) => {
+  const handleRegisterEvent = async (event: CampusEvent) => {
     if (!currentUser) {
       showToast("Please log in to register for events.", "error");
       return { success: false, error: "User not logged in" };
     }
 
+    if (mode === "online") {
+      try {
+        const registration = await api<EventRegistration>(
+          "/events/" + event.id + "/register",
+          "POST",
+          {},
+        );
+        await refreshAllData();
+        showToast("Registration confirmed.");
+        return { success: true, registration };
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Registration failed";
+        showToast(message, "error");
+        return { success: false, error: message };
+      }
+    }
     const now = new Date();
     const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     if (
@@ -239,19 +320,36 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     return { success: false, error: "Registration failed" };
   };
 
-  const handleToggleBookmark = (item: {
+  const handleToggleBookmark = async (item: {
     itemType: "NOTICE" | "EVENT" | "CAREER" | "RESOURCE";
     itemId: string;
     title: string;
     subtitle: string;
     category: string;
     date: string;
-  }): boolean => {
+  }): Promise<boolean> => {
     if (!currentUser) {
       showToast("Please log in to save bookmarks.", "info");
       return false;
     }
 
+    if (mode === "online") {
+      try {
+        const result = await api<{ saved: boolean }>(
+          "/bookmarks/toggle",
+          "POST",
+          { itemId: item.itemId, itemType: item.itemType },
+        );
+        await refreshAllData();
+        return result.saved;
+      } catch (error) {
+        showToast(
+          error instanceof Error ? error.message : "Unable to save",
+          "error",
+        );
+        return false;
+      }
+    }
     const newBookmark: BookmarkItem = {
       id: `bm-${Date.now()}`,
       userId: currentUser.id,
@@ -277,35 +375,63 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const isItemBookmarked = (itemId: string): boolean => {
     if (!currentUser) return false;
-    return StorageService.isBookmarked(currentUser.id, itemId);
+    return bookmarks.some(
+      (b) => b.userId === currentUser.id && b.itemId === itemId,
+    );
   };
 
-  const handleApproveNotice = (id: string) => {
+  const handleApproveNotice = async (id: string) => {
+    if (mode === "online") {
+      await mutate("/notices/" + id + "/approval", "POST", {
+        status: "APPROVED",
+      });
+      return;
+    }
     StorageService.approveNotice(id);
     refreshAllData();
     showToast("Notice approved and published live!", "success");
   };
 
-  const handleRejectNotice = (id: string, reason: string) => {
+  const handleRejectNotice = async (id: string, reason: string) => {
+    if (mode === "online") {
+      await mutate("/notices/" + id + "/approval", "POST", {
+        status: "REJECTED",
+        reason,
+      });
+      return;
+    }
     StorageService.rejectNotice(id, reason);
     refreshAllData();
     showToast("Notice has been rejected with feedback.", "info");
   };
 
-  const handleApproveEvent = (id: string) => {
+  const handleApproveEvent = async (id: string) => {
+    if (mode === "online") {
+      await mutate("/events/" + id + "/approval", "POST", {
+        status: "APPROVED",
+      });
+      return;
+    }
     StorageService.approveEvent(id);
     refreshAllData();
     showToast("Event approved and open for registration!", "success");
   };
 
-  const handleRejectEvent = (id: string, reason: string) => {
+  const handleRejectEvent = async (id: string, reason: string) => {
+    if (mode === "online") {
+      await mutate("/events/" + id + "/approval", "POST", {
+        status: "REJECTED",
+        reason,
+      });
+      return;
+    }
     StorageService.rejectEvent(id, reason);
     refreshAllData();
     showToast("Event has been returned with feedback.", "info");
   };
 
-  const handleCreateNotice = (noticeData: Partial<Notice>) => {
-    if (!currentUser) return;
+  const handleCreateNotice = async (noticeData: Partial<Notice>) => {
+    if (!currentUser) return false;
 
     const isDirectApproved =
       currentUser.role === "COLLEGE_ADMIN" ||
@@ -332,13 +458,33 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       status: isDirectApproved ? "APPROVED" : "PENDING_APPROVAL",
       isUrgent: !!noticeData.isUrgent,
       publishedAt: new Date().toISOString(),
-      deadline: noticeData.deadline,
+      deadline: noticeData.deadline || undefined,
       attachmentName: noticeData.attachmentName || "Official_Document.pdf",
       attachmentSize: "450 KB",
       attachmentUrl: "#",
       viewsCount: 1,
     };
 
+    if (mode === "online") {
+      const {
+        title,
+        description,
+        category,
+        scope,
+        departmentCode,
+        isUrgent,
+        deadline,
+      } = newNotice;
+      return mutate("/notices", "POST", {
+        title,
+        description,
+        category,
+        scope,
+        departmentCode,
+        isUrgent,
+        deadline,
+      });
+    }
     StorageService.saveNotice(newNotice);
     refreshAllData();
     showToast(
@@ -347,10 +493,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         : "Notice submitted for departmental approval.",
       "success",
     );
+    return true;
   };
 
-  const handleCreateEvent = (eventData: Partial<CampusEvent>) => {
-    if (!currentUser) return;
+  const handleCreateEvent = async (eventData: Partial<CampusEvent>) => {
+    if (!currentUser) return false;
 
     const isDirectApproved =
       currentUser.role === "COLLEGE_ADMIN" ||
@@ -390,6 +537,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       createdAt: new Date().toISOString(),
     };
 
+    if (mode === "online") {
+      const {
+        title,
+        description,
+        category,
+        scope,
+        departmentCode,
+        date,
+        time,
+        venue,
+        organizer,
+        speaker,
+        speakerDesignation,
+        totalSeats,
+        registrationDeadline,
+      } = newEvent;
+      return mutate("/events", "POST", {
+        title,
+        description,
+        category,
+        scope,
+        departmentCode,
+        date,
+        time,
+        venue,
+        organizer,
+        speaker,
+        speakerDesignation,
+        totalSeats,
+        registrationDeadline,
+      });
+    }
     StorageService.saveEvent(newEvent);
     refreshAllData();
     showToast(
@@ -398,9 +577,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         : "Event proposal submitted for approval.",
       "success",
     );
+    return true;
   };
 
-  const handleSendClassNotice = (
+  const handleSendClassNotice = async (
     noticeData: Omit<DirectClassNotice, "id" | "createdAt" | "readByUserIds">,
   ) => {
     const newNotice: DirectClassNotice = {
@@ -409,6 +589,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       createdAt: new Date().toISOString(),
       readByUserIds: [],
     };
+    if (mode === "online") {
+      const {
+        course,
+        semester,
+        subjectCode,
+        subjectName,
+        title,
+        message,
+        noticeType,
+      } = newNotice;
+      await mutate("/class_notices", "POST", {
+        course,
+        semester,
+        subjectCode,
+        subjectName,
+        title,
+        message,
+        noticeType,
+      });
+      return;
+    }
     StorageService.sendClassNotice(newNotice);
     refreshAllData();
     showToast(
@@ -417,8 +618,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   };
 
-  const handleMarkClassNoticeRead = (id: string) => {
+  const handleMarkClassNoticeRead = async (id: string) => {
     if (!currentUser) return;
+    if (mode === "online") {
+      await mutate("/class_notices/" + id + "/read", "POST", {});
+      return;
+    }
     StorageService.markClassNoticeRead(id, currentUser.id);
     refreshAllData();
   };
@@ -430,7 +635,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       : currentUser.course || "BCA";
     const semester = currentUser.semester || 5;
     return classNotices.filter(
-      (cn) => cn.course === course && cn.semester === semester,
+      (cn) =>
+        cn.departmentCode === currentUser.departmentCode &&
+        cn.course === course &&
+        cn.semester === semester,
     );
   }, [currentUser, role, classNotices]);
 
@@ -439,13 +647,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     return classNotices.filter((cn) => cn.facultyId === currentUser.id);
   }, [currentUser, role, classNotices]);
 
-  const markNotificationAsRead = (id: string) => {
+  const markNotificationAsRead = async (id: string) => {
+    if (mode === "online") {
+      await mutate("/notifications/read", "POST", { id });
+      return;
+    }
     StorageService.markNotificationRead(id);
     refreshAllData();
   };
 
-  const markAllNotificationsAsRead = () => {
+  const markAllNotificationsAsRead = async () => {
     if (!currentUser) return;
+    if (mode === "online") {
+      await mutate("/notifications/read", "POST", {});
+      return;
+    }
     StorageService.markAllNotificationsRead(currentUser.id);
     refreshAllData();
   };
@@ -461,6 +677,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         setCurrentTab,
         deviceMode,
         setDeviceMode,
+        users,
+        manageUserRole,
+        approveAccount,
+        saveCalendar,
+        deleteNotice,
         departments,
         notices,
         events,

@@ -3,7 +3,7 @@ import { useApp } from "../../context/AppState";
 import { useAuth } from "../../context/AuthState";
 
 export const Header = () => {
-  const { currentUser } = useAuth();
+  const { mode, reconnect, currentUser } = useAuth();
   const {
     setCurrentTab,
     unreadNotificationsCount,
@@ -40,12 +40,23 @@ export const Header = () => {
         <ArrowUpRight size={15} />
       </button>
       <div className="co-header-actions">
-        <button
-          className="co-demo-pill"
-          onClick={() => setIsRoleSwitcherOpen(true)}
-        >
-          Demo <span>· Switch profile</span>
-        </button>
+        {mode === "demo" && (
+          <button
+            onClick={() => reconnect().catch(() => {})}
+            title="Retry server connection"
+            className="text-xs px-2 py-1 bg-amber-50 rounded-lg"
+          >
+            Demo/offline mode
+          </button>
+        )}
+        {mode === "demo" && (
+          <button
+            className="co-demo-pill"
+            onClick={() => setIsRoleSwitcherOpen(true)}
+          >
+            Demo <span>· Switch profile</span>
+          </button>
+        )}
         {currentUser && (
           <>
             <button

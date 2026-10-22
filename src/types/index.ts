@@ -70,6 +70,7 @@ export interface DepartmentResource {
 }
 
 export interface User {
+  accountStatus?: "ACTIVE" | "PENDING" | "REJECTED";
   id: string;
   name: string;
   email: string;

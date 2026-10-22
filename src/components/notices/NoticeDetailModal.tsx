@@ -41,10 +41,10 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({
   };
 
   const handleDownload = () => {
-    showToast(
-      `Downloading ${notice.attachmentName || "Notice_Document.pdf"}...`,
-      "info",
-    );
+    if (notice.attachmentUrl?.startsWith("https://"))
+      window.open(notice.attachmentUrl, "_blank", "noopener,noreferrer");
+    else
+      showToast("This sample notice has no downloadable attachment.", "info");
   };
 
   const handlePrint = () => {

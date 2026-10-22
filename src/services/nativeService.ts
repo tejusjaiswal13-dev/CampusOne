@@ -47,15 +47,13 @@ export async function configureReminders(
   await LocalNotifications.cancel({ notifications: pending.notifications });
   if (entries.length)
     await LocalNotifications.schedule({
-      notifications: entries
-        .slice(0, 20)
-        .map((n, i) => ({
-          id: i + 1,
-          title: n.title,
-          body: n.body,
-          schedule: { at: n.at },
-          isExactNotification: false,
-        })),
+      notifications: entries.slice(0, 20).map((n, i) => ({
+        id: i + 1,
+        title: n.title,
+        body: n.body,
+        schedule: { at: n.at },
+        isExactNotification: false,
+      })),
     });
   localStorage.setItem(`campus-reminders:${userId}`, "true");
 }
