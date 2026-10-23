@@ -45,9 +45,17 @@ export const CareerPortalView: React.FC = () => {
 
   const handleConfirmApplication = () => {
     if (activeApplyModal) {
+      if (!activeApplyModal.applyUrl.startsWith("https://")) {
+        showToast(
+          "No application link is available. Contact your department.",
+          "info",
+        );
+        return;
+      }
+      window.open(activeApplyModal.applyUrl, "_blank", "noopener,noreferrer");
       setAppliedIds((prev) => [...prev, activeApplyModal.id]);
       showToast(
-        `Application submitted to ${activeApplyModal.company} for ${activeApplyModal.role}!`,
+        `Application page opened. Complete your application with ${activeApplyModal.company}.`,
         "success",
       );
       setActiveApplyModal(null);
@@ -224,7 +232,7 @@ export const CareerPortalView: React.FC = () => {
                 {isApplied ? (
                   <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-800 font-bold rounded-xl border border-emerald-200 text-xs">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Applied ✓</span>
+                    <span>Application link opened</span>
                   </span>
                 ) : (
                   <button
@@ -246,7 +254,7 @@ export const CareerPortalView: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in">
           <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4 text-left">
             <h3 className="text-base font-bold text-slate-900">
-              Submit Application to {activeApplyModal.company}
+              Open application page to {activeApplyModal.company}
             </h3>
 
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-1.5">

@@ -1,3 +1,4 @@
+import { exportText, csv } from "../../services/exportService";
 import {
   BellRing,
   Calendar,
@@ -55,8 +56,7 @@ export const StudentTimetableView: React.FC = () => {
     "Saturday",
   ];
 
-  const activeDaySchedule =
-    weekSchedule.find((s) => s.day === selectedDay) || weekSchedule[0];
+  const activeDaySchedule = weekSchedule.find((s) => s.day === selectedDay);
   const dayClasses = activeDaySchedule?.classes || [];
 
   const classAlerts = getStudentClassAlerts();
@@ -84,19 +84,32 @@ export const StudentTimetableView: React.FC = () => {
             Timetable
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Real-time daily lectures, labs, room venues, and direct faculty
-            notices.
+            Sample weekly lectures, labs and rooms, with direct faculty notices.
           </p>
         </div>
 
         <button
           onClick={() =>
-            showToast("Semester routine PDF downloaded successfully", "success")
+            void exportText(
+              "sample-timetable.csv",
+              csv([
+                ["Day", "Subject", "Time", "Room"],
+                ...weekSchedule.flatMap((d) =>
+                  d.classes.map((c) => [
+                    d.day,
+                    c.subjectName,
+                    c.timeDisplay,
+                    c.room,
+                  ]),
+                ),
+              ]),
+              "text/csv",
+            ).catch(() => showToast("Export unavailable", "error"))
           }
           className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors self-start sm:self-auto cursor-pointer"
         >
           <Download className="w-3.5 h-3.5" />
-          <span>Routine PDF</span>
+          <span>Routine CSV</span>
         </button>
       </div>
 

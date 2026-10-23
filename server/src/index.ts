@@ -1,5 +1,5 @@
-import { createProvider } from './ai/provider';
-import { mountAI } from './ai/routes';
+import { createProvider } from "./ai/provider";
+import { mountAI } from "./ai/routes";
 import "dotenv/config";
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
@@ -19,7 +19,7 @@ const server = createApp(store, {
   secret: process.env.JWT_SECRET || "",
   origins: process.env.CORS_ORIGINS?.split(","),
 });
-mountAI(server,createProvider());
+mountAI(server, createProvider());
 server
   .finish()
   .listen(Number(process.env.PORT || 3001), "0.0.0.0", () =>

@@ -1,3 +1,4 @@
+import { exportText, csv } from "../../services/exportService";
 import {
   AlertTriangle,
   BellRing,
@@ -71,7 +72,16 @@ export const DeptAdminDashboard: React.FC = () => {
   };
 
   const handleExportRoster = () => {
-    showToast(`Attendee roster for ${deptCode} exported to CSV! 📊`, "success");
+    void exportText(
+      "attendees.csv",
+      csv([
+        ["Name", "Event", "Ticket"],
+        ...registrations
+          .filter((r) => r.departmentCode === deptCode)
+          .map((r) => [r.studentName, r.eventTitle, r.ticketCode]),
+      ]),
+      "text/csv",
+    ).catch(() => showToast("Export unavailable", "error"));
   };
 
   return (
@@ -472,7 +482,7 @@ export const DeptAdminDashboard: React.FC = () => {
                 Student Registrations & Gate Roster
               </h2>
               <p className="text-xs text-slate-500">
-                Verified attendees for events hosted by {deptCode}
+                Registered attendees for events hosted by {deptCode}
               </p>
             </div>
             <button

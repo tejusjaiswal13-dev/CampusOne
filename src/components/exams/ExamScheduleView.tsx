@@ -1,3 +1,4 @@
+import { exportText, csv } from "../../services/exportService";
 import {
   AlertTriangle,
   Calendar,
@@ -34,10 +35,14 @@ export const ExamScheduleView: React.FC = () => {
   });
 
   const handleDownloadHallTicket = () => {
-    showToast(
-      `Admit Card / Hall Ticket for ${currentUser?.name || "Student"} generated successfully!`,
-      "success",
-    );
+    void exportText(
+      "exam-schedule.csv",
+      csv([
+        ["Subject", "Date", "Shift", "Room"],
+        ...filteredExams.map((e) => [e.subjectName, e.date, e.shift, e.room]),
+      ]),
+      "text/csv",
+    ).catch(() => showToast("Export unavailable", "error"));
   };
 
   return (
@@ -199,7 +204,7 @@ export const ExamScheduleView: React.FC = () => {
                 <div className="sm:text-right shrink-0">
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
                     <FileCheck className="w-3.5 h-3.5" />
-                    <span>Seating Verified</span>
+                    <span>Room listed</span>
                   </span>
                 </div>
               </div>

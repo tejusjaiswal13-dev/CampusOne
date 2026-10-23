@@ -41,7 +41,15 @@ export const Header = () => {
         <ArrowUpRight size={15} />
       </button>
       <div className="co-header-actions">
-        {currentUser && <button aria-label="Open Campus Assistant" className="co-icon-button" onClick={()=>setIsAIAssistantOpen(true)}>AI</button>}
+        {currentUser && (
+          <button
+            aria-label="Open Campus Assistant"
+            className="co-icon-button"
+            onClick={() => setIsAIAssistantOpen(true)}
+          >
+            AI
+          </button>
+        )}
         {mode === "demo" && (
           <button
             onClick={() => reconnect().catch(() => {})}

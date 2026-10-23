@@ -1,3 +1,4 @@
+import { Capacitor } from "@capacitor/core";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
@@ -6,8 +7,6 @@ import "./index.css";
 // Capacitor native plugin initialization
 async function initCapacitor() {
   try {
-    const { Capacitor } = await import("@capacitor/core");
-
     if (Capacitor.isNativePlatform()) {
       // Status bar configuration
       const { StatusBar } = await import("@capacitor/status-bar");

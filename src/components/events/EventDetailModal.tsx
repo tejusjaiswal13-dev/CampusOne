@@ -1,3 +1,4 @@
+import { Share } from "@capacitor/share";
 import {
   Bookmark,
   Building2,
@@ -42,14 +43,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
     event.registrationDeadline < today;
   const isBookmarked = isItemBookmarked(event.id);
 
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(
-        `${window.location.origin}/#event-${event.id}`,
-      );
-      showToast("Event link copied to clipboard! 📋", "success");
-    }
-  };
+  const handleShare = async () => { try { await Share.share({title:event.title,text:event.title + '\n' + event.description}); } catch { showToast("Sharing was cancelled or unavailable.", "error"); } };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/75 backdrop-blur-sm animate-fade-in">

@@ -1,3 +1,4 @@
+import { exportText } from "../../services/exportService";
 import {
   AlertCircle,
   Calendar,
@@ -47,7 +48,11 @@ export const EventRegisterModal: React.FC<EventRegisterModalProps> = ({
   };
 
   const handleDownloadTicket = () => {
-    showToast("Digital pass saved to device! 🎫", "success");
+    if (currentRegistration)
+      void exportText(
+        "campusone-registration.txt",
+        JSON.stringify(currentRegistration, null, 2),
+      ).catch(() => showToast("Export unavailable", "error"));
   };
 
   return (

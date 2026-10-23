@@ -1,4 +1,4 @@
-import { NoticeSummary } from '../ai/NoticeSummary';
+import { NoticeSummary } from "../ai/NoticeSummary";
 import {
   AlertCircle,
   Bookmark,
@@ -250,7 +250,7 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({
                   INSTITUTE OF PROFESSIONAL STUDIES • UNIVERSITY OF ALLAHABAD
                 </p>
                 <p>SUBJECT: {notice.title}</p>
-                <p>DOCUMENT STATUS: VERIFIED & SEALED BY COMPETENT AUTHORITY</p>
+                <p>CAMPUS RECORD · CONFIRM AUTHENTICITY WITH THE ISSUER</p>
               </div>
             </div>
           )}

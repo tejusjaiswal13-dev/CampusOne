@@ -294,8 +294,7 @@ export const UserProfileView: React.FC = () => {
           <ChevronRight className="w-4 h-4 text-slate-400" />
         </button>
 
-        <button
-          hidden={mode !== "demo"}
+        {mode === "demo" && <button
           onClick={() => setIsRoleSwitcherOpen(true)}
           className="w-full flex items-center justify-between p-3.5 hover:bg-amber-50 rounded-2xl transition-colors cursor-pointer text-amber-900"
         >
@@ -306,7 +305,7 @@ export const UserProfileView: React.FC = () => {
           <span className="text-amber-700 font-bold text-[11px] bg-amber-100 px-2 py-0.5 rounded-md">
             Evaluator Mode
           </span>
-        </button>
+        </button>}
 
         <button
           onClick={() => setShowHelpModal(true)}

@@ -21,7 +21,7 @@ import { NoticeDetailModal } from "../notices/NoticeDetailModal";
 import { SmartTimetableTracker } from "./SmartTimetableTracker";
 
 export const StudentHome = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, mode } = useAuth();
   const {
     setCurrentTab,
     getStudentNotices,
@@ -299,8 +299,10 @@ export const StudentHome = () => {
         </aside>
       </div>
       <p className="co-demo-footnote">
-        Demo workspace · Sample information is stored on this device. Confirm
-        official dates with your department.
+        {mode === "demo"
+          ? "Demo/offline mode · Sample data is stored on this device."
+          : "Connected to CampusOne · Seed records are sample information."}{" "}
+        Confirm official dates with your department.
       </p>
       <NoticeDetailModal
         notice={selectedNotice}

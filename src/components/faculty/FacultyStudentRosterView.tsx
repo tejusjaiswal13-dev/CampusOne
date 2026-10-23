@@ -249,7 +249,7 @@ export const FacultyStudentRosterView: React.FC = () => {
           <button
             onClick={() =>
               showToast(
-                "Class attendance roster exported as CSV report",
+                "Attendance export is unavailable; attendance is not collected by this system.",
                 "success",
               )
             }

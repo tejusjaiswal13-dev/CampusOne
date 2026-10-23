@@ -44,7 +44,10 @@ export const DepartmentDetailView: React.FC<DepartmentDetailViewProps> = ({
   );
 
   const handleDownloadResource = (resTitle: string) => {
-    showToast(`Downloading official syllabus document: ${resTitle}`, "info");
+    showToast(
+      `No verified download is supplied for ${resTitle}. Contact the department.`,
+      "info",
+    );
   };
 
   return (

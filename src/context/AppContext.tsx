@@ -108,14 +108,48 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const loadOnline = useCallback(() => {
-    if(!currentUser) return api<Department[]>('/departments').then(setDepartments).catch(()=>{});
-    return api<{departments:Department[];users:User[];notices:Notice[];events:CampusEvent[];exams:ExamScheduleItem[];career:CareerOpportunity[];calendar:AcademicCalendarItem[];faculty:FacultyMember[];facilities:CampusFacility[];notifications:InAppNotification[];bookmarks:BookmarkItem[];registrations:EventRegistration[];class_notices:DirectClassNotice[]}>('/bootstrap').then(data=>{
-      setDepartments(data.departments);setUsers(data.users);setNotices(data.notices);setEvents(data.events);setExams(data.exams);setCareer(data.career);setCalendar(data.calendar);setFaculty(data.faculty);setFacilities(data.facilities);setNotifications(data.notifications);setBookmarks(data.bookmarks);setRegistrations(data.registrations);setClassNotices(data.class_notices);
-    }).catch(error=>{
-      showToast(error instanceof Error?error.message:'Unable to load campus data','error');
-      if(error instanceof ApiError&&error.status===0)enterDemo();
-    });
-  },[currentUser,enterDemo]);
+    if (!currentUser)
+      return api<Department[]>("/departments")
+        .then(setDepartments)
+        .catch(() => {});
+    return api<{
+      departments: Department[];
+      users: User[];
+      notices: Notice[];
+      events: CampusEvent[];
+      exams: ExamScheduleItem[];
+      career: CareerOpportunity[];
+      calendar: AcademicCalendarItem[];
+      faculty: FacultyMember[];
+      facilities: CampusFacility[];
+      notifications: InAppNotification[];
+      bookmarks: BookmarkItem[];
+      registrations: EventRegistration[];
+      class_notices: DirectClassNotice[];
+    }>("/bootstrap")
+      .then((data) => {
+        setDepartments(data.departments);
+        setUsers(data.users);
+        setNotices(data.notices);
+        setEvents(data.events);
+        setExams(data.exams);
+        setCareer(data.career);
+        setCalendar(data.calendar);
+        setFaculty(data.faculty);
+        setFacilities(data.facilities);
+        setNotifications(data.notifications);
+        setBookmarks(data.bookmarks);
+        setRegistrations(data.registrations);
+        setClassNotices(data.class_notices);
+      })
+      .catch((error) => {
+        showToast(
+          error instanceof Error ? error.message : "Unable to load campus data",
+          "error",
+        );
+        if (error instanceof ApiError && error.status === 0) enterDemo();
+      });
+  }, [currentUser, enterDemo]);
   const refreshAllData = useCallback(async () => {
     if (mode === "online") {
       await loadOnline();

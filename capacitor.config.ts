@@ -27,6 +27,7 @@ const config: CapacitorConfig = {
     },
   },
   android: {
+    allowMixedContent: process.env.CAMPUS_ALLOW_HTTP === "true",
     buildOptions: {
       keystorePath: undefined,
       keystoreAlias: undefined,

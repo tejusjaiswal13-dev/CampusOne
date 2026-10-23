@@ -168,16 +168,14 @@ export function createApp(store: Store, options: ServerOptions) {
         .prepare("INSERT INTO accounts VALUES(?,?,?)")
         .run(user.id, hash, pending ? "PENDING" : "ACTIVE");
     })();
-    res
-      .status(201)
-      .json(
-        pending
-          ? {
-              pending: true,
-              message: "Faculty account requires department approval.",
-            }
-          : { user, token: issue(user) },
-      );
+    res.status(201).json(
+      pending
+        ? {
+            pending: true,
+            message: "Faculty account requires department approval.",
+          }
+        : { user, token: issue(user) },
+    );
   });
   app.use("/api", auth);
   app.get("/api/auth/me", (_req, res: AuthedResponse) =>
@@ -198,12 +196,10 @@ export function createApp(store: Store, options: ServerOptions) {
     switch (table) {
       case "users":
         return user.role === "COLLEGE_ADMIN"
-          ? store
-              .all<User>("users")
-              .map((u) => ({
-                ...u,
-                accountStatus: store.account(u.id)?.account_status,
-              }))
+          ? store.all<User>("users").map((u) => ({
+              ...u,
+              accountStatus: store.account(u.id)?.account_status,
+            }))
           : user.role === "DEPARTMENT_ADMIN"
             ? store
                 .all<User>("users")
@@ -646,20 +642,18 @@ export function createApp(store: Store, options: ServerOptions) {
       )
     )
       fail(403, "Class is not assigned to this faculty member");
-    res
-      .status(201)
-      .json(
-        store.put("class_notices", {
-          ...body,
-          id: randomUUID(),
-          facultyId: user.id,
-          facultyName: user.name,
-          facultyDesignation: user.designation || "Faculty",
-          departmentCode: user.departmentCode,
-          createdAt: new Date().toISOString(),
-          readByUserIds: [],
-        }),
-      );
+    res.status(201).json(
+      store.put("class_notices", {
+        ...body,
+        id: randomUUID(),
+        facultyId: user.id,
+        facultyName: user.name,
+        facultyDesignation: user.designation || "Faculty",
+        departmentCode: user.departmentCode,
+        createdAt: new Date().toISOString(),
+        readByUserIds: [],
+      }),
+    );
   });
   app.post("/api/class_notices/:id/read", (req, res: AuthedResponse) => {
     roles(res.locals.user, ["STUDENT"]);
@@ -762,15 +756,13 @@ export function createApp(store: Store, options: ServerOptions) {
     app.use(
       (error: unknown, _req: Request, res: Response, _next: NextFunction) => {
         if (error instanceof z.ZodError)
-          return res
-            .status(400)
-            .json({
-              error: "Invalid input",
-              issues: error.issues.map((i) => ({
-                path: i.path,
-                message: i.message,
-              })),
-            });
+          return res.status(400).json({
+            error: "Invalid input",
+            issues: error.issues.map((i) => ({
+              path: i.path,
+              message: i.message,
+            })),
+          });
         if (error instanceof HttpError)
           return res.status(error.status).json({ error: error.message });
         if (error instanceof SyntaxError)
