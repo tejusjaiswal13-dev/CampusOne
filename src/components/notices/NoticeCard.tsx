@@ -1,6 +1,6 @@
-import { Bookmark, ArrowUpRight, Pin, FileText } from "lucide-react";
+import { ArrowUpRight, Bookmark, FileText, Pin } from "lucide-react";
+import { useApp } from "../../context/AppState";
 import type { Notice } from "../../types";
-import { useApp } from "../../context/AppContext";
 interface NoticeCardProps {
   notice: Notice;
   onClick: () => void;

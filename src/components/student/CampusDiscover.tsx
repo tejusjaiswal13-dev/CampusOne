@@ -1,77 +1,78 @@
-import React from 'react';
-import { useApp } from '../../context/AppContext';
 import {
-  Flame,
-  Briefcase,
-  GraduationCap,
-  Trophy,
-  Sparkles,
-  ChevronRight,
   ArrowUpRight,
-  Calendar,
-  Users
-} from 'lucide-react';
+  Briefcase,
+  ChevronRight,
+  Flame,
+  GraduationCap,
+  Sparkles,
+  Trophy,
+} from "lucide-react";
+import React from "react";
+import { useApp } from "../../context/AppState";
 
 export const CampusDiscover: React.FC = () => {
-  const { setCurrentTab, setSelectedEvent, events } = useApp();
+  const { setCurrentTab } = useApp();
 
   const discoverCards = [
     {
-      id: 'disc-trending',
-      tag: '🔥 TRENDING NOW',
-      tagColor: 'bg-rose-500 text-white',
-      accentBorder: 'hover:border-rose-300',
-      title: 'Prayag Hacks 2026: 36-Hour National Student Hackathon',
-      subtitle: 'Build AI & Civic Solutions for smart urban governance.',
-      meta: 'Oct 14-16 • Senate Quadrangle',
-      stats: '₹1.5 Lakh Prize Pool',
-      targetTab: 'events',
+      id: "disc-trending",
+      tag: "🔥 TRENDING NOW",
+      tagColor: "bg-rose-500 text-white",
+      accentBorder: "hover:border-rose-300",
+      title: "Prayag Hacks 2026: 36-Hour National Student Hackathon",
+      subtitle: "Build AI & Civic Solutions for smart urban governance.",
+      meta: "Oct 14-16 • Senate Quadrangle",
+      stats: "₹1.5 Lakh Prize Pool",
+      targetTab: "events",
       icon: Flame,
-      iconBg: 'bg-rose-50 text-rose-600',
-      actionText: 'Explore Hackathon'
+      iconBg: "bg-rose-50 text-rose-600",
+      actionText: "Explore Hackathon",
     },
     {
-      id: 'disc-career',
-      tag: '💼 CAREER OPPORTUNITY',
-      tagColor: 'bg-emerald-600 text-white',
-      accentBorder: 'hover:border-emerald-300',
-      title: 'TCS Digital & Tata Elxsi Campus Placement Drive',
-      subtitle: 'Software Engineer & Associate Consultant roles open for BCA & MCA.',
-      meta: 'Package: ₹7.5 - ₹9.0 LPA',
-      stats: 'Applications Close Oct 05',
-      targetTab: 'career',
+      id: "disc-career",
+      tag: "💼 CAREER OPPORTUNITY",
+      tagColor: "bg-emerald-600 text-white",
+      accentBorder: "hover:border-emerald-300",
+      title: "TCS Digital & Tata Elxsi Campus Placement Drive",
+      subtitle:
+        "Software Engineer & Associate Consultant roles open for BCA & MCA.",
+      meta: "Package: ₹7.5 - ₹9.0 LPA",
+      stats: "Applications Close Oct 05",
+      targetTab: "career",
       icon: Briefcase,
-      iconBg: 'bg-emerald-50 text-emerald-700',
-      actionText: 'View Details & Apply'
+      iconBg: "bg-emerald-50 text-emerald-700",
+      actionText: "View Details & Apply",
     },
     {
-      id: 'disc-learning',
-      tag: '🎓 HANDS-ON LEARNING',
-      tagColor: 'bg-indigo-600 text-white',
-      accentBorder: 'hover:border-indigo-300',
-      title: 'Advanced Generative AI & LLM Fine-Tuning Bootcamp',
-      subtitle: '3-Day practical lab series hosted by Google Developer Student Club.',
-      meta: 'Computer Complex Lab 3',
-      stats: 'Free Official Certificate',
-      targetTab: 'events',
+      id: "disc-learning",
+      tag: "🎓 HANDS-ON LEARNING",
+      tagColor: "bg-indigo-600 text-white",
+      accentBorder: "hover:border-indigo-300",
+      title: "Advanced Generative AI & LLM Fine-Tuning Bootcamp",
+      subtitle:
+        "3-Day practical lab series hosted by Google Developer Student Club.",
+      meta: "Computer Complex Lab 3",
+      stats: "Free Official Certificate",
+      targetTab: "events",
       icon: GraduationCap,
-      iconBg: 'bg-indigo-50 text-indigo-700',
-      actionText: 'Reserve Student Pass'
+      iconBg: "bg-indigo-50 text-indigo-700",
+      actionText: "Reserve Student Pass",
     },
     {
-      id: 'disc-competition',
-      tag: '🏆 STUDENT CONTEST',
-      tagColor: 'bg-amber-500 text-slate-950',
-      accentBorder: 'hover:border-amber-300',
-      title: 'Inter-Department Annual Tech Quiz & Coding League',
-      subtitle: 'Compete across algorithmic challenges, web design, and UI UX sprints.',
-      meta: 'Organized by CCET & CFT',
-      stats: 'Trophy & Merit Badges',
-      targetTab: 'events',
+      id: "disc-competition",
+      tag: "🏆 STUDENT CONTEST",
+      tagColor: "bg-amber-500 text-slate-950",
+      accentBorder: "hover:border-amber-300",
+      title: "Inter-Department Annual Tech Quiz & Coding League",
+      subtitle:
+        "Compete across algorithmic challenges, web design, and UI UX sprints.",
+      meta: "Organized by CCET & CFT",
+      stats: "Trophy & Merit Badges",
+      targetTab: "events",
       icon: Trophy,
-      iconBg: 'bg-amber-50 text-amber-800',
-      actionText: 'Join Leaderboard'
-    }
+      iconBg: "bg-amber-50 text-amber-800",
+      actionText: "Join Leaderboard",
+    },
   ];
 
   return (
@@ -92,13 +93,14 @@ export const CampusDiscover: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-slate-500">
-              Hand-picked opportunities, hackathons, and high-impact campus initiatives
+              Hand-picked opportunities, hackathons, and high-impact campus
+              initiatives
             </p>
           </div>
         </div>
 
         <button
-          onClick={() => setCurrentTab('events')}
+          onClick={() => setCurrentTab("events")}
           className="text-xs font-bold text-blue-900 hover:underline flex items-center gap-1 cursor-pointer"
         >
           <span>All Highlights</span>
@@ -108,7 +110,7 @@ export const CampusDiscover: React.FC = () => {
 
       {/* Grid of 4 Curated Discover Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-        {discoverCards.map(card => {
+        {discoverCards.map((card) => {
           const Icon = card.icon;
           return (
             <div
@@ -141,7 +143,9 @@ export const CampusDiscover: React.FC = () => {
 
               <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
                 <div className="space-y-0.5">
-                  <span className="font-semibold text-slate-700 block">{card.meta}</span>
+                  <span className="font-semibold text-slate-700 block">
+                    {card.meta}
+                  </span>
                   <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded">
                     {card.stats}
                   </span>

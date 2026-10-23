@@ -1,0 +1,11 @@
+# Five-minute viva demonstration
+
+Preparation: start API and Vite with .env configured, seeded sample password CampusOne-Demo-2026!, demo fallback enabled. Explain that seed information is illustrative. If no AI key is configured, say that live inference is not being demonstrated; show the mocked test results and graceful fallback.
+
+1. **0:00–1:00 Student:** sign in as aarav.sharma@ips.allduniv.ac.in. Open notices, search, save a notice, reload and show persistence. Try `#/users`: Not authorised. Explain that the API separately returns 403 even if the UI is bypassed.
+2. **1:00–2:00 Faculty:** sign out; sign in as pradeep.kumar@ips.allduniv.ac.in. Create a department circular with actual demo facts. If AI configured, put rough points in Draft with AI, inspect/edit generated text and submit. Show PENDING_APPROVAL. If not configured, enter manually and explain the visible error.
+3. **2:00–3:00 HOD:** sign in as hod.ccet@allduniv.ac.in; review the circular and approve/reject. Explain own-department-only enforcement and pending faculty account approval. Log back in as student to show approved content.
+4. **3:00–4:00 College admin:** sign in as admin.director@ips.allduniv.ac.in. Show users and calendar, create a clearly labelled demonstration calendar item. Explain that only this role can assign roles and edit college calendar entries. Do not change the last administrator or present seeded counts as institutional totals.
+5. **4:00–5:00 Assistant and reliability:** return to student, open AI, ask about an examination notice. With configured provider, inspect source chips; without it, point out Basic mode and retry. Ask “What is the capital of Mars?” to show a grounded no-answer. Show tests for two students competing for the last seat. Stop the API and reload to show Demo/offline mode; restart API and click the badge to reconnect and sign in.
+
+End by naming limitations: hybrid Android app, sample data, no email recovery/SSO, sample timetable, no live attendance/RFID, no remote push, device/provider tests still required. Candidate Tejus Jaiswal / IPS2023-BCA-042 has not been changed; the seeded Aarav record uses the same roll identifier and must not be presented as a second real person's record.

@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { useAuth } from '../../context/AuthContext';
+import { exportText, csv } from "../../services/exportService";
 import {
-  GraduationCap,
+  AlertTriangle,
   Calendar,
   Clock,
-  MapPin,
-  FileCheck,
-  AlertTriangle,
   Download,
-  Info
-} from 'lucide-react';
+  FileCheck,
+  GraduationCap,
+  Info,
+  MapPin,
+} from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 
 export const ExamScheduleView: React.FC = () => {
   const { exams, notices, setSelectedNotice, showToast } = useApp();
   const { currentUser } = useAuth();
 
-  const [selectedCourse, setSelectedCourse] = useState<string>(currentUser?.course?.includes('BCA') ? 'BCA' : currentUser?.course?.includes('MCA') ? 'MCA' : 'BCA');
-  const [selectedSemester, setSelectedSemester] = useState<number>(currentUser?.semester || 4);
+  const [selectedCourse, setSelectedCourse] = useState<string>(
+    currentUser?.course?.includes("BCA")
+      ? "BCA"
+      : currentUser?.course?.includes("MCA")
+        ? "MCA"
+        : "BCA",
+  );
+  const [selectedSemester, setSelectedSemester] = useState<number>(
+    currentUser?.semester || 4,
+  );
 
-  const examNotices = notices.filter(n => n.category === 'Examination');
+  const examNotices = notices.filter((n) => n.category === "Examination");
 
-  const filteredExams = exams.filter(ex => {
+  const filteredExams = exams.filter((ex) => {
     return ex.course === selectedCourse && ex.semester === selectedSemester;
   });
 
   const handleDownloadHallTicket = () => {
-    showToast(`Admit Card / Hall Ticket for ${currentUser?.name || 'Student'} generated successfully!`, 'success');
+    void exportText(
+      "exam-schedule.csv",
+      csv([
+        ["Subject", "Date", "Shift", "Room"],
+        ...filteredExams.map((e) => [e.subjectName, e.date, e.shift, e.room]),
+      ]),
+      "text/csv",
+    ).catch(() => showToast("Export unavailable", "error"));
   };
 
   return (
@@ -44,7 +60,8 @@ export const ExamScheduleView: React.FC = () => {
               </h1>
             </div>
             <p className="text-xs sm:text-sm text-slate-300">
-              Odd Semester Sessional Assessment & End-Term Examination Schedule (2026-27).
+              Odd Semester Sessional Assessment & End-Term Examination Schedule
+              (2026-27).
             </p>
           </div>
 
@@ -65,10 +82,12 @@ export const ExamScheduleView: React.FC = () => {
             </label>
             <select
               value={selectedCourse}
-              onChange={e => setSelectedCourse(e.target.value)}
+              onChange={(e) => setSelectedCourse(e.target.value)}
               className="w-full py-2 px-3 bg-slate-800/90 border border-slate-700 rounded-xl text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
             >
-              <option value="BCA">Bachelor of Computer Applications (BCA)</option>
+              <option value="BCA">
+                Bachelor of Computer Applications (BCA)
+              </option>
               <option value="MCA">Master of Computer Applications (MCA)</option>
               <option value="B.Sc FT">B.Sc Food Technology (CFT)</option>
             </select>
@@ -80,7 +99,7 @@ export const ExamScheduleView: React.FC = () => {
             </label>
             <select
               value={selectedSemester}
-              onChange={e => setSelectedSemester(Number(e.target.value))}
+              onChange={(e) => setSelectedSemester(Number(e.target.value))}
               className="w-full py-2 px-3 bg-slate-800/90 border border-slate-700 rounded-xl text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
             >
               <option value={2}>Semester II</option>
@@ -131,8 +150,12 @@ export const ExamScheduleView: React.FC = () => {
         {filteredExams.length === 0 ? (
           <div className="py-12 text-center text-slate-400 text-xs">
             <Info className="w-8 h-8 mx-auto mb-2 text-slate-300" />
-            <p className="font-semibold text-slate-700">Timetable for this semester is under preparation</p>
-            <p>Please check the examination circulars board for recent updates.</p>
+            <p className="font-semibold text-slate-700">
+              Timetable for this semester is under preparation
+            </p>
+            <p>
+              Please check the examination circulars board for recent updates.
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -161,7 +184,9 @@ export const ExamScheduleView: React.FC = () => {
                   <div className="flex items-center gap-4 text-xs text-slate-600 flex-wrap pt-1">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5 text-blue-900" />
-                      <span className="font-semibold text-slate-800">{exam.date}</span>
+                      <span className="font-semibold text-slate-800">
+                        {exam.date}
+                      </span>
                     </span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5 text-blue-900" />
@@ -169,7 +194,9 @@ export const ExamScheduleView: React.FC = () => {
                     </span>
                     <span className="flex items-center gap-1">
                       <MapPin className="w-3.5 h-3.5 text-blue-900" />
-                      <span className="font-semibold text-slate-800">{exam.room}</span>
+                      <span className="font-semibold text-slate-800">
+                        {exam.room}
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -177,7 +204,7 @@ export const ExamScheduleView: React.FC = () => {
                 <div className="sm:text-right shrink-0">
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
                     <FileCheck className="w-3.5 h-3.5" />
-                    <span>Seating Verified</span>
+                    <span>Room listed</span>
                   </span>
                 </div>
               </div>
@@ -192,9 +219,18 @@ export const ExamScheduleView: React.FC = () => {
             <span>Essential Candidate Instructions:</span>
           </h4>
           <ul className="list-disc list-inside space-y-1 text-amber-800 leading-relaxed">
-            <li>Candidates must occupy their allotted seats 15 minutes prior to start time.</li>
-            <li>Possession of smartwatches, scientific programmable calculators, or phones is strictly penalized.</li>
-            <li>Admit cards and student photo ID cards must remain placed on the examination desk throughout.</li>
+            <li>
+              Candidates must occupy their allotted seats 15 minutes prior to
+              start time.
+            </li>
+            <li>
+              Possession of smartwatches, scientific programmable calculators,
+              or phones is strictly penalized.
+            </li>
+            <li>
+              Admit cards and student photo ID cards must remain placed on the
+              examination desk throughout.
+            </li>
           </ul>
         </div>
       </div>

@@ -1,103 +1,86 @@
-# CampusOne — One Platform, Entire Campus
+# CampusOne
 
-## Design overhaul
+**One Platform, Entire Campus** — BCA minor project for the Institute of Professional Studies, University of Allahabad. Existing React mobile design retained; Android packaging uses Capacitor's WebView, not React Native.
 
-A unified navy, coral and warm-paper design now covers navigation, student home,
-notice and event cards, login, Explore and shared typography across staff screens.
-Mobile navigation includes Home, Explore, Calendar, Saved and Profile. Tab URLs
-support browser history, heavy views load on demand, and the campus guide answers
-from stored records. Registration rejects expired events; weekly timetables no
-longer substitute Monday classes on Sundays.
+## Run locally
 
-Run: `npm ci` then `npm run dev -- --host 127.0.0.1`.
-Check: `npm test`, `npm run build` and `npm run lint`.
-Android (requires Android SDK): `npm run build`, `npx cap sync android`,
-then from `android` run `.\gradlew.bat assembleDebug`.
-APK: `android/app/build/outputs/apk/debug/app-debug.apk`.
+Requirements: Node 22.12+ (CI uses Node 22), npm, Java 21 and Android SDK for APKs. SQLite uses better-sqlite3 native bindings; npm may need compiler tools if no prebuilt binary is available for your platform.
 
-## Current implementation status
-
-This is a React/Vite application packaged for Android with Capacitor. Its UI runs
-inside a native WebView; it is not React Native. All application data and demo
-profiles currently live in localStorage on the device. Email selects an existing
-demo profile without verifying identity. Role controls are client-side only.
-There is no shared backend, real password recovery, or server authorization yet.
-The campus guide searches the stored dataset using keywords; it does not invent
-exam or event information and is not connected to an AI service. Sample attachments and entry-pass QR graphics
-must not be treated as verified institutional documents or credentials.
-
-The initial maintenance pass fixes persistent logout, scopes demo resets to this
-app's storage keys, corrects the notice date input, and improves bottom navigation
-positioning, touch targets, keyboard focus, and reduced-motion support. Login and
-recovery screens now describe their demo behavior explicitly.
-
-Validation commands: `npm test`, `npm run build`, and `npm run lint`.
-The build produces web assets in `dist`; it does not generate a new APK.
-
-> **Institute of Professional Studies, University of Allahabad**  
-> *"One Campus. One Platform. All Information."*
-
-A complete, modern, mobile-first centralized campus platform built for a college minor project. Solves fragmented communications by consolidating notices, seminars, academic dates, exam timetables, faculty directories, and placement drives into one authoritative platform.
-
----
-
-## 🏛️ The 5 Centers of IPS UOA
-1. **CCET** — Center of Computer Education & Training (BCA, MCA)
-2. **CFT** — Center of Food Technology (B.Sc FT, M.Sc FT, DFSQA)
-3. **CMS** — Center of Media Studies (BA Media Studies, MJMC)
-4. **CFDT** — Center of Fashion Design & Technology (B.Voc FD, M.Voc FM)
-5. **CTF** — Center of Theatre & Film (B.Voc Theatre, Film Direction)
-
----
-
-## 👥 4-Tier Role Hierarchy & Permissions
-
-| Role | Target Persona | Permissions & Scope |
-|---|---|---|
-| **STUDENT** | Aarav Sharma (BCA • CCET)<br>Priya Patel (Food Tech • CFT) | **Read-Mostly + Personalized Feed**:<br>• College-wide announcements + own Department notices only<br>• 1-Click Event & Seminar registration with Digital Entry Pass & QR stub<br>• Exam schedule, admit slip, placement opportunities, syllabus downloads |
-| **FACULTY** | Dr. Pradeep Kumar (Asst. Professor • CCET) | **Creator Privilege**:<br>• Draft Notice & Event proposals with `PENDING_APPROVAL` status<br>• Approval lifecycle tracker with review feedback<br>• Attendee roster for faculty-organized sessions |
-| **DEPARTMENT ADMIN / HOD** | Prof. R. S. Yadav (HOD • CCET) | **Department-Isolated Management**:<br>• Manage only own department (cannot modify other centers)<br>• Review & approve/reject faculty submissions<br>• Publish official department notices & events directly<br>• Export attendee rosters (CSV) |
-| **COLLEGE ADMIN** | Dr. Neha Srivastava (IPS Directorate) | **College-Wide Institutional Administration**:<br>• Complete oversight across all 5 centers<br>• User permissions & role assignment<br>• Direct publication of urgent institutional circulars<br>• Central Academic Calendar management |
-
----
-
-## 🚀 Key Features
-
-- **Department-Aware Content Delivery**: Students see College-wide circulars + their department's updates. Unrelated department notices never clutter their feed.
-- **Approval Workflow Gateway**: Faculty proposals start as `PENDING_APPROVAL`. HOD endorses them before they appear on student screens.
-- **Interactive Event Registration**: Generates digital event entry passes with ticket code, QR stub, and celebratory confetti.
-- **Academic Calendar**: Centralized calendar with Month, Week, and List views plus day inspector.
-- **Exam Date Sheets**: Timetable for sessional and final examinations with room allotments and instructions.
-- **Placement & Career Hub**: Job and internship listings (TCS, Infosys, Nestle, Dainik Jagran, FabIndia, AWS Academy) with 1-click apply and status tracker.
-- **Universal Campus Search**: Command search across notices, events, faculty, departments, exams, and career opportunities.
-- **Campus Facilities Guide**: Interactive directory for Central Library, computing labs, pilot plant, broadcasting studios, and cafeteria.
-- **Evaluator Demo Switcher**: Floating fast-role switcher to allow project evaluators/professors to test all 4 roles instantly.
-- **Device Frame Toggle**: Ability to toggle between simulated smartphone frame and full responsive desktop width!
-
----
-
-## 💻 Tech Stack
-- **Framework**: React 19 + TypeScript + Vite
-- **Styling**: Tailwind CSS v4 + Lucide React Icons
-- **Animation & Effects**: Canvas Confetti + Shimmer Skeletons
-- **Persistence**: Reactive localStorage storage service layer
-
----
-
-## 🏃‍♂️ How to Run Locally
-
-```bash
-# 1. Enter project folder
-cd ips-uoa-campus
-
-# 2. Install dependencies (already completed)
-npm install
-
-# 3. Start development server
-npm run dev
-
-# 4. Or build and preview production release
-npm run build
-npm run preview
+```powershell
+git clone https://github.com/tejusjaiswal13-dev/CampusOne.git
+cd CampusOne
+npm ci
+Copy-Item .env.example .env
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 ```
-Visit `http://localhost:4173` or `http://localhost:5173` in your browser.
+Paste the generated random value into **JWT_SECRET** in `.env`. It is server-only; never prefix secrets with `VITE_`. Use separate terminal windows:
+
+```powershell
+npm run server
+npm run dev
+```
+
+Open the Vite URL (normally http://localhost:5173). The server defaults to port 3001. `SEED_DEMO=true` seeds the empty SQLite database from the existing TypeScript seed module; it does not overwrite an existing database. Changes to DEMO_PASSWORD do not reset existing account passwords.
+
+## Checks
+
+```powershell
+npm run build
+npm run lint
+npm test
+```
+
+Build type-checks frontend and server and produces `dist/`. Lint fails on any warning. Tests run the original Node storage tests, then Vitest/React Testing Library/Supertest tests. CI runs install, lint, build and test. See [verification](docs/VERIFICATION.md) for actual results and limits.
+
+## Sample sign-ins
+
+For locally seeded evaluation accounts, password: **CampusOne-Demo-2026!** (set via DEMO_PASSWORD in `.env.example`). These are deliberately public sample credentials, not production accounts.
+
+- Student CCET: `aarav.sharma@ips.allduniv.ac.in`
+- Student CFT: `priya.patel@ips.allduniv.ac.in`
+- Faculty: `pradeep.kumar@ips.allduniv.ac.in`
+- HOD: `hod.ccet@allduniv.ac.in`
+- College admin: `admin.director@ips.allduniv.ac.in`
+
+Never publicly deploy the sample database/password. Faculty self-registration is pending until department/college approval; students can register normally. No self-registration of HOD or college admin. Password recovery/email verification/SSO are not implemented.
+
+## Roles and enforcement
+
+| Role | Server permissions |
+|---|---|
+| STUDENT | Approved college + own department content, own bookmarks/registrations; course/semester exams |
+| FACULTY | Approved accessible content + own submissions; department proposals pending approval; own assigned class updates |
+| DEPARTMENT_ADMIN | Own department review, faculty-account approval, exam management; no role assignment or college calendar edits |
+| COLLEGE_ADMIN | Content administration, role assignment, faculty-account approval, calendar/career/department updates |
+
+Every write is authenticated and validated on the server. Role changes revoke existing sessions. Event seat allocation uses a SQLite immediate transaction and a unique event/user registration index. Client tab guards improve UX but are not the security boundary.
+
+## Architecture
+
+UI → Auth/App contexts → `src/services/api.ts` → Express validation/RBAC → SQLite. Tables preserve existing record structures using validated JSON documents plus SQL indexes; accounts/sessions/notification-read relations are separate tables. This is not a fully normalized relational schema. No online records are copied into localStorage. JWTs expire after 15 minutes and are held in memory/sessionStorage; logout revokes the server session when reachable. Protect the frontend against XSS and serve production APIs over HTTPS.
+
+## Offline evaluation
+
+`VITE_DEMO_MODE=true` allows fallback when the backend is unreachable. A visible **Demo/offline mode** badge and local sample profiles appear. Click the badge to retry the server; reconnect requires sign-in. Offline writes stay in the local sample store and are never uploaded as trusted changes. Auth/validation failures do not enable offline mode. Set the flag to `false` for production. API failure during a write reports an error rather than pretending it was saved.
+
+## AI
+
+Set server-only `AI_PROVIDER` (`openai`, `gemini`, `claude`), `AI_MODEL` and `AI_API_KEY`. Restart the API after changing them. Model availability depends on your account. No provider key was supplied for delivery, by user choice: live model output is **unverified**.
+
+The assistant retrieves permitted records, ranks up to eight, requests short JSON answers and validates citations. It supports English/Hindi output, source navigation, loading/error/retry states and labelled Basic-mode fallback. Faculty/staff can generate editable circular drafts; students cannot. Notice details support summaries/Hindi summaries. Nothing generated is automatically published. See [AI design and evaluation](AI_DESIGN.md).
+
+## Android
+
+See [Android build and signing](docs/ANDROID.md). Debug output: `android/app/build/outputs/apk/debug/app-debug.apk`. Native notice sharing is wired. Opt-in local reminders are configured from the notification center; they are device-scheduled reminders based on currently loaded records, not server push. Reconfigure after new content arrives. Haptics/keyboard dependencies were removed. Native runtime behaviour requires device testing.
+
+## Documentation and screenshots
+
+- [Architecture](docs/ARCHITECTURE.md) · [ER diagram](docs/ER.md) · [API](docs/API.md)
+- [Five-minute demonstration](docs/DEMO.md) · [Project synopsis](PROJECT_SYNOPSIS_REPORT.md)
+- Screenshots placeholder: capture the final password login, home, submission and approval screens on your evaluation device. Existing design is preserved.
+
+## Honest limitations
+
+Seed dates/details are sample information, not verified university announcements. Existing sample timetable/roster information is labelled. No real attendance/RFID, Web Push, 2G/3G performance benchmark, institutional hall-ticket issuing, attachment upload, password recovery or automatic timetable extraction exists. Some management operations are API-only (see API reference). CI/browser/API checks do not replace physical-device or live-provider testing. Candidate Tejus Jaiswal's roll number remains IPS2023-BCA-042; it also appears in a demo student record and should be clarified before submission.
+
+MIT licensed. See AUDIT.md for the original measured baseline.

@@ -1,10 +1,10 @@
 import type {
-  User,
-  Notice,
   CampusEvent,
-  ExamScheduleItem,
-  CareerOpportunity,
   CampusFacility,
+  CareerOpportunity,
+  ExamScheduleItem,
+  Notice,
+  User,
 } from "../types";
 export interface GuideData {
   user: User | null;

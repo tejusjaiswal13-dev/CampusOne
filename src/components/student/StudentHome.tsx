@@ -1,27 +1,27 @@
-import { useState } from "react";
 import {
+  ArrowRight,
   ArrowUpRight,
   BellRing,
+  Bookmark,
+  Briefcase,
+  Building2,
   CalendarDays,
   Clock,
   GraduationCap,
-  Briefcase,
   Search,
-  ArrowRight,
-  Bookmark,
-  Building2,
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import { useApp } from "../../context/AppContext";
-import { NoticeCard } from "../notices/NoticeCard";
-import { NoticeDetailModal } from "../notices/NoticeDetailModal";
+import { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import type { CampusEvent } from "../../types";
 import { EventDetailModal } from "../events/EventDetailModal";
 import { EventRegisterModal } from "../events/EventRegisterModal";
+import { NoticeCard } from "../notices/NoticeCard";
+import { NoticeDetailModal } from "../notices/NoticeDetailModal";
 import { SmartTimetableTracker } from "./SmartTimetableTracker";
-import type { CampusEvent } from "../../types";
 
 export const StudentHome = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, mode } = useAuth();
   const {
     setCurrentTab,
     getStudentNotices,
@@ -299,8 +299,10 @@ export const StudentHome = () => {
         </aside>
       </div>
       <p className="co-demo-footnote">
-        Demo workspace · Sample information is stored on this device. Confirm
-        official dates with your department.
+        {mode === "demo"
+          ? "Demo/offline mode · Sample data is stored on this device."
+          : "Connected to CampusOne · Seed records are sample information."}{" "}
+        Confirm official dates with your department.
       </p>
       <NoticeDetailModal
         notice={selectedNotice}

@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useApp } from '../../context/AppContext';
 import {
   Briefcase,
-  PlusCircle,
-  FileCheck,
-  Clock,
   CheckCircle2,
+  Clock,
+  FileCheck,
+  PlusCircle,
+  Users,
   XCircle,
-  CalendarDays,
-  BellRing,
-  Building2,
-  Users
-} from 'lucide-react';
+} from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 
 export const FacultyDashboard: React.FC = () => {
   const { currentUser } = useAuth();
@@ -23,39 +20,47 @@ export const FacultyDashboard: React.FC = () => {
     setIsCreateNoticeOpen,
     setIsCreateEventOpen,
     setSelectedNotice,
-    setSelectedEvent
+    setSelectedEvent,
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'SUBMISSIONS' | 'ATTENDEES'>('SUBMISSIONS');
+  const [activeTab, setActiveTab] = useState<"SUBMISSIONS" | "ATTENDEES">(
+    "SUBMISSIONS",
+  );
 
   // Faculty submissions
-  const myNotices = notices.filter(n => n.publisherId === currentUser?.id);
-  const myEvents = events.filter(e => e.publisherId === currentUser?.id);
+  const myNotices = notices.filter((n) => n.publisherId === currentUser?.id);
+  const myEvents = events.filter((e) => e.publisherId === currentUser?.id);
 
-  const pendingNoticesCount = myNotices.filter(n => n.status === 'PENDING_APPROVAL').length;
-  const approvedNoticesCount = myNotices.filter(n => n.status === 'APPROVED').length;
+  const pendingNoticesCount = myNotices.filter(
+    (n) => n.status === "PENDING_APPROVAL",
+  ).length;
+  const approvedNoticesCount = myNotices.filter(
+    (n) => n.status === "APPROVED",
+  ).length;
 
   // Event attendees for faculty events
-  const facultyEventIds = myEvents.map(e => e.id);
-  const myEventRegistrations = registrations.filter(r => facultyEventIds.includes(r.eventId));
+  const facultyEventIds = myEvents.map((e) => e.id);
+  const myEventRegistrations = registrations.filter((r) =>
+    facultyEventIds.includes(r.eventId),
+  );
 
-  const getStatusBadge = (status: string, reason?: string) => {
+  const getStatusBadge = (status: string, _reason?: string) => {
     switch (status) {
-      case 'APPROVED':
+      case "APPROVED":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>Approved & Live</span>
           </span>
         );
-      case 'PENDING_APPROVAL':
+      case "PENDING_APPROVAL":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 text-xs font-bold border border-amber-300">
             <Clock className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
             <span>Pending HOD Approval</span>
           </span>
         );
-      case 'REJECTED':
+      case "REJECTED":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200">
             <XCircle className="w-3.5 h-3.5 text-rose-600" />
@@ -72,18 +77,25 @@ export const FacultyDashboard: React.FC = () => {
       {/* Faculty Hero Banner */}
       <div
         className="text-white rounded-2xl p-5 sm:p-6"
-        style={{ backgroundColor: '#0a1628', border: '1px solid #1e3a5f' }}
+        style={{ backgroundColor: "#0a1628", border: "1px solid #1e3a5f" }}
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span
                 className="p-2 rounded-xl border"
-                style={{ backgroundColor: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.3)', color: '#f59e0b' }}
+                style={{
+                  backgroundColor: "rgba(245,158,11,0.12)",
+                  borderColor: "rgba(245,158,11,0.3)",
+                  color: "#f59e0b",
+                }}
               >
                 <Briefcase className="w-5 h-5" />
               </span>
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#94a3b8' }}>
+              <span
+                className="text-xs font-bold uppercase tracking-widest"
+                style={{ color: "#94a3b8" }}
+              >
                 Faculty Academic Portal
               </span>
             </div>
@@ -91,7 +103,8 @@ export const FacultyDashboard: React.FC = () => {
               Welcome, {currentUser?.name}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 mt-1">
-              {currentUser?.designation} • Department of {currentUser?.departmentName} ({currentUser?.departmentCode})
+              {currentUser?.designation} • Department of{" "}
+              {currentUser?.departmentName} ({currentUser?.departmentCode})
             </p>
           </div>
 
@@ -116,23 +129,39 @@ export const FacultyDashboard: React.FC = () => {
         {/* Stats strip */}
         <div className="mt-6 pt-5 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[11px] uppercase font-bold text-slate-400 block">Total Submissions</span>
-            <span className="text-xl font-semibold text-white">{myNotices.length + myEvents.length}</span>
+            <span className="text-[11px] uppercase font-bold text-slate-400 block">
+              Total Submissions
+            </span>
+            <span className="text-xl font-semibold text-white">
+              {myNotices.length + myEvents.length}
+            </span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[11px] uppercase font-bold text-amber-300 block">Pending HOD Review</span>
-            <span className="text-xl font-semibold text-amber-400">{pendingNoticesCount}</span>
+            <span className="text-[11px] uppercase font-bold text-amber-300 block">
+              Pending HOD Review
+            </span>
+            <span className="text-xl font-semibold text-amber-400">
+              {pendingNoticesCount}
+            </span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[11px] uppercase font-bold text-emerald-300 block">Approved & Published</span>
-            <span className="text-xl font-semibold text-emerald-400">{approvedNoticesCount}</span>
+            <span className="text-[11px] uppercase font-bold text-emerald-300 block">
+              Approved & Published
+            </span>
+            <span className="text-xl font-semibold text-emerald-400">
+              {approvedNoticesCount}
+            </span>
           </div>
 
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <span className="text-[11px] uppercase font-bold text-purple-300 block">Event Attendees</span>
-            <span className="text-xl font-semibold text-purple-300">{myEventRegistrations.length}</span>
+            <span className="text-[11px] uppercase font-bold text-purple-300 block">
+              Event Attendees
+            </span>
+            <span className="text-xl font-semibold text-purple-300">
+              {myEventRegistrations.length}
+            </span>
           </div>
         </div>
       </div>
@@ -140,11 +169,11 @@ export const FacultyDashboard: React.FC = () => {
       {/* Main Tabs */}
       <div className="bg-white rounded-2xl p-1.5 border border-slate-200 flex items-center gap-1 overflow-x-auto shadow-xs">
         <button
-          onClick={() => setActiveTab('SUBMISSIONS')}
+          onClick={() => setActiveTab("SUBMISSIONS")}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-            activeTab === 'SUBMISSIONS'
-              ? 'bg-purple-900 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
+            activeTab === "SUBMISSIONS"
+              ? "bg-purple-900 text-white shadow-xs"
+              : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           <FileCheck className="w-4 h-4" />
@@ -152,20 +181,22 @@ export const FacultyDashboard: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setActiveTab('ATTENDEES')}
+          onClick={() => setActiveTab("ATTENDEES")}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-            activeTab === 'ATTENDEES'
-              ? 'bg-purple-900 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
+            activeTab === "ATTENDEES"
+              ? "bg-purple-900 text-white shadow-xs"
+              : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           <Users className="w-4 h-4" />
-          <span>Student Registrations for My Events ({myEventRegistrations.length})</span>
+          <span>
+            Student Registrations for My Events ({myEventRegistrations.length})
+          </span>
         </button>
       </div>
 
       {/* Tab 1: Submissions */}
-      {activeTab === 'SUBMISSIONS' && (
+      {activeTab === "SUBMISSIONS" && (
         <div className="space-y-4">
           <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
             <h2 className="text-base font-bold text-slate-900">
@@ -174,11 +205,12 @@ export const FacultyDashboard: React.FC = () => {
 
             {myNotices.length === 0 ? (
               <p className="text-xs text-slate-500 py-6 text-center">
-                You haven't submitted any notices yet. Click "Submit Notice" to draft one for HOD approval.
+                You haven't submitted any notices yet. Click "Submit Notice" to
+                draft one for HOD approval.
               </p>
             ) : (
               <div className="space-y-3">
-                {myNotices.map(notice => (
+                {myNotices.map((notice) => (
                   <div
                     key={notice.id}
                     onClick={() => setSelectedNotice(notice)}
@@ -193,11 +225,16 @@ export const FacultyDashboard: React.FC = () => {
                           Submitted {notice.publishedAt.slice(0, 10)}
                         </span>
                       </div>
-                      <h3 className="text-sm font-bold text-slate-900">{notice.title}</h3>
-                      <p className="text-xs text-slate-600 line-clamp-1">{notice.description}</p>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        {notice.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 line-clamp-1">
+                        {notice.description}
+                      </p>
                       {notice.rejectionReason && (
                         <p className="text-xs text-rose-700 bg-rose-50 p-2 rounded-lg mt-2 font-medium">
-                          <strong>Revision Feedback:</strong> {notice.rejectionReason}
+                          <strong>Revision Feedback:</strong>{" "}
+                          {notice.rejectionReason}
                         </p>
                       )}
                     </div>
@@ -223,7 +260,7 @@ export const FacultyDashboard: React.FC = () => {
               </p>
             ) : (
               <div className="space-y-3">
-                {myEvents.map(event => (
+                {myEvents.map((event) => (
                   <div
                     key={event.id}
                     onClick={() => setSelectedEvent(event)}
@@ -238,8 +275,12 @@ export const FacultyDashboard: React.FC = () => {
                           Date: {event.date} • {event.venue}
                         </span>
                       </div>
-                      <h3 className="text-sm font-bold text-slate-900">{event.title}</h3>
-                      <p className="text-xs text-slate-600 line-clamp-1">{event.description}</p>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        {event.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 line-clamp-1">
+                        {event.description}
+                      </p>
                     </div>
 
                     <div className="shrink-0 sm:text-right">
@@ -254,7 +295,7 @@ export const FacultyDashboard: React.FC = () => {
       )}
 
       {/* Tab 2: Attendees */}
-      {activeTab === 'ATTENDEES' && (
+      {activeTab === "ATTENDEES" && (
         <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
           <h2 className="text-base font-bold text-slate-900">
             Registered Students for Faculty Sessions
@@ -266,10 +307,15 @@ export const FacultyDashboard: React.FC = () => {
             </p>
           ) : (
             <div className="divide-y divide-slate-100">
-              {myEventRegistrations.map(reg => (
-                <div key={reg.id} className="py-3 flex items-center justify-between gap-3 text-xs">
+              {myEventRegistrations.map((reg) => (
+                <div
+                  key={reg.id}
+                  className="py-3 flex items-center justify-between gap-3 text-xs"
+                >
                   <div>
-                    <h4 className="font-bold text-slate-900">{reg.studentName}</h4>
+                    <h4 className="font-bold text-slate-900">
+                      {reg.studentName}
+                    </h4>
                     <p className="text-slate-500 text-[11px]">
                       {reg.studentId} • {reg.departmentCode} • {reg.email}
                     </p>

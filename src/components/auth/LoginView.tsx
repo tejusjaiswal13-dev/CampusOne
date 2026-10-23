@@ -1,14 +1,14 @@
-import { useState, type FormEvent } from "react";
 import {
   ArrowRight,
-  GraduationCap,
-  Users,
   BookOpen,
-  ShieldCheck,
   Building2,
+  GraduationCap,
+  ShieldCheck,
+  Users,
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import { useApp } from "../../context/AppContext";
+import { useState, type FormEvent } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 import type { UserRole } from "../../types";
 const profiles: {
   role: UserRole;
@@ -46,13 +46,17 @@ const profiles: {
   },
 ];
 export const LoginView = () => {
-  const { login, switchDemoRole } = useAuth();
+  const { login, switchDemoRole, mode } = useAuth();
   const { setCurrentTab } = useApp();
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
-    const result = login(email);
+    setBusy(true);
+    const result = await login(email, password);
+    setBusy(false);
     if (result.success) setCurrentTab("home");
     else setError(result.error || "Profile not found.");
   }
@@ -80,28 +84,35 @@ export const LoginView = () => {
         </div>
       </section>
       <section className="co-login-form">
-        <span className="co-pill">LOCAL DEMO</span>
+        <span className="co-pill">
+          {mode === "demo" ? "LOCAL DEMO" : "SECURE SIGN IN"}
+        </span>
         <h2>Find your campus view</h2>
-        <p>Choose a sample profile to explore.</p>
+        <p>
+          {mode === "demo"
+            ? "Choose a sample profile to explore."
+            : "Sign in with your campus account."}
+        </p>
         <div className="co-profile-choices">
-          {profiles.map(({ role, title, detail, icon: Icon, department }) => (
-            <button
-              key={role}
-              onClick={() => {
-                switchDemoRole(role, department);
-                setCurrentTab("home");
-              }}
-            >
-              <Icon size={22} />
-              <span>
-                <strong>{title}</strong>
-                <small>{detail}</small>
-              </span>
-              <ArrowRight size={18} />
-            </button>
-          ))}
+          {mode === "demo" &&
+            profiles.map(({ role, title, detail, icon: Icon, department }) => (
+              <button
+                key={role}
+                onClick={() => {
+                  switchDemoRole(role, department);
+                  setCurrentTab("home");
+                }}
+              >
+                <Icon size={22} />
+                <span>
+                  <strong>{title}</strong>
+                  <small>{detail}</small>
+                </span>
+                <ArrowRight size={18} />
+              </button>
+            ))}
         </div>
-        <div className="co-login-divider">OR OPEN A SAVED PROFILE</div>
+        <div className="co-login-divider">SIGN IN WITH EMAIL</div>
         <form onSubmit={submit}>
           <label htmlFor="demo-email">Profile email</label>
           <input
@@ -121,7 +132,20 @@ export const LoginView = () => {
               {error}
             </p>
           )}
-          <button className="co-button dark" type="submit">
+          {mode === "online" && (
+            <label>
+              Password
+              <input
+                aria-label="Password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+          )}
+          <button disabled={busy} className="co-button dark" type="submit">
             Continue <ArrowRight size={17} />
           </button>
         </form>
@@ -129,11 +153,12 @@ export const LoginView = () => {
           className="co-text-button"
           onClick={() => setCurrentTab("register")}
         >
-          Create a local profile <ArrowRight size={15} />
+          Create an account <ArrowRight size={15} />
         </button>
         <p className="co-login-disclosure">
-          Sample accounts are stored on this device. This preview does not
-          verify your identity or connect to university systems.
+          {mode === "demo"
+            ? "Offline sample accounts are stored on this device."
+            : "Your account and permissions are verified by the CampusOne server."}
         </p>
       </section>
     </div>

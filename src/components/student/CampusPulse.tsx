@@ -1,32 +1,37 @@
-import React from 'react';
-import { useApp } from '../../context/AppContext';
-import { useAuth } from '../../context/AuthContext';
 import {
-  Activity,
   BellRing,
-  CalendarDays,
   Briefcase,
-  GraduationCap,
-  Sparkles,
-  TrendingUp,
-  Radio,
+  CalendarDays,
+  ChevronRight,
   Flame,
-  ChevronRight
-} from 'lucide-react';
+  GraduationCap,
+  Radio,
+  Sparkles,
+} from "lucide-react";
+import React from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 
 export const CampusPulse: React.FC = () => {
-  const { setCurrentTab, getStudentNotices, getStudentEvents, career, exams } = useApp();
+  const { setCurrentTab, getStudentNotices, getStudentEvents, career, exams } =
+    useApp();
   const { currentUser } = useAuth();
 
   const studentNotices = getStudentNotices();
   const studentEvents = getStudentEvents();
 
   // Dynamic calculations
-  const urgentCount = studentNotices.filter(n => n.isUrgent).length;
+  const urgentCount = studentNotices.filter((n) => n.isUrgent).length;
   const recentNoticesCount = Math.max(3, studentNotices.slice(0, 5).length);
-  const activeEventsCount = studentEvents.filter(e => e.status === 'APPROVED').length;
-  const activeJobsCount = career.filter(c => c.status === 'Open' || c.status === 'Closing Soon').length;
-  const upcomingExamsCount = exams.filter(e => e.departmentCode === (currentUser?.departmentCode || 'CCET')).length;
+  const activeEventsCount = studentEvents.filter(
+    (e) => e.status === "APPROVED",
+  ).length;
+  const activeJobsCount = career.filter(
+    (c) => c.status === "Open" || c.status === "Closing Soon",
+  ).length;
+  const upcomingExamsCount = exams.filter(
+    (e) => e.departmentCode === (currentUser?.departmentCode || "CCET"),
+  ).length;
 
   return (
     <div className="co-surface-banner rounded-3xl p-4 sm:p-6 text-white border border-slate-800 shadow-sm relative overflow-hidden">
@@ -66,7 +71,7 @@ export const CampusPulse: React.FC = () => {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 my-4 relative z-10">
         {/* Metric 1: Notices */}
         <button
-          onClick={() => setCurrentTab('notices')}
+          onClick={() => setCurrentTab("notices")}
           className="bg-slate-800/70 hover:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-700/70 hover:border-indigo-400/50 transition-all text-left group cursor-pointer active:scale-95 flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
@@ -85,8 +90,12 @@ export const CampusPulse: React.FC = () => {
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-semibold text-white">{recentNoticesCount}</span>
-              <span className="text-[11px] text-slate-400 font-medium">notices today</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">
+                {recentNoticesCount}
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">
+                notices today
+              </span>
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-blue-300 transition-colors">
               <span>View feed</span>
@@ -97,7 +106,7 @@ export const CampusPulse: React.FC = () => {
 
         {/* Metric 2: Events */}
         <button
-          onClick={() => setCurrentTab('events')}
+          onClick={() => setCurrentTab("events")}
           className="bg-slate-800/70 hover:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-700/70 hover:border-amber-400/50 transition-all text-left group cursor-pointer active:scale-95 flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
@@ -110,8 +119,12 @@ export const CampusPulse: React.FC = () => {
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-semibold text-white">{activeEventsCount}</span>
-              <span className="text-[11px] text-slate-400 font-medium">events this week</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">
+                {activeEventsCount}
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">
+                events this week
+              </span>
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-amber-300 transition-colors">
               <span>Reserve passes</span>
@@ -122,7 +135,7 @@ export const CampusPulse: React.FC = () => {
 
         {/* Metric 3: Placements */}
         <button
-          onClick={() => setCurrentTab('career')}
+          onClick={() => setCurrentTab("career")}
           className="bg-slate-800/70 hover:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-700/70 hover:border-emerald-400/50 transition-all text-left group cursor-pointer active:scale-95 flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
@@ -136,8 +149,12 @@ export const CampusPulse: React.FC = () => {
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-semibold text-white">{activeJobsCount}</span>
-              <span className="text-[11px] text-slate-400 font-medium">active drives</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">
+                {activeJobsCount}
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">
+                active drives
+              </span>
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
               <span>View openings</span>
@@ -148,7 +165,7 @@ export const CampusPulse: React.FC = () => {
 
         {/* Metric 4: Exams & Deadlines */}
         <button
-          onClick={() => setCurrentTab('exams')}
+          onClick={() => setCurrentTab("exams")}
           className="bg-slate-800/70 hover:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-700/70 hover:border-purple-400/50 transition-all text-left group cursor-pointer active:scale-95 flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
@@ -161,8 +178,12 @@ export const CampusPulse: React.FC = () => {
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-semibold text-white">{upcomingExamsCount}</span>
-              <span className="text-[11px] text-slate-400 font-medium">scheduled papers</span>
+              <span className="text-xl sm:text-2xl font-semibold text-white">
+                {upcomingExamsCount}
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">
+                scheduled papers
+              </span>
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1 group-hover:text-purple-300 transition-colors">
               <span>Check datesheet</span>
@@ -180,12 +201,13 @@ export const CampusPulse: React.FC = () => {
           </span>
           <span className="font-semibold text-white">Campus Highlight:</span>
           <span className="truncate text-slate-300 text-[11px] sm:text-xs">
-            TCS National Qualifier Test (NQT) registrations open for CCET 2027 batch.
+            TCS National Qualifier Test (NQT) registrations open for CCET 2027
+            batch.
           </span>
         </div>
 
         <button
-          onClick={() => setCurrentTab('calendar')}
+          onClick={() => setCurrentTab("calendar")}
           className="text-[11px] font-bold text-indigo-300 hover:text-indigo-200 transition-colors flex items-center gap-1 self-end sm:self-auto shrink-0 cursor-pointer"
         >
           <span>Full Academic Term</span>

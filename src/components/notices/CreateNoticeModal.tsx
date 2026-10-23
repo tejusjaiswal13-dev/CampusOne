@@ -1,43 +1,48 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useApp } from '../../context/AppContext';
-import { X, PlusCircle, Paperclip, AlertCircle } from 'lucide-react';
-import { NoticeCategory, ContentScope } from '../../types';
+import { NoticeDraft } from "../ai/NoticeDraft";
+import { AlertCircle, Paperclip, PlusCircle, X } from "lucide-react";
+import React, { useState } from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import { ContentScope, NoticeCategory } from "../../types";
 
 export const CreateNoticeModal: React.FC = () => {
   const { currentUser, role } = useAuth();
-  const { isCreateNoticeOpen, setIsCreateNoticeOpen, handleCreateNotice } = useApp();
+  const { isCreateNoticeOpen, setIsCreateNoticeOpen, handleCreateNotice } =
+    useApp();
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState<NoticeCategory>('General');
-  const [scope, setScope] = useState<ContentScope>(role === 'COLLEGE_ADMIN' ? 'COLLEGE' : 'DEPARTMENT');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState<NoticeCategory>("General");
+  const [scope, setScope] = useState<ContentScope>(
+    role === "COLLEGE_ADMIN" ? "COLLEGE" : "DEPARTMENT",
+  );
   const [isUrgent, setIsUrgent] = useState(false);
-  const [deadline, setDeadline] = useState('');
-  const [attachmentName, setAttachmentName] = useState('Official_Circular.pdf');
+  const [deadline, setDeadline] = useState("");
+  const attachmentName = "Official_Circular.pdf";
 
   if (!isCreateNoticeOpen) return null;
 
-  const isFaculty = role === 'FACULTY';
+  const isFaculty = role === "FACULTY";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) return;
 
-    handleCreateNotice({
+    const saved = await handleCreateNotice({
       title,
       description,
       category,
       scope,
       isUrgent,
       deadline: deadline || undefined,
-      attachmentName
+      attachmentName,
     });
 
+    if (!saved) return;
     setIsCreateNoticeOpen(false);
-    setTitle('');
-    setDescription('');
-    setDeadline('');
+    setTitle("");
+    setDescription("");
+    setDeadline("");
   };
 
   return (
@@ -48,7 +53,9 @@ export const CreateNoticeModal: React.FC = () => {
           <div className="flex items-center gap-2">
             <PlusCircle className="w-5 h-5 text-amber-400" />
             <h2 className="text-base font-bold">
-              {isFaculty ? 'Draft Notice Proposal (Requires HOD Approval)' : 'Publish Official Campus Notice'}
+              {isFaculty
+                ? "Draft Notice Proposal (Requires HOD Approval)"
+                : "Publish Official Campus Notice"}
             </h2>
           </div>
           <button
@@ -64,20 +71,33 @@ export const CreateNoticeModal: React.FC = () => {
           <div className="bg-amber-50 border-b border-amber-200 p-3 flex items-center gap-2 text-xs text-amber-800">
             <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
             <span>
-              As faculty, your submission will be set to <strong>Pending Approval</strong> and forwarded to your Department HOD.
+              As faculty, your submission will be set to{" "}
+              <strong>Pending Approval</strong> and forwarded to your Department
+              HOD.
             </span>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+        <form
+          onSubmit={handleSubmit}
+          className="p-5 overflow-y-auto space-y-4 flex-1 text-xs"
+        >
+          <NoticeDraft
+            apply={(title, description) => {
+              setTitle(title);
+              setDescription(description);
+            }}
+          />
           <div>
-            <label className="font-bold text-slate-700 block mb-1">Notice Title *</label>
+            <label className="font-bold text-slate-700 block mb-1">
+              Notice Title *
+            </label>
             <input
               type="text"
               required
               value={title}
-              onChange={e => setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Sessional Examination Timetable / Workshop Proposal..."
               className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-medium focus:ring-2 focus:ring-blue-900 focus:bg-white"
             />
@@ -85,10 +105,12 @@ export const CreateNoticeModal: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Category</label>
+              <label className="font-bold text-slate-700 block mb-1">
+                Category
+              </label>
               <select
                 value={category}
-                onChange={e => setCategory(e.target.value as NoticeCategory)}
+                onChange={(e) => setCategory(e.target.value as NoticeCategory)}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold cursor-pointer"
               >
                 <option value="General">General</option>
@@ -104,15 +126,19 @@ export const CreateNoticeModal: React.FC = () => {
             </div>
 
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Scope</label>
+              <label className="font-bold text-slate-700 block mb-1">
+                Scope
+              </label>
               <select
                 value={scope}
-                disabled={role === 'FACULTY'}
-                onChange={e => setScope(e.target.value as ContentScope)}
+                disabled={role === "FACULTY"}
+                onChange={(e) => setScope(e.target.value as ContentScope)}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold cursor-pointer disabled:bg-slate-100"
               >
-                <option value="DEPARTMENT">Department Only ({currentUser?.departmentCode})</option>
-                {(role === 'COLLEGE_ADMIN') && (
+                <option value="DEPARTMENT">
+                  Department Only ({currentUser?.departmentCode})
+                </option>
+                {role === "COLLEGE_ADMIN" && (
                   <option value="COLLEGE">Entire College (All Students)</option>
                 )}
               </select>
@@ -120,12 +146,14 @@ export const CreateNoticeModal: React.FC = () => {
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 block mb-1">Detailed Description *</label>
+            <label className="font-bold text-slate-700 block mb-1">
+              Detailed Description *
+            </label>
             <textarea
               required
               rows={4}
               value={description}
-              onChange={e => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Full text of the circular, guidelines, eligibility, and instructions..."
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-medium focus:ring-2 focus:ring-blue-900 focus:bg-white leading-relaxed"
             />
@@ -133,17 +161,21 @@ export const CreateNoticeModal: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Last Date / Deadline (Optional)</label>
+              <label className="font-bold text-slate-700 block mb-1">
+                Last Date / Deadline (Optional)
+              </label>
               <input
                 type="date"
                 value={deadline}
-                onChange={e => setDeadline(e.target.value)}
+                onChange={(e) => setDeadline(e.target.value)}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 cursor-pointer"
               />
             </div>
 
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Attachment (PDF)</label>
+              <label className="font-bold text-slate-700 block mb-1">
+                Attachment (PDF)
+              </label>
               <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-600">
                 <Paperclip className="w-4 h-4 text-slate-400" />
                 <span className="truncate text-[11px]">{attachmentName}</span>
@@ -156,11 +188,15 @@ export const CreateNoticeModal: React.FC = () => {
               type="checkbox"
               id="urgent-check"
               checked={isUrgent}
-              onChange={e => setIsUrgent(e.target.checked)}
+              onChange={(e) => setIsUrgent(e.target.checked)}
               className="w-4 h-4 text-rose-600 rounded cursor-pointer"
             />
-            <label htmlFor="urgent-check" className="font-bold text-rose-700 cursor-pointer">
-              Mark as Urgent / Priority Directive (Highlights on Student Dashboard)
+            <label
+              htmlFor="urgent-check"
+              className="font-bold text-rose-700 cursor-pointer"
+            >
+              Mark as Urgent / Priority Directive (Highlights on Student
+              Dashboard)
             </label>
           </div>
 
@@ -176,7 +212,7 @@ export const CreateNoticeModal: React.FC = () => {
               type="submit"
               className="px-5 py-2 text-xs font-bold text-white bg-blue-900 hover:bg-blue-800 rounded-xl shadow-xs cursor-pointer"
             >
-              {isFaculty ? 'Submit for HOD Approval' : 'Publish Notice Live'}
+              {isFaculty ? "Submit for HOD Approval" : "Publish Notice Live"}
             </button>
           </div>
         </form>

@@ -1,41 +1,44 @@
-import React from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useApp } from '../../context/AppContext';
-import { BookOpen, Users, MapPin, Clock, Calendar, Send, Sparkles } from 'lucide-react';
-import { FacultyClassAssignment } from '../../types';
-import { DEPARTMENT_TIMETABLES } from '../../data/timetableData';
+import { BookOpen, Clock, MapPin, Send, Users } from "lucide-react";
+import React from "react";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
+import { DEPARTMENT_TIMETABLES } from "../../data/timetableData";
+import { FacultyClassAssignment } from "../../types";
 
 export const FacultyClassesView: React.FC = () => {
   const { currentUser } = useAuth();
   const { setCurrentTab } = useApp();
 
-  const assignedClasses: FacultyClassAssignment[] = currentUser?.assignedClasses || [
-    {
-      id: 'cls-assign-1',
-      course: 'BCA',
-      semester: 5,
-      subjectCode: 'BCA-502',
-      subjectName: 'Database Management Systems & SQL',
-      room: 'Room B-204 (2nd Floor)',
-      studentCount: 64
-    },
-    {
-      id: 'cls-assign-2',
-      course: 'MCA',
-      semester: 3,
-      subjectCode: 'MCA-301',
-      subjectName: 'Advanced Database Systems & Distributed NoSQL',
-      room: 'Software Lab 2',
-      studentCount: 48
-    }
-  ];
+  const assignedClasses: FacultyClassAssignment[] =
+    currentUser?.assignedClasses || [
+      {
+        id: "cls-assign-1",
+        course: "BCA",
+        semester: 5,
+        subjectCode: "BCA-502",
+        subjectName: "Database Management Systems & SQL",
+        room: "Room B-204 (2nd Floor)",
+        studentCount: 64,
+      },
+      {
+        id: "cls-assign-2",
+        course: "MCA",
+        semester: 3,
+        subjectCode: "MCA-301",
+        subjectName: "Advanced Database Systems & Distributed NoSQL",
+        room: "Software Lab 2",
+        studentCount: 48,
+      },
+    ];
 
   // Extract teaching schedule for Dr. Pradeep Kumar
-  const ccetWeek = DEPARTMENT_TIMETABLES['CCET'] || [];
-  const teachingSessions = ccetWeek.flatMap(day =>
+  const ccetWeek = DEPARTMENT_TIMETABLES["CCET"] || [];
+  const teachingSessions = ccetWeek.flatMap((day) =>
     day.classes
-      .filter(c => c.facultyName.includes('Pradeep') || c.subjectCode === 'BCA-502')
-      .map(c => ({ ...c, dayOfWeek: day.day }))
+      .filter(
+        (c) => c.facultyName.includes("Pradeep") || c.subjectCode === "BCA-502",
+      )
+      .map((c) => ({ ...c, dayOfWeek: day.day })),
   );
 
   return (
@@ -52,7 +55,8 @@ export const FacultyClassesView: React.FC = () => {
           My Assigned Classes
         </h1>
         <p className="text-xs text-slate-300 mt-1">
-          Assigned course modules, classroom rooms, and weekly lecture schedules for Odd Semester 2026-27.
+          Assigned course modules, classroom rooms, and weekly lecture schedules
+          for Odd Semester 2026-27.
         </p>
       </div>
 
@@ -63,7 +67,7 @@ export const FacultyClassesView: React.FC = () => {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {assignedClasses.map(cls => (
+          {assignedClasses.map((cls) => (
             <div
               key={cls.id}
               className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs space-y-3"
@@ -95,13 +99,13 @@ export const FacultyClassesView: React.FC = () => {
 
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
                 <button
-                  onClick={() => setCurrentTab('students')}
+                  onClick={() => setCurrentTab("students")}
                   className="text-xs font-semibold text-slate-600 hover:text-slate-900 cursor-pointer"
                 >
                   View Roster →
                 </button>
                 <button
-                  onClick={() => setCurrentTab('class-notices')}
+                  onClick={() => setCurrentTab("class-notices")}
                   className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
                 >
                   <Send className="w-3 h-3 text-indigo-700" />
@@ -126,9 +130,9 @@ export const FacultyClassesView: React.FC = () => {
         </div>
 
         <div className="space-y-2.5">
-          {teachingSessions.map((session, idx) => (
+          {teachingSessions.map((session) => (
             <div
-              key={idx}
+              key={session.id}
               className="p-3.5 rounded-2xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-slate-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-2"
             >
               <div className="space-y-0.5">

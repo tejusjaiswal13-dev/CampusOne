@@ -1,22 +1,22 @@
 import {
-  Home,
-  Compass,
-  CalendarDays,
-  Clock,
+  ArrowUpRight,
   BellRing,
   Bookmark,
+  BookOpen,
+  Building2,
+  CalendarDays,
+  Clock,
+  Compass,
+  FileCheck,
+  Home,
+  Plus,
+  Send,
+  ShieldCheck,
   User,
   Users,
-  Building2,
-  BookOpen,
-  Send,
-  FileCheck,
-  ShieldCheck,
-  Plus,
-  ArrowUpRight,
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
-import { useApp } from "../../context/AppContext";
+import { useApp } from "../../context/AppState";
+import { useAuth } from "../../context/AuthState";
 
 export const DesktopSidebar = () => {
   const { currentUser, role } = useAuth();

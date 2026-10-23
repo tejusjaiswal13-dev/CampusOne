@@ -1,43 +1,51 @@
-import React from 'react';
-import { Notice } from '../../types';
-import { useApp } from '../../context/AppContext';
+import { NoticeSummary } from "../ai/NoticeSummary";
 import {
-  X,
-  Calendar,
   AlertCircle,
-  Download,
-  Share2,
-  Printer,
   Bookmark,
   Building2,
-  Globe,
+  Calendar,
+  CheckCircle2,
+  Download,
   FileText,
-  CheckCircle2
-} from 'lucide-react';
+  Globe,
+  Printer,
+  Share2,
+  X,
+} from "lucide-react";
+import React from "react";
+import { useApp } from "../../context/AppState";
+import { shareNotice } from "../../services/nativeService";
+import { Notice } from "../../types";
 
 interface NoticeDetailModalProps {
   notice: Notice | null;
   onClose: () => void;
 }
 
-export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, onClose }) => {
+export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({
+  notice,
+  onClose,
+}) => {
   const { handleToggleBookmark, isItemBookmarked, showToast } = useApp();
 
   if (!notice) return null;
 
   const bookmarked = isItemBookmarked(notice.id);
 
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(`${window.location.origin}/#notice-${notice.id}`);
-      showToast('Notice link copied to clipboard! 📋', 'success');
-    } else {
-      showToast('Notice URL ready to share', 'info');
+  const handleShare = async () => {
+    try {
+      await shareNotice(notice);
+      showToast("Notice shared or copied.", "success");
+    } catch {
+      showToast("Sharing was cancelled or unavailable.", "info");
     }
   };
 
   const handleDownload = () => {
-    showToast(`Downloading ${notice.attachmentName || 'Notice_Document.pdf'}...`, 'info');
+    if (notice.attachmentUrl?.startsWith("https://"))
+      window.open(notice.attachmentUrl, "_blank", "noopener,noreferrer");
+    else
+      showToast("This sample notice has no downloadable attachment.", "info");
   };
 
   const handlePrint = () => {
@@ -59,20 +67,26 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
             <button
               onClick={() =>
                 handleToggleBookmark({
-                  itemType: 'NOTICE',
+                  itemType: "NOTICE",
                   itemId: notice.id,
                   title: notice.title,
-                  subtitle: notice.deadline ? `Deadline: ${notice.deadline}` : `Published: ${notice.publishedAt.slice(0, 10)}`,
+                  subtitle: notice.deadline
+                    ? `Deadline: ${notice.deadline}`
+                    : `Published: ${notice.publishedAt.slice(0, 10)}`,
                   category: notice.category,
-                  date: notice.deadline || notice.publishedAt.slice(0, 10)
+                  date: notice.deadline || notice.publishedAt.slice(0, 10),
                 })
               }
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                bookmarked ? 'text-amber-400 bg-amber-400/20' : 'text-slate-400 hover:text-white hover:bg-white/10'
+                bookmarked
+                  ? "text-amber-400 bg-amber-400/20"
+                  : "text-slate-400 hover:text-white hover:bg-white/10"
               }`}
               title="Bookmark Notice"
             >
-              <Bookmark className={`w-4 h-4 ${bookmarked ? 'fill-current' : ''}`} />
+              <Bookmark
+                className={`w-4 h-4 ${bookmarked ? "fill-current" : ""}`}
+              />
             </button>
 
             <button
@@ -126,7 +140,10 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
               <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
               <div className="text-xs">
                 <span className="font-bold">CRITICAL / ACTION REQUIRED: </span>
-                <span>Please read the instructions carefully before the stated deadline.</span>
+                <span>
+                  Please read the instructions carefully before the stated
+                  deadline.
+                </span>
               </div>
             </div>
           )}
@@ -135,13 +152,21 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
           <div className="flex items-center gap-2 flex-wrap">
             <span
               className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold border ${
-                notice.scope === 'COLLEGE'
-                  ? 'bg-indigo-50 text-indigo-700 border-indigo-200'
-                  : 'bg-amber-50 text-amber-900 border-amber-200'
+                notice.scope === "COLLEGE"
+                  ? "bg-indigo-50 text-indigo-700 border-indigo-200"
+                  : "bg-amber-50 text-amber-900 border-amber-200"
               }`}
             >
-              {notice.scope === 'COLLEGE' ? <Globe className="w-3.5 h-3.5" /> : <Building2 className="w-3.5 h-3.5" />}
-              <span>{notice.scope === 'COLLEGE' ? 'College-Wide Announcement' : `${notice.departmentCode} Department`}</span>
+              {notice.scope === "COLLEGE" ? (
+                <Globe className="w-3.5 h-3.5" />
+              ) : (
+                <Building2 className="w-3.5 h-3.5" />
+              )}
+              <span>
+                {notice.scope === "COLLEGE"
+                  ? "College-Wide Announcement"
+                  : `${notice.departmentCode} Department`}
+              </span>
             </span>
 
             <span className="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
@@ -152,14 +177,15 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
               <Calendar className="w-3.5 h-3.5" />
               <span>
                 {new Date(notice.publishedAt).toLocaleDateString(undefined, {
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
                 })}
               </span>
             </span>
           </div>
 
+          <NoticeSummary key={notice.id} noticeId={notice.id} />
           {/* Notice Title */}
           <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">
             {notice.title}
@@ -168,13 +194,15 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
           {/* Deadline reminder */}
           {notice.deadline && (
             <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 flex items-center justify-between text-xs">
-              <span className="font-semibold text-amber-900">Submission / Last Date:</span>
+              <span className="font-semibold text-amber-900">
+                Submission / Last Date:
+              </span>
               <span className="font-extrabold text-rose-600 bg-white px-2.5 py-1 rounded-md border border-rose-200 shadow-2xs">
                 {new Date(notice.deadline).toLocaleDateString(undefined, {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric'
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
                 })}
               </span>
             </div>
@@ -194,9 +222,12 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
                     <FileText className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">{notice.attachmentName}</h4>
+                    <h4 className="text-xs font-bold text-slate-900">
+                      {notice.attachmentName}
+                    </h4>
                     <p className="text-[11px] text-slate-500">
-                      {notice.attachmentSize || 'Official PDF Document'} • Digitally Signed
+                      {notice.attachmentSize || "Official PDF Document"} •
+                      Digitally Signed
                     </p>
                   </div>
                 </div>
@@ -212,10 +243,14 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
 
               {/* Simulated document page box */}
               <div className="bg-white p-4 rounded-xl border border-slate-200/80 text-[11px] text-slate-500 font-mono space-y-1 shadow-inner">
-                <p className="font-bold text-slate-700">--- [OFFICIAL ATTACHMENT PREVIEW] ---</p>
-                <p>INSTITUTE OF PROFESSIONAL STUDIES • UNIVERSITY OF ALLAHABAD</p>
+                <p className="font-bold text-slate-700">
+                  --- [OFFICIAL ATTACHMENT PREVIEW] ---
+                </p>
+                <p>
+                  INSTITUTE OF PROFESSIONAL STUDIES • UNIVERSITY OF ALLAHABAD
+                </p>
                 <p>SUBJECT: {notice.title}</p>
-                <p>DOCUMENT STATUS: VERIFIED & SEALED BY COMPETENT AUTHORITY</p>
+                <p>CAMPUS RECORD · CONFIRM AUTHENTICITY WITH THE ISSUER</p>
               </div>
             </div>
           )}
@@ -223,9 +258,15 @@ export const NoticeDetailModal: React.FC<NoticeDetailModalProps> = ({ notice, on
           {/* Digital Signature & Publisher Seal */}
           <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
             <div className="text-left">
-              <p className="text-[11px] text-slate-400 uppercase font-semibold">Published By</p>
-              <p className="text-xs font-bold text-slate-900">{notice.publisherName}</p>
-              <p className="text-[11px] text-slate-500">{notice.publisherRole}</p>
+              <p className="text-[11px] text-slate-400 uppercase font-semibold">
+                Published By
+              </p>
+              <p className="text-xs font-bold text-slate-900">
+                {notice.publisherName}
+              </p>
+              <p className="text-[11px] text-slate-500">
+                {notice.publisherRole}
+              </p>
             </div>
 
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
