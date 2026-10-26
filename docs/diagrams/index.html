@@ -1,7 +1,41 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><title>CampusOne synopsis diagrams</title><style>body{font:16px Arial;margin:40px;color:#183544;max-width:1500px}h1{font-size:30px}section{margin:40px 0;break-before:page}img{width:100%;height:auto;border:1px solid #ddd}a{color:#174c73}@media print{body{margin:0}section{margin:0}a{display:none}img{max-height:85vh;object-fit:contain}h2{font-size:18px}p{font-size:11px}}</style><h1>CampusOne — Synopsis diagrams</h1><p>CampusOne overview · ER model and DFD Levels 0–2. Each figure reflects the implemented system.</p><section><h2>Figure 1. CampusOne — Core ER diagram</h2><p>Logical fields shown; dashed = JSON/application reference, solid = SQL foreign key</p><img src="01-er-core.svg" alt="Figure 1. CampusOne — Core ER diagram"><p><a href="01-er-core.png">PNG image</a> · <a href="01-er-core.svg">Vector SVG</a> · <a href="01-er-core.dot">Editable Graphviz source</a></p></section>
-<section><h2>Figure 2. CampusOne — Academic and notification ER diagram</h2><p>Companion to Figure 1; repeated USERS and DEPARTMENTS are the same entities</p><img src="02-er-academic.svg" alt="Figure 2. CampusOne — Academic and notification ER diagram"><p><a href="02-er-academic.png">PNG image</a> · <a href="02-er-academic.svg">Vector SVG</a> · <a href="02-er-academic.dot">Editable Graphviz source</a></p></section>
-<section><h2>Figure 3. DFD Level 0 — System context</h2><p>One process represents the complete CampusOne system</p><img src="03-dfd-level-0.svg" alt="Figure 3. DFD Level 0 — System context"><p><a href="03-dfd-level-0.png">PNG image</a> · <a href="03-dfd-level-0.svg">Vector SVG</a> · <a href="03-dfd-level-0.dot">Editable Graphviz source</a></p></section>
-<section><h2>Figure 4. DFD Level 1 — Major processes and stores</h2><p>All protected operations apply server-side authentication, validation and role/scope checks</p><img src="04-dfd-level-1.svg" alt="Figure 4. DFD Level 1 — Major processes and stores"><p><a href="04-dfd-level-1.png">PNG image</a> · <a href="04-dfd-level-1.svg">Vector SVG</a> · <a href="04-dfd-level-1.dot">Editable Graphviz source</a></p></section>
-<section><h2>Figure 5. DFD Level 2 — Publishing and approval</h2><p>Decomposition of process 2.0 for faculty notices/events</p><img src="05-dfd-level-2-publishing.svg" alt="Figure 5. DFD Level 2 — Publishing and approval"><p><a href="05-dfd-level-2-publishing.png">PNG image</a> · <a href="05-dfd-level-2-publishing.svg">Editable vector SVG</a></p></section>
-<section><h2>Figure 6. DFD Level 2 — Event registration</h2><p>Decomposition of process 4.0: seat changes and registration insert are atomic</p><img src="06-dfd-level-2-registration.svg" alt="Figure 6. DFD Level 2 — Event registration"><p><a href="06-dfd-level-2-registration.png">PNG image</a> · <a href="06-dfd-level-2-registration.svg">Editable vector SVG</a></p></section>
-<section><h2>Figure 7. DFD Level 2 — Grounded Campus Assistant</h2><p>Decomposition of process 5.0 for question answering; live provider evaluation is pending</p><img src="07-dfd-level-2-ai.svg" alt="Figure 7. DFD Level 2 — Grounded Campus Assistant"><p><a href="07-dfd-level-2-ai.png">PNG image</a> · <a href="07-dfd-level-2-ai.svg">Editable vector SVG</a></p></section></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusOne — Synopsis diagrams</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #183544; }
+    body { max-width: 1200px; margin: 32px auto; padding: 0 24px; }
+    h1 { margin-bottom: 8px; }
+    .intro { color: #607780; margin: 0 0 28px; }
+    section { margin: 28px 0 48px; }
+    h2 { font-size: 20px; margin-bottom: 8px; }
+    p { color: #607780; }
+    img { display: block; width: 100%; height: auto; border: 1px solid #dce5e8; }
+    a { color: #174c73; }
+    .links { font-size: 14px; }
+    @media print {
+      body { max-width: none; margin: 0; padding: 0; }
+      section { break-before: page; break-inside: avoid; margin: 0; padding: 0; }
+      section:first-of-type { break-before: auto; }
+      img { max-height: 88vh; width: auto; max-width: 100%; margin: 0 auto; border: 0; }
+      h2 { font-size: 16px; }
+      p, .links { font-size: 10px; }
+      .links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>CampusOne — Synopsis diagrams</h1>
+  <p class="intro">Six numbered report figures: two ER diagrams and DFD Levels 0–2. A supplementary notification ER diagram is included at the end.</p>
+
+  <section><h2>Figure 1. Core entity relationship diagram</h2><p>Core campus records and their physical or logical relationships.</p><img src="01-er-core.svg" alt="Figure 1. Core CampusOne entity relationship diagram"><p class="links"><a href="01-er-core.png">PNG</a> · <a href="01-er-core.svg">SVG</a></p></section>
+  <section><h2>Figure 2. Academic entity relationship diagram</h2><p>Academic records, faculty directory, calendar, career opportunities and facilities.</p><img src="02-er-academic.svg" alt="Figure 2. Academic records entity relationship diagram"><p class="links"><a href="02-er-academic.png">PNG</a> · <a href="02-er-academic.svg">SVG</a></p></section>
+  <section><h2>Figure 3. DFD Level 0 — System context</h2><p>Campus users exchange information with CampusOne; the AI provider is optional.</p><img src="03-dfd-level-0.svg" alt="Figure 3. CampusOne DFD Level 0 system context"><p class="links"><a href="03-dfd-level-0.png">PNG</a> · <a href="03-dfd-level-0.svg">SVG</a></p></section>
+  <section><h2>Figure 4. DFD Level 1 — Main processes</h2><p>Four main workflows and the data they read or update.</p><img src="04-dfd-level-1.svg" alt="Figure 4. CampusOne DFD Level 1 main processes"><p class="links"><a href="04-dfd-level-1.png">PNG</a> · <a href="04-dfd-level-1.svg">SVG</a></p></section>
+  <section><h2>Figure 5. DFD Level 2 — Content publishing and approval</h2><p>Faculty submission, authorized review and decision recording.</p><img src="05-dfd-level-2-publishing.svg" alt="Figure 5. Content publishing and approval data flow"><p class="links"><a href="05-dfd-level-2-publishing.png">PNG</a> · <a href="05-dfd-level-2-publishing.svg">SVG</a></p></section>
+  <section><h2>Figure 6. DFD Level 2 — Event registration</h2><p>Eligibility, availability and transactional registration.</p><img src="06-dfd-level-2-registration.svg" alt="Figure 6. Event registration data flow"><p class="links"><a href="06-dfd-level-2-registration.png">PNG</a> · <a href="06-dfd-level-2-registration.svg">SVG</a></p></section>
+  <section><h2>Supplementary ER diagram — Notification read state</h2><p>Optional supporting model for per-user notification read state.</p><img src="03-er-notifications.svg" alt="Supplementary notification read-state entity relationship diagram"><p class="links"><a href="03-er-notifications.png">PNG</a> · <a href="03-er-notifications.svg">SVG</a></p></section>
+</body>
+</html>
