@@ -1,6 +1,6 @@
 # CampusOne: ER and data-flow diagrams for the synopsis
 
-These figures describe the implemented CampusOne code at commit 22b113d, not an idealized future schema. Use **Insert > Pictures** in Word to insert PNG files. SVG files remain sharp when enlarged and can be edited as vector artwork. The `.dot` files for Figures 1–4 are editable Graphviz source. Open `index.html` to browse all figures. Figures 1–4 suit landscape pages; Figures 5–7 suit portrait pages. Do not shrink all seven onto one page.
+These figures describe the implemented CampusOne system, not an idealized future schema. Use **Insert > Pictures** in Word to insert PNG files. SVG files remain sharp when enlarged and can be edited as vector artwork. The `.dot` files for Figures 1–4 are editable Graphviz source. Open `index.html` to browse all figures. Figures 1–4 suit landscape pages; Figures 5–7 suit portrait pages. Do not shrink all seven onto one page.
 
 ## Suggested report order and captions
 
@@ -38,4 +38,5 @@ The runtime applies authentication/RBAC before protected processes; repeated mid
 - `src/services/aiService.ts`: Basic mode fallback.
 
 Figures 1–4 can be regenerated from their Graphviz files. Figures 5–7 use hand-routed SVG for a clean, concise presentation; edit the SVG directly. PNG exports were visually inspected. This documentation-only change does not modify the app.
+
 
