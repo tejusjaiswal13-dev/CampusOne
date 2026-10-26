@@ -1,0 +1,23 @@
+digraph G {
+graph [rankdir=LR, bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.65", splines=ortho, fontname="Arial", fontsize=22, labelloc=t, label="Figure 1. CampusOne — Core ER diagram\nLogical fields shown; dashed = JSON/application reference, solid = SQL foreign key", fontcolor="#183544"];
+node [fontname="Arial", fontsize=12, shape=box, style="filled", fillcolor="white", color="#526976", penwidth=1.2, margin="0.17,0.12"];
+edge [fontname="Arial", fontsize=10, color="#526976", fontcolor="#344955", arrowsize=0.7];
+dep [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>DEPARTMENTS</B></TD></TR><TR><TD ALIGN="LEFT">PK id</TD></TR><TR><TD ALIGN="LEFT">code, name</TD></TR><TR><TD ALIGN="LEFT">courses[] (embedded)</TD></TR></TABLE>>];
+usr [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>USERS</B></TD></TR><TR><TD ALIGN="LEFT">PK id</TD></TR><TR><TD ALIGN="LEFT">email (unique index), name</TD></TR><TR><TD ALIGN="LEFT">role, departmentId</TD></TR><TR><TD ALIGN="LEFT">course, semester</TD></TR></TABLE>>];
+acc [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>ACCOUNTS</B></TD></TR><TR><TD ALIGN="LEFT">PK / FK user_id</TD></TR><TR><TD ALIGN="LEFT">password_hash</TD></TR><TR><TD ALIGN="LEFT">account_status</TD></TR></TABLE>>];
+ses [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>SESSIONS</B></TD></TR><TR><TD ALIGN="LEFT">PK id</TD></TR><TR><TD ALIGN="LEFT">FK user_id</TD></TR><TR><TD ALIGN="LEFT">expires</TD></TR></TABLE>>];
+not [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>NOTICES</B></TD></TR><TR><TD ALIGN="LEFT">PK id</TD></TR><TR><TD ALIGN="LEFT">publisherId, departmentId?</TD></TR><TR><TD ALIGN="LEFT">title, category, scope</TD></TR><TR><TD ALIGN="LEFT">status, rejectionReason?</TD></TR></TABLE>>];
+evt [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>EVENTS</B></TD></TR><TR><TD ALIGN="LEFT">PK id</TD></TR><TR><TD ALIGN="LEFT">publisherId, departmentId?</TD></TR><TR><TD ALIGN="LEFT">title, date, scope, status</TD></TR><TR><TD ALIGN="LEFT">totalSeats, availableSeats</TD></TR></TABLE>>];
+reg [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>REGISTRATIONS</B></TD></TR><TR><TD ALIGN="LEFT">PK id</TD></TR><TR><TD ALIGN="LEFT">eventId, userId</TD></TR><TR><TD ALIGN="LEFT">registeredAt, ticketCode</TD></TR><TR><TD ALIGN="LEFT">UNIQUE (eventId, userId)</TD></TR></TABLE>>];
+bm [shape=plain,label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#526976"><TR><TD ALIGN="LEFT" BGCOLOR="#e9f0f3"><B>BOOKMARKS</B></TD></TR><TR><TD ALIGN="LEFT">PK id</TD></TR><TR><TD ALIGN="LEFT">userId, itemType, itemId</TD></TR><TR><TD ALIGN="LEFT">UNIQUE (userId, itemType, itemId)</TD></TR></TABLE>>];
+dep -> usr [dir=none,style=dashed,label="department membership",taillabel="1",headlabel="0..N",labeldistance=2];
+usr -> acc [dir=none,style=solid,label="credentials",taillabel="1",headlabel="0..1",labeldistance=2];
+usr -> ses [dir=none,style=solid,label="login sessions",taillabel="1",headlabel="0..N",labeldistance=2];
+usr -> not [dir=none,style=dashed,label="publishes",taillabel="1",headlabel="0..N",labeldistance=2];
+usr -> evt [dir=none,style=dashed,label="publishes",taillabel="1",headlabel="0..N",labeldistance=2];
+evt -> reg [dir=none,style=dashed,label="event bookings",taillabel="1",headlabel="0..N",labeldistance=2];
+usr -> reg [dir=none,style=dashed,label="student bookings",taillabel="1",headlabel="0..N",labeldistance=2];
+usr -> bm [dir=none,style=dashed,label="saves",taillabel="1",headlabel="0..N",labeldistance=2];
+legend [shape=note,label="All content tables: id + data(JSON) + created_at + updated_at.\nFields below id describe the JSON payload, not separate SQL columns.\nCollege-scoped content may omit a department.\nBookmark target is polymorphic: NOTICE / EVENT / CAREER / RESOURCE.\nIts itemId is not a physical SQL foreign key.\nA user can have at most one account row; seeded/registered users have one."];
+usr -> legend [style=invis];
+}

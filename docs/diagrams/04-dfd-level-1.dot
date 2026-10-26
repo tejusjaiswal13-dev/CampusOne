@@ -1,0 +1,30 @@
+digraph G {
+graph [rankdir=LR, bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.65", splines=ortho, fontname="Arial", fontsize=22, labelloc=t, label="Figure 4. DFD Level 1 — Major processes and stores\nAll protected operations apply server-side authentication, validation and role/scope checks", fontcolor="#183544"];
+node [fontname="Arial", fontsize=12, shape=box, style="filled", fillcolor="white", color="#526976", penwidth=1.2, margin="0.17,0.12"];
+edge [fontname="Arial", fontsize=10, color="#526976", fontcolor="#344955", arrowsize=0.7];
+user [shape=box,penwidth=1.8,label="Campus user\nStudent / Faculty / Department admin / College admin"];
+provider [shape=box,penwidth=1.8,label="External AI provider"];
+p1 [shape=box,style="rounded,filled",fillcolor="#edf4f6",label="1.0\nAuthenticate and manage accounts"];
+p2 [shape=box,style="rounded,filled",fillcolor="#edf4f6",label="2.0\nCreate and moderate content"];
+p3 [shape=box,style="rounded,filled",fillcolor="#edf4f6",label="3.0\nRetrieve permitted campus information"];
+p4 [shape=box,style="rounded,filled",fillcolor="#edf4f6",label="4.0\nManage registrations, bookmarks\nand notification read state"];
+p5 [shape=box,style="rounded,filled",fillcolor="#edf4f6",label="5.0\nProvide grounded AI assistance"];
+d1 [shape=record,fillcolor="#f6f6f3",label="{D1|Identity\nusers, accounts, sessions}"] ;
+d2 [shape=record,fillcolor="#f6f6f3",label="{D2|Campus content\nnotices, events, exams, career,\ncalendar, class_notices}"] ;
+d3 [shape=record,fillcolor="#f6f6f3",label="{D3|Participation and alerts\nregistrations, bookmarks,\nnotifications, notification_reads}"] ;
+d4 [shape=record,fillcolor="#f6f6f3",label="{D4|Directories\ndepartments, faculty, facilities}"] ;
+user -> p1 [label="Credentials / account or role changes"]; p1 -> user [label="Session / account result"];
+p1 -> d1 [label="Account/session updates"]; d1 -> p1 [label="Identity / password hash / role"];
+user -> p2 [label="Content / moderation / calendar changes"]; p2 -> user [label="Submission / decision result"];
+d2 -> p2 [label="Existing record / approval state"]; p2 -> d2 [label="Authorized content changes"]; p2 -> d3 [label="Moderation notifications"];
+user -> p3 [label="Feed / search / filters"]; p3 -> user [label="Permitted records"];
+d2 -> p3 [label="Content candidates"]; d4 -> p3 [label="Directory records"];
+user -> p4 [label="Booking / bookmark / read request"]; p4 -> user [label="Registration / saved items / alerts"];
+d2 -> p4 [label="Eligibility / seats / bookmark target"]; p4 -> d2 [label="Transactional seat update"];
+d3 -> p4 [label="Existing participation / alerts"]; p4 -> d3 [label="Booking / save / read changes"];
+user -> p5 [label="Question / draft points / summary request"]; p5 -> user [label="Cited answer / editable draft / error"];
+d2 -> p5 [label="Allowed context only"]; p5 -> provider [label="Grounded generation request"]; provider -> p5 [label="JSON response / error"];
+legend [shape=note,label="Store groups are diagram groupings, not extra tables.\nRole-specific access is enforced on each process.\nSearch may also filter already-scoped records on the client.\nOffline demo uses a separate local store, with no synchronization."]; p5 -> legend [style=invis];
+{rank=same;p1;p2;p3;p4;p5;}
+{rank=same;d1;d2;d3;d4;provider;}
+}
