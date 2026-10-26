@@ -47,3 +47,51 @@ The candidate roll number above is preserved exactly. The seed student Aarav Sha
 
 ## Running and demonstration
 Follow README.md for environment setup and demo credentials. Start the API with npm run server and the client with npm run dev in separate terminals. Use docs/DEMO.md for the five-minute role walkthrough and docs/API.md for the endpoint reference.
+
+## System Design Diagrams
+
+The following figures document the implemented data model and system flows. The ER model spans two figures for readability. In the ER diagrams, solid lines are physical SQL foreign keys and dashed lines represent relationships within JSON records or enforced by application logic. Content attributes are JSON payload fields, not independent SQL columns.
+
+### Entity Relationship Diagram — Core Entities
+
+![CampusOne core entity relationship diagram](docs/diagrams/01-er-core.png)
+
+*Figure 1. Core relationships among departments, users, authentication accounts, sessions, notices, events, registrations and bookmarks.*
+
+### Entity Relationship Diagram — Academic and Notifications
+
+![CampusOne academic and notification ER diagram](docs/diagrams/02-er-academic.png)
+
+*Figure 2. Academic records, directories, class notices, career opportunities, facilities and notification read state.*
+
+### Data Flow Diagram — Level 0
+
+![CampusOne Level 0 data flow diagram](docs/diagrams/03-dfd-level-0.png)
+
+*Figure 3. CampusOne system context and data exchanged with student, faculty, department administrator, college administrator and optional AI provider.*
+
+### Data Flow Diagram — Level 1
+
+![CampusOne Level 1 data flow diagram](docs/diagrams/04-dfd-level-1.png)
+
+*Figure 4. Main application processes and grouped data stores.*
+
+### Data Flow Diagram — Level 2: Publishing and Approval
+
+![CampusOne publishing approval Level 2 data flow diagram](docs/diagrams/05-dfd-level-2-publishing.png)
+
+*Figure 5. Faculty content submission, administrator review and author notification.*
+
+### Data Flow Diagram — Level 2: Event Registration
+
+![CampusOne registration Level 2 data flow diagram](docs/diagrams/06-dfd-level-2-registration.png)
+
+*Figure 6. Student eligibility check and transactional event-seat registration.*
+
+### Data Flow Diagram — Level 2: Campus Assistant
+
+![CampusOne AI assistant Level 2 data flow diagram](docs/diagrams/07-dfd-level-2-ai.png)
+
+*Figure 7. Role-scoped retrieval, provider response validation and labelled fallback.*
+
+The ER and DFD figures describe the database and behavior implemented in this project. The SQLite schema does not contain separate approval, subject, semester or timetable tables. The AI provider is optional and was tested with a mocked provider; a live provider has not been configured. See [the complete diagram set and notation guide](docs/diagrams/README.md).
