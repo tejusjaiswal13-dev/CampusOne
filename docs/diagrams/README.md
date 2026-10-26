@@ -1,22 +1,19 @@
 # CampusOne synopsis diagrams
 
-The set contains six numbered, report-ready figures and one supplementary notification ER diagram. Use the PNG files in Word for reliable rendering; use SVG when you need to resize or edit vector artwork. Open `index.html` to view or print one figure per page.
+The set contains five numbered, report-ready figures: one master ER diagram and four DFD figures. Use the PNG files in Word for reliable rendering; use SVG when you need to resize or edit vector artwork. Open `index.html` to view or print one figure per page.
 
 ## Report figures and captions
 
-1. **Core entity relationship diagram** (`01-er-core`): Campus users and departments, authentication accounts and sessions, notices, events, registrations and bookmarks.
-2. **Academic entity relationship diagram** (`02-er-academic`): Exams, faculty directory, academic calendar, career opportunities and campus facilities.
-3. **DFD Level 0 — system context** (`03-dfd-level-0`): Campus users exchange information with CampusOne; a server-side AI provider is optional.
-4. **DFD Level 1 — main processes** (`04-dfd-level-1`): Authentication, content publishing/review, information discovery and student participation. This is intentionally summarized into four straight workflows.
-5. **DFD Level 2 — content approval** (`05-dfd-level-2-publishing`): Faculty submission, validation, authorized administrator review and decision recording.
-6. **DFD Level 2 — event registration** (`06-dfd-level-2-registration`): Student access check, availability check and transactional registration.
-
-The supplementary `03-er-notifications` diagram shows notification recipients and per-user read state. It is supporting material and is not counted as a numbered report figure.
+1. **Master entity relationship diagram** (`master-er`): all 16 implemented SQLite tables, key payload fields, the four physical foreign keys and a complete register of the JSON/application references represented by the current model.
+2. **DFD Level 0 — system context** (`03-dfd-level-0`): Campus users exchange information with CampusOne; a server-side AI provider is optional.
+3. **DFD Level 1 — main processes** (`04-dfd-level-1`): Authentication, content publishing/review, information discovery and student participation. This is intentionally summarized into four straight workflows.
+4. **DFD Level 2 — content approval** (`05-dfd-level-2-publishing`): Faculty submission, validation, authorized administrator review and decision recording.
+5. **DFD Level 2 — event registration** (`06-dfd-level-2-registration`): Student access check, availability check and transactional registration.
 
 ## ER notation and implementation notes
 
 - `PK` means primary key; `FK` means physical SQL foreign key; `?` means optional payload value; `[]` means embedded array.
-- Solid lines show actual SQL foreign keys. Dashed lines show logical JSON/application references, not SQL constraints.
+- Solid connectors show actual SQL foreign keys. The master ER diagram lists JSON/application references in a separate register rather than drawing them as physical connectors.
 - Thirteen content tables store `id`, `data` (JSON), `created_at` and `updated_at`. Accounts, sessions and notification read state use dedicated columns.
 - The database has 16 tables: departments, users, notices, events, registrations, exams, career, calendar, faculty, facilities, notifications, bookmarks, class_notices, accounts, sessions and notification_reads.
 - Notices and events may carry department-scope fields in their JSON payloads. Career eligibility uses embedded department-code arrays. Bookmark targets are polymorphic; no single target-table foreign key exists.

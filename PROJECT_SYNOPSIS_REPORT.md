@@ -50,48 +50,36 @@ Follow README.md for environment setup and demo credentials. Start the API with 
 
 ## System Design Diagrams
 
-The following six figures document the implemented data model and system flows. In the ER diagrams, solid lines are physical SQL foreign keys and dashed lines represent logical relationships in JSON or application logic. Content attributes are JSON payload fields, not independent SQL columns.
+The following five figures document the implemented data model and system flows. Figure 1 is the complete master ER view of all 16 implemented SQLite tables. Solid connectors indicate the four physical SQL foreign keys; the relationship register lists the JSON/application references separately. Content attributes shown inside the content-table cards are payload fields, not independent SQL columns.
 
-### Entity Relationship Diagram — Core Entities
+### Master Entity Relationship Diagram
 
-![CampusOne core entity relationship diagram](docs/diagrams/01-er-core.png)
+![CampusOne master entity relationship diagram](docs/diagrams/master-er.png)
 
-*Figure 1. Core relationships among departments, users, authentication accounts, sessions, notices, events, registrations and bookmarks.*
-
-### Entity Relationship Diagram — Academic Records
-
-![CampusOne academic ER diagram](docs/diagrams/02-er-academic.png)
-
-*Figure 2. Academic records, faculty directory, calendar, career opportunities and campus facilities.*
+*Figure 1. Master ER diagram of all implemented tables, their key payload fields, physical foreign keys, and JSON/application references.*
 
 ### Data Flow Diagram — Level 0
 
 ![CampusOne Level 0 data flow diagram](docs/diagrams/03-dfd-level-0.png)
 
-*Figure 3. System context showing campus users and the optional server-side AI provider.*
+*Figure 2. System context showing campus users and the optional server-side AI provider.*
 
 ### Data Flow Diagram — Level 1
 
 ![CampusOne Level 1 data flow diagram](docs/diagrams/04-dfd-level-1.png)
 
-*Figure 4. Four main workflows: authentication, publishing and review, information discovery, and student participation.*
+*Figure 3. Four main workflows: authentication, publishing and review, information discovery, and student participation.*
 
 ### Data Flow Diagram — Level 2: Publishing and Approval
 
 ![CampusOne publishing approval Level 2 data flow diagram](docs/diagrams/05-dfd-level-2-publishing.png)
 
-*Figure 5. Faculty content validation, authorized administrator review and decision recording.*
+*Figure 4. Faculty content validation, authorized administrator review and decision recording.*
 
 ### Data Flow Diagram — Level 2: Event Registration
 
 ![CampusOne registration Level 2 data flow diagram](docs/diagrams/06-dfd-level-2-registration.png)
 
-*Figure 6. Student eligibility checks and event registration with transactional seat handling.*
+*Figure 5. Student eligibility checks and event registration with transactional seat handling.*
 
-### Supplementary Entity Relationship Diagram — Notification Read State
-
-![CampusOne notification read-state ER diagram](docs/diagrams/03-er-notifications.png)
-
-*Supplementary diagram. Per-user notification read state; included as a supporting model, not counted among the six report figures.*
-
-The ER and DFD figures describe the database and behavior implemented in this project. The SQLite schema does not contain separate approval, subject, semester or timetable tables. The AI provider is optional and was tested with a mocked provider; a live provider has not been configured. See [the complete diagram set and notation guide](docs/diagrams/README.md).
+The ER and DFD figures describe the database and behavior implemented in this project. The SQLite schema does not contain separate approval, subject, semester or timetable tables. The AI provider is optional and was tested with a mocked provider; a live provider has not been configured. See [the diagram and notation guide](docs/diagrams/README.md).
