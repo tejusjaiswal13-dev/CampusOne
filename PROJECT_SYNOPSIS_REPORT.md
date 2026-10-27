@@ -62,13 +62,13 @@ The following five figures document the implemented data model and system flows.
 
 ![CampusOne Level 0 data flow diagram](docs/diagrams/03-dfd-level-0.png)
 
-*Figure 2. System context showing campus users and the optional server-side AI provider.*
+*Figure 2. System context showing the four CampusOne roles and their information exchange with the system.*
 
 ### Data Flow Diagram — Level 1
 
 ![CampusOne Level 1 data flow diagram](docs/diagrams/04-dfd-level-1.png)
 
-*Figure 3. Four main workflows: authentication, publishing and review, information discovery, and student participation.*
+*Figure 3. Five CampusOne workflows: authentication, content review, information discovery, student participation, and academic-data maintenance.*
 
 ### Data Flow Diagram — Level 2: Publishing and Approval
 
@@ -82,4 +82,4 @@ The following five figures document the implemented data model and system flows.
 
 *Figure 5. Student eligibility checks and event registration with transactional seat handling.*
 
-The ER and DFD figures describe the database and behavior implemented in this project. The SQLite schema does not contain separate approval, subject, semester or timetable tables. The AI provider is optional and was tested with a mocked provider; a live provider has not been configured. See [the diagram and notation guide](docs/diagrams/README.md).
+The ER and DFD figures describe the database and behavior implemented in this project. The SQLite schema does not contain separate approval, subject, semester or timetable tables. Most content relationships are stored in JSON payloads and checked by application logic rather than enforced as SQL foreign keys. The AI provider is optional and was tested with a mocked provider; a live provider has not been configured. It is not part of the core Level 0 context diagram. See [the diagram and notation guide](docs/diagrams/README.md).

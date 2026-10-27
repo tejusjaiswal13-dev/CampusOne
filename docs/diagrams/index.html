@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CampusOne — Synopsis diagrams</title>
   <style>
-    :root { color-scheme: light; font-family: Arial, sans-serif; color: #183544; }
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #111; }
     body { max-width: 1200px; margin: 32px auto; padding: 0 24px; }
     h1 { margin-bottom: 8px; }
-    .intro { color: #607780; margin: 0 0 28px; }
+    .intro { color: #555; margin: 0 0 28px; }
     section { margin: 28px 0 48px; }
     h2 { font-size: 20px; margin-bottom: 8px; }
-    p { color: #607780; }
-    img { display: block; width: 100%; height: auto; border: 1px solid #dce5e8; }
-    a { color: #174c73; }
+    p { color: #555; }
+    img { display: block; width: 100%; height: auto; border: 1px solid #bbb; }
+    a { color: #111; }
     .links { font-size: 14px; }
     @media print {
       body { max-width: none; margin: 0; padding: 0; }
@@ -28,12 +28,12 @@
 </head>
 <body>
   <h1>CampusOne — Synopsis diagrams</h1>
-  <p class="intro">Five report-ready figures: one master ER diagram and DFD Levels 0–2. The ER figure covers all 16 implemented SQLite tables.</p>
+  <p class="intro">Five monochrome report figures: one master ER diagram and DFD Levels 0–2. The ER figure covers all 16 implemented SQLite tables and distinguishes physical foreign keys from JSON references.</p>
 
   <section><h2>Figure 1. Master entity relationship diagram</h2><p>All implemented tables, physical SQL foreign keys and JSON/application references.</p><img src="master-er.svg" alt="Figure 1. CampusOne master entity relationship diagram"><p class="links"><a href="master-er.png">PNG</a> · <a href="master-er.svg">SVG</a></p></section>
-  <section><h2>Figure 2. DFD Level 0 — System context</h2><p>Campus users exchange information with CampusOne; the AI provider is optional.</p><img src="03-dfd-level-0.svg" alt="Figure 2. CampusOne DFD Level 0 system context"><p class="links"><a href="03-dfd-level-0.png">PNG</a> · <a href="03-dfd-level-0.svg">SVG</a></p></section>
-  <section><h2>Figure 3. DFD Level 1 — Main processes</h2><p>Four main workflows and the data they read or update.</p><img src="04-dfd-level-1.svg" alt="Figure 3. CampusOne DFD Level 1 main processes"><p class="links"><a href="04-dfd-level-1.png">PNG</a> · <a href="04-dfd-level-1.svg">SVG</a></p></section>
-  <section><h2>Figure 4. DFD Level 2 — Content publishing and approval</h2><p>Faculty submission, authorized review and decision recording.</p><img src="05-dfd-level-2-publishing.svg" alt="Figure 4. Content publishing and approval data flow"><p class="links"><a href="05-dfd-level-2-publishing.png">PNG</a> · <a href="05-dfd-level-2-publishing.svg">SVG</a></p></section>
-  <section><h2>Figure 5. DFD Level 2 — Event registration</h2><p>Eligibility, availability and transactional registration.</p><img src="06-dfd-level-2-registration.svg" alt="Figure 5. Event registration data flow"><p class="links"><a href="06-dfd-level-2-registration.png">PNG</a> · <a href="06-dfd-level-2-registration.svg">SVG</a></p></section>
+  <section><h2>Figure 2. DFD Level 0 — System context</h2><p>Student, Faculty, Department Admin, and College Admin exchanges with CampusOne.</p><img src="03-dfd-level-0.svg" alt="Figure 2. CampusOne DFD Level 0 system context"><p class="links"><a href="03-dfd-level-0.png">PNG</a> · <a href="03-dfd-level-0.svg">SVG</a></p></section>
+  <section><h2>Figure 3. DFD Level 1 — Main processes</h2><p>Five major CampusOne processes and the data they read or update.</p><img src="04-dfd-level-1.svg" alt="Figure 3. CampusOne DFD Level 1 main processes"><p class="links"><a href="04-dfd-level-1.png">PNG</a> · <a href="04-dfd-level-1.svg">SVG</a></p></section>
+  <section><h2>Figure 4. DFD Level 2 — Content approval</h2><p>Faculty submission, authorized review, decision storage, and author notification.</p><img src="05-dfd-level-2-publishing.svg" alt="Figure 4. Content approval data flow"><p class="links"><a href="05-dfd-level-2-publishing.png">PNG</a> · <a href="05-dfd-level-2-publishing.svg">SVG</a></p></section>
+  <section><h2>Figure 5. DFD Level 2 — Event registration</h2><p>Student eligibility, seat update, and transactional registration.</p><img src="06-dfd-level-2-registration.svg" alt="Figure 5. Event registration data flow"><p class="links"><a href="06-dfd-level-2-registration.png">PNG</a> · <a href="06-dfd-level-2-registration.svg">SVG</a></p></section>
 </body>
 </html>
