@@ -50,48 +50,36 @@ Follow README.md for environment setup and demo credentials. Start the API with 
 
 ## System Design Diagrams
 
-The following figures document the implemented data model and system flows. The ER model spans two figures for readability. In the ER diagrams, solid lines are physical SQL foreign keys and dashed lines represent relationships within JSON records or enforced by application logic. Content attributes are JSON payload fields, not independent SQL columns.
+The following five figures document the implemented data model and system flows. Figure 1 is the complete master ER view of all 16 implemented SQLite tables. Solid connectors indicate the four physical SQL foreign keys; the relationship register lists the JSON/application references separately. Content attributes shown inside the content-table cards are payload fields, not independent SQL columns.
 
-### Entity Relationship Diagram — Core Entities
+### Master Entity Relationship Diagram
 
-![CampusOne core entity relationship diagram](docs/diagrams/01-er-core.png)
+![CampusOne master entity relationship diagram](docs/diagrams/master-er.png)
 
-*Figure 1. Core relationships among departments, users, authentication accounts, sessions, notices, events, registrations and bookmarks.*
-
-### Entity Relationship Diagram — Academic and Notifications
-
-![CampusOne academic and notification ER diagram](docs/diagrams/02-er-academic.png)
-
-*Figure 2. Academic records, directories, class notices, career opportunities, facilities and notification read state.*
+*Figure 1. Master ER diagram of all implemented tables, their key payload fields, physical foreign keys, and JSON/application references.*
 
 ### Data Flow Diagram — Level 0
 
 ![CampusOne Level 0 data flow diagram](docs/diagrams/03-dfd-level-0.png)
 
-*Figure 3. CampusOne system context and data exchanged with student, faculty, department administrator, college administrator and optional AI provider.*
+*Figure 2. System context showing the four CampusOne roles and their information exchange with the system.*
 
 ### Data Flow Diagram — Level 1
 
 ![CampusOne Level 1 data flow diagram](docs/diagrams/04-dfd-level-1.png)
 
-*Figure 4. Main application processes and grouped data stores.*
+*Figure 3. Five CampusOne workflows: authentication, content review, information discovery, student participation, and academic-data maintenance.*
 
 ### Data Flow Diagram — Level 2: Publishing and Approval
 
 ![CampusOne publishing approval Level 2 data flow diagram](docs/diagrams/05-dfd-level-2-publishing.png)
 
-*Figure 5. Faculty content submission, administrator review and author notification.*
+*Figure 4. Faculty content validation, authorized administrator review and decision recording.*
 
 ### Data Flow Diagram — Level 2: Event Registration
 
 ![CampusOne registration Level 2 data flow diagram](docs/diagrams/06-dfd-level-2-registration.png)
 
-*Figure 6. Student eligibility check and transactional event-seat registration.*
+*Figure 5. Student eligibility checks and event registration with transactional seat handling.*
 
-### Data Flow Diagram — Level 2: Campus Assistant
-
-![CampusOne AI assistant Level 2 data flow diagram](docs/diagrams/07-dfd-level-2-ai.png)
-
-*Figure 7. Role-scoped retrieval, provider response validation and labelled fallback.*
-
-The ER and DFD figures describe the database and behavior implemented in this project. The SQLite schema does not contain separate approval, subject, semester or timetable tables. The AI provider is optional and was tested with a mocked provider; a live provider has not been configured. See [the complete diagram set and notation guide](docs/diagrams/README.md).
+The ER and DFD figures describe the database and behavior implemented in this project. The SQLite schema does not contain separate approval, subject, semester or timetable tables. Most content relationships are stored in JSON payloads and checked by application logic rather than enforced as SQL foreign keys. The AI provider is optional and was tested with a mocked provider; a live provider has not been configured. It is not part of the core Level 0 context diagram. See [the diagram and notation guide](docs/diagrams/README.md).
