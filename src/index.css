@@ -285,6 +285,10 @@ h3 {
   display: flex;
   gap: 15px;
   align-items: center;
+  flex-shrink: 0;
+}
+.co-connection-short {
+  display: none;
 }
 .co-demo-pill {
   padding: 7px 10px;
@@ -945,17 +949,20 @@ h3 {
 @media (max-width: 767px) {
   .co-header {
     height: 70px;
-    padding: 0 18px;
-    gap: 10px;
+    padding: 0 12px;
+    gap: 8px;
   }
   .co-brand {
     min-width: 0;
-    font-size: 21px;
-    gap: 9px;
+    flex-shrink: 1;
+    font-size: 19px;
+    gap: 7px;
+    white-space: nowrap;
   }
   .co-brand-mark {
-    width: 36px;
-    height: 39px;
+    width: 33px;
+    height: 36px;
+    flex-shrink: 0;
   }
   .co-brand small {
     font-size: 6px;
@@ -967,7 +974,21 @@ h3 {
     display: none;
   }
   .co-header-actions {
-    gap: 9px;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .co-connection-full {
+    display: none;
+  }
+  .co-connection-short {
+    display: inline;
+  }
+  .co-header-actions > button[aria-label^="Demo/offline mode"] {
+    flex-shrink: 0;
+    padding: 5px 6px;
+    font-size: 9px;
+    line-height: 1.2;
+    white-space: nowrap;
   }
   .co-demo-pill {
     padding: 5px 8px;
@@ -975,11 +996,16 @@ h3 {
   }
   .co-icon-button {
     border: 0;
-    width: 32px;
+    width: 28px;
+    min-width: 28px;
+    height: 32px;
+    display: grid;
+    place-items: center;
   }
   .co-avatar {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
     font-size: 10px;
   }
   .co-layout {
@@ -1097,6 +1123,22 @@ h3 {
   .co-explore-search {
     font-size: 12px;
     padding: 16px;
+  }
+}
+@media (max-width: 380px) {
+  .co-header {
+    padding-inline: 8px;
+    gap: 5px;
+  }
+  .co-brand {
+    font-size: 17px;
+    gap: 5px;
+  }
+  .co-brand small {
+    display: none;
+  }
+  .co-header-actions {
+    gap: 3px;
   }
 }
 .co-phone-frame .co-header {

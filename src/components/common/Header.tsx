@@ -54,9 +54,13 @@ export const Header = () => {
           <button
             onClick={() => reconnect().catch(() => {})}
             title="Retry server connection"
+            aria-label="Demo/offline mode. Tap to retry server connection"
             className="text-xs px-2 py-1 bg-amber-50 rounded-lg"
           >
-            Demo/offline mode
+            <span className="co-connection-full">Demo/offline mode</span>
+            <span className="co-connection-short" aria-hidden="true">
+              Offline
+            </span>
           </button>
         )}
         {mode === "demo" && (
